@@ -1,0 +1,36 @@
+services:
+  api:
+    build: .
+    command: [sh, -c, entrypoints/entrypoint-server.sh 1 2]
+    env_file:
+      - .env.docker
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:17
+    environment:
+        - POSTGRES_USER=terraform-wars
+        - POSTGRES_PASSWORD=terraform-wars
+        - POSTGRES_DB=terraform-wars
+    volumes:
+        - terraform-wars-pg:/var/lib/postgresql/data
+    ports:
+        - "54320:5432"
+
+  redis:
+    image: redis:alpine
+    volumes:
+        - terraform-wars-redis:/var/lib/redis
+    ports:
+        - "63790:6379"
+
+
+volumes:
+  terraform-wars-pg:
+  terraform-wars-redis:

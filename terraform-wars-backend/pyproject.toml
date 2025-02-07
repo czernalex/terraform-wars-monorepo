@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "terraform-wars-backend"
+version = "0.0.1"
+description = "Backend for Terraform learning app"
+authors = ["Alex Czerny <alexczerny1@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.1.3"
+django-ninja = "^1.3.0"
+python-decouple = "^3.8"
+django-extensions = "^3.2.3"
+psycopg = {extras = ["binary"], version = "^3.2.3"}
+django-admin-rangefilter = "^0.13.2"
+gunicorn = "^23.0.0"
+django-allauth = {extras = ["socialaccount"], version = "^65.3.1"}
+sentry-sdk = "^2.17.0"
+redis = "^5.2.0"
+celery = "^5.4.0"
+django-auditlog = "^3.0.0"
+django-cors-headers = "^4.6.0"
+
+[tool.poetry.group.dev.dependencies]
+django-silk = "^5.3.1"
+model-bakery = "^1.19.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

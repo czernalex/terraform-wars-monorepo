@@ -1,0 +1,84 @@
+migrate_db.sqlite
+__pycache__
+docs
+main/settings/local.py
+/media/
+/static/
+*.log
+.env
+.env.docker
+/tmp/
+.sass-cache
+**/output.txt
+**/*.csv
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+venv/
+env/
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+# Translations
+*.mo
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# Rope
+.ropeproject
+
+# Django stuff:
+*.log
+*.log.*
+*.pot
+
+# Sphinx documentation
+docs/_build/
+
+.idea
+.DS_Store
+
+.ipynb_checkpoints
+
+report.xml
+collected-static/
+private-media/
+credentials/*
+secrets
+
+# Celery
+celerybeat-schedule.db
+celerybeat-schedule*
+**/commands/data/

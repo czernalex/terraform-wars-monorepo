@@ -1,0 +1,19 @@
+{
+    "python.analysis.packageIndexDepths": [
+        {
+            "name": "",
+            "depth": 10,
+        }
+    ],
+    "python.envFile": "${workspaceFolder}/terraform-wars-backend/.env",
+    "python.analysis.autoImportCompletions": true,
+    "python.testing.pytestEnabled": false,
+    "python.testing.unittestEnabled": true,
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        "./terraform-wars-backend/main",
+        "-p",
+        "test*.py"
+    ],
+}
