@@ -4,6 +4,7 @@ version = "0.0.1"
 description = "Backend for Terraform learning app"
 authors = ["Alex Czerny <alexczerny1@gmail.com>"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.12"

@@ -12,6 +12,28 @@ services:
       - db
       - redis
 
+  celery:
+    build: .
+    command: [sh, -c, entrypoints/entrypoint-celery.sh 1 2]
+    volumes:
+      - .:/app
+    env_file:
+      - .env.docker
+    depends_on:
+      - db
+      - redis
+
+  celery-beat:
+    build: .
+    command: [sh, -c, entrypoints/entrypoint-celery-beat.sh 1 2]
+    volumes:
+      - .:/app
+    env_file:
+      - .env.docker
+    depends_on:
+      - db
+      - redis
+
   db:
     image: postgres:17
     environment:
