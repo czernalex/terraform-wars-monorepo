@@ -14,4 +14,3 @@ class UserChangeForm(DjangoUserChangeForm):
     class Meta:
         model = User
         fields = ("email",)
-
