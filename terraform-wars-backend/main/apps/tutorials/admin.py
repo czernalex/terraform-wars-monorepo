@@ -6,7 +6,10 @@ from main.apps.tutorials.models import TutorialGroup, TutorialUserSubmission, Tu
 @admin.register(TutorialGroup)
 class TutorialGroupAdmin(admin.ModelAdmin):
     list_display = ("title", "created_at")
-    search_fields = ("id", "title",)
+    search_fields = (
+        "id",
+        "title",
+    )
     ordering = ("-created_at",)
 
 
@@ -14,7 +17,12 @@ class TutorialGroupAdmin(admin.ModelAdmin):
 class TutorialAdmin(admin.ModelAdmin):
     list_display = ("title", "tutorial_group", "ordering", "created_at")
     list_select_related = ("tutorial_group",)
-    search_fields = ("id", "title", "tutorial_group__id", "tutorial_group__title",)
+    search_fields = (
+        "id",
+        "title",
+        "tutorial_group__id",
+        "tutorial_group__title",
+    )
     ordering = ("ordering", "-created_at")
 
 

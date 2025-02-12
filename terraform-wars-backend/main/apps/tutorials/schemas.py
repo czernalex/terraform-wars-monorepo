@@ -10,6 +10,4 @@ class TutorialGroupListSchema(ModelSchema):
 
     class Meta:
         model = TutorialGroup
-        fields = (
-            "id",
-        )
+        fields = ("id",)

@@ -22,7 +22,6 @@ root_api_router = NinjaAPI(
         "<br>"
         "<br>"
         "<a href='/admin' class='btn'>Administration</a>"
-
     ),
     docs_decorator=staff_member_required if not settings.DEBUG else None,
     servers=[
@@ -36,7 +35,7 @@ root_api_router = NinjaAPI(
                 "email": "alexczerny1@gmail.com",
             }
         }
-    }
+    },
 )
 
 root_api_router.add_router("/tutorial-groups", tutorial_groups_router, tags=["tutorial-groups"])

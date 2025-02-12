@@ -252,7 +252,6 @@ LOGGING = {
 AUDITLOG_INCLUDE_ALL_MODELS = False
 
 
-
 # CSRF and CORS
 
 CSRF_TRUSTED_ORIGINS = config("CSRF_ALLOWED_ORIGINS", cast=lambda v: [s.strip() for s in v.split(",")])
@@ -292,3 +291,16 @@ sentry_sdk.init(
     environment=config("ENVIRONMENT", default="production"),
     send_default_pii=True,
 )
+
+
+# Celery
+
+CELERY_BROKER_URL = config("CELERY_BROKER_URL", default="redis://redis:6379/0")
+CELERY_RESULT_BACKEND = config("CELERY_RESULT_BACKEND", default="redis://redis:6379/0")
+
+CELERY_TIMEZONE = "UTC"
+CELERY_TASK_SERIALIZER = "pickle"
+CELERY_IGNORE_RESULT = True
+CELERYD_CONCURRENCY = 1
+
+CELERYBEAT_SCHEDULE = {}

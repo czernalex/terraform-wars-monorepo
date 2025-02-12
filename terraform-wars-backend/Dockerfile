@@ -15,7 +15,7 @@ ADD --chown=app:app . /app/
 
 RUN chmod +x /app/entrypoints/entrypoint-server.sh
 
-RUN pip install poetry==1.5.1
+RUN pip install poetry==2.0.1
 
 RUN poetry export --only main --without-hashes --no-interaction --no-ansi -f requirements.txt -o requirements.txt
 RUN pip install --force-reinstall -r requirements.txt
