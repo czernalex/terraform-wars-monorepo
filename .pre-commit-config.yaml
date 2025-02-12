@@ -16,3 +16,12 @@ repos:
           - id: mixed-line-ending # replaces or checks mixed line ending.
           - id: requirements-txt-fixer # sorts entries in requirements.txt.
           - id: trailing-whitespace # trims trailing whitespace.
+    - repo: https://github.com/astral-sh/ruff-pre-commit
+      rev: v0.9.6
+      hooks:
+        - id: ruff
+          files: terraform-wars-backend/main/.*
+          args: [ --fix, --config=terraform-wars-backend/pyproject.toml ]
+        - id: ruff-format
+          files: terraform-wars-backend/main/.*
+          args: [ --config=terraform-wars-backend/pyproject.toml ]

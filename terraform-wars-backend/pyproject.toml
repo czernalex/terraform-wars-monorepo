@@ -29,3 +29,13 @@ model-bakery = "^1.19.5"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+ignore = [
+  "E501",
+  "E731",
+  "F405",
+  "F841"
+]
+line-length = 120
+target-version = "py313"

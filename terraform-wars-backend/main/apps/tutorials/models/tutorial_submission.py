@@ -19,9 +19,7 @@ class TutorialUserSubmission(AbstractBaseModel):
     errors = models.JSONField(_("Errors"), blank=True, null=True)
 
     class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=["tutorial", "user"], name="unique_user_tutorial_submission")
-        ]
+        constraints = [models.UniqueConstraint(fields=["tutorial", "user"], name="unique_user_tutorial_submission")]
         verbose_name = _("Tutorial Submission")
         verbose_name_plural = _("Tutorial Submissions")
 

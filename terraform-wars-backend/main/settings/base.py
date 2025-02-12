@@ -252,7 +252,6 @@ LOGGING = {
 AUDITLOG_INCLUDE_ALL_MODELS = False
 
 
-
 # CSRF and CORS
 
 CSRF_TRUSTED_ORIGINS = config("CSRF_ALLOWED_ORIGINS", cast=lambda v: [s.strip() for s in v.split(",")])

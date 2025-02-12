@@ -8,6 +8,7 @@ from main.apps.users.schemas import UserDetailSchema
 
 users_router = Router()
 
+
 @users_router.get(
     "/me/",
     url_name="user_detail",
