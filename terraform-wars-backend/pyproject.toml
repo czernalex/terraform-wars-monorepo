@@ -21,6 +21,9 @@ redis = "^5.2.0"
 celery = "^5.4.0"
 django-auditlog = "^3.0.0"
 django-cors-headers = "^4.6.0"
+pytest-django = "^4.10.0"
+pytest-cov = "^6.0.0"
+pytest-xdist = "^3.6.1"
 
 [tool.poetry.group.dev.dependencies]
 django-silk = "^5.3.1"
@@ -39,3 +42,6 @@ ignore = [
 ]
 line-length = 120
 target-version = "py313"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "main.settings.test"

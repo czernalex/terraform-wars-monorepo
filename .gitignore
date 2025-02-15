@@ -45,6 +45,8 @@ htmlcov/
 .tox/
 .coverage
 .cache
+.ruff_cache
+.pytest_cache
 nosetests.xml
 coverage.xml
 
@@ -82,3 +84,5 @@ secrets
 celerybeat-schedule.db
 celerybeat-schedule*
 **/commands/data/
+
+local.py

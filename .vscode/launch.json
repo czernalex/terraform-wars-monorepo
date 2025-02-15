@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "terraform-wars-backend",
+            "name": "terraform-wars-backend-server",
             "type": "debugpy",
             "request": "launch",
             "args": [
@@ -11,6 +11,15 @@
             "django": true,
             "autoStartBrowser": false,
             "program": "${workspaceFolder}/terraform-wars-backend/manage.py"
-        }
+        },
+        {
+            "name": "terraform-wars-backend-shell",
+            "type": "debugpy",
+            "request": "launch",
+            "args": ["shell_plus"],
+            "django": true,
+            "autoStartBrowser": false,
+            "program": "${workspaceFolder}/manage.py"
+        },
     ]
 }
