@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.admin.views.decorators import staff_member_required
 from ninja import NinjaAPI
 from ninja.security import SessionAuth
+from ninja.throttling import AnonRateThrottle, AuthRateThrottle
 
 from main.apps.tutorials.routers import tutorial_groups_router
 from main.apps.users.routers import users_router
@@ -28,6 +29,10 @@ root_api_router = NinjaAPI(
         {"url": "http://127.0.0.1:8000", "description": "Local development server"},
     ],
     auth=SessionAuth(),
+    throttle=[
+        AnonRateThrottle(rate="10/s"),
+        AuthRateThrottle(rate="100/s"),
+    ],
     csrf=True,
     openapi_extra={
         "info": {

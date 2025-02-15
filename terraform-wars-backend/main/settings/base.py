@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.headless",
     "allauth.socialaccount",
+    "anydi.ext.django",
     "auditlog",
     "corsheaders",
     "django_extensions",
@@ -220,6 +221,16 @@ HEADLESS_FRONTEND_URLS = {
     "account_reset_password": FRONTEND_BASE_URL + "/auth/password-reset",
     "account_reset_password_from_key": FRONTEND_BASE_URL + "/auth/password-reset/{key}",
     "account_signup": FRONTEND_BASE_URL + "/auth/sign-up",
+}
+
+
+# AnyDI - dependency injection
+
+ANYDI = {
+    "PATCH_NINJA": True,
+    "MODULES": [
+        "main.apps.tutorials.module.TutorialsModule",
+    ],
 }
 
 
