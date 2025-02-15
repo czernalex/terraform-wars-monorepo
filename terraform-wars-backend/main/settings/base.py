@@ -122,6 +122,8 @@ DATABASES = {
     }
 }
 
+ATOMIC_REQUESTS = False
+AUTOCOMMIT = True
 
 # Password validation
 
