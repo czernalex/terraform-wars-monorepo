@@ -38,7 +38,7 @@ jobs:
           poetry install --directory terraform-wars-backend
       - name: Run tests
         run: |
-          poetry run pytest --cov=main --cov-report=xml
+          cd terraform-wars-backend && poetry run pytest --cov=main --cov-report=xml
         env:
           DJANGO_SETTINGS_MODULE: main.settings.test
           SECRET_KEY: django-insecure-test-key-123
