@@ -1,5 +1,6 @@
 from .base import *  # noqa
 
+
 CONSTANCE_BACKEND = "constance.backends.memory.MemoryBackend"
 
 CACHES = {

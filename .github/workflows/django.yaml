@@ -1,0 +1,52 @@
+name: Django CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: terraform-wars
+          POSTGRES_USER: terraform-wars
+          POSTGRES_PASSWORD: terraform-wars
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U terraform-wars -d terraform-wars"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.13
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry==2.0.1
+          poetry install
+      - name: Run tests
+        run: |
+          poetry run pytest --cov=main --cov-report=xml
+        env:
+          DJANGO_SETTINGS_MODULE: main.settings.test
+          SECRET_KEY: django-insecure-test-key-123
+          BASE_PROTOCOL: http
+          BASE_DOMAIN: localhost
+          DB_NAME: terraform-wars
+          DB_USER: terraform-wars
+          DB_PASSWORD: terraform-wars
+          DB_HOST: postgres
+          DB_PORT: 5432
+          ALLOWED_HOSTS: localhost,127.0.0.1

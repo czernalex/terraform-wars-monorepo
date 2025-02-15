@@ -1,9 +1,6 @@
 from http import HTTPStatus
 
-from django.test import TestCase
 
-
-class HealthCheckTestCase(TestCase):
-    def test_healthcheck(self):
-        response = self.client.get("/healthcheck/")
-        self.assertEqual(HTTPStatus.OK, response.status_code)
+def test_healthcheck(client):
+    response = client.get("/healthcheck/")
+    assert response.status_code == HTTPStatus.OK
