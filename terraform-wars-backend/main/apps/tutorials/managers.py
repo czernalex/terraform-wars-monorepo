@@ -6,6 +6,9 @@ from django.db.models import Count
 
 
 class TutorialGroupQuerySet(models.QuerySet):
+    def for_user(self, user_id: UUID) -> Self:
+        return self.filter(user_id=user_id)
+
     def annotate_tutorial_count(self) -> Self:
         return self.annotate(_tutorial_count=Count("tutorials", distinct=True))
 

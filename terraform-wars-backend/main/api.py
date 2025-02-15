@@ -33,7 +33,6 @@ root_api_router = NinjaAPI(
         AnonRateThrottle(rate="10/s"),
         AuthRateThrottle(rate="100/s"),
     ],
-    csrf=True,
     openapi_extra={
         "info": {
             "contact": {
