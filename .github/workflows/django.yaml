@@ -3,12 +3,28 @@ name: Django CI
 on:
   push:
     branches:
-      - master
+      - $default-branch
   pull_request:
     branches:
-      - master
+      - $default-branch
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.13
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry==2.0.1
+          poetry install --directory terraform-wars-backend
+      - name: Run lint
+        run: |
+          poetry --directory terraform-wars-backend run pre-commit run --all-files --verbose --show-diff-on-failure
   test:
     runs-on: ubuntu-latest
     services:

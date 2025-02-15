@@ -24,6 +24,7 @@ django-cors-headers = "^4.6.0"
 anydi = "^0.39.2"
 
 [tool.poetry.group.dev.dependencies]
+pre-commit = "^4.1.0"
 pytest-django = "^4.10.0"
 pytest-cov = "^6.0.0"
 pytest-xdist = "^3.6.1"
