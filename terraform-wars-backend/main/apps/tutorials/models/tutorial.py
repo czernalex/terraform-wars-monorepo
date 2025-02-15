@@ -8,6 +8,7 @@ from django.utils.translation import gettext_lazy as _
 
 from main.apps.core.models import AbstractBaseModel
 from main.apps.tutorials.models.tutorial_group import TutorialGroup
+from main.apps.tutorials.managers import TutorialQuerySet
 
 
 class Tutorial(AbstractBaseModel):
@@ -16,8 +17,11 @@ class Tutorial(AbstractBaseModel):
 
     title = models.CharField(_("Title"), max_length=255)
     assignment = models.TextField(_("Assignment"))
+    assignment_validation = models.TextField(_("Assignment Validation"))
 
     ordering = PositiveIntegerField(_("Ordering"), default=0)
+
+    objects = TutorialQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("Tutorial")
@@ -25,7 +29,7 @@ class Tutorial(AbstractBaseModel):
 
     @override
     def __str__(self) -> str:
-        return f"[{self.tutorial_group.title}] {self.title}"
+        return f"[{self.tutorial_group.title}] - Tutorial: {self.title} ({self.ordering})"
 
 
 auditlog.register(Tutorial)

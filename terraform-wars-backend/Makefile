@@ -7,7 +7,3 @@ prepare:
 .PHONY: dev
 dev:
 	python manage.py runserver
-
-.PHONY: test
-test:
-	python manage.py test --no-input --keep-db --settings=main.settings.testing

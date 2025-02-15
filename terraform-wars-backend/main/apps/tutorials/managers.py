@@ -6,6 +6,9 @@ from django.db.models import Count
 
 
 class TutorialGroupQuerySet(models.QuerySet):
+    def for_user(self, user_id: UUID) -> Self:
+        return self.filter(user_id=user_id)
+
     def annotate_tutorial_count(self) -> Self:
         return self.annotate(_tutorial_count=Count("tutorials", distinct=True))
 
@@ -15,9 +18,14 @@ class TutorialQuerySet(models.QuerySet):
         return self.filter(tutorial_group_id=tutorial_group_id)
 
 
-class TutorialUserSubmissionQuerySet(models.QuerySet):
+class TutorialSubmissionQuerySet(models.QuerySet):
     def for_tutorial(self, tutorial_id: UUID) -> Self:
         return self.filter(tutorial_id=tutorial_id)
 
+    def for_user(self, user_id: UUID) -> Self:
+        return self.filter(user_id=user_id)
+
+
+class TutorialGroupConfigQuerySet(models.QuerySet):
     def for_user(self, user_id: UUID) -> Self:
         return self.filter(user_id=user_id)

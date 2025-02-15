@@ -1,6 +1,7 @@
 from .base import *  # noqa
 
 DEBUG = True
+DEBUG_SILK = False
 
 ALLOWED_HOSTS = [
     "*",

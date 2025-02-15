@@ -6,17 +6,21 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from main.apps.core.models import AbstractBaseModel
+from main.apps.tutorials.managers import TutorialSubmissionQuerySet
 from main.apps.tutorials.models.tutorial import Tutorial
 from main.apps.users.models import User
 
 
-class TutorialUserSubmission(AbstractBaseModel):
+class TutorialSubmission(AbstractBaseModel):
     tutorial = models.ForeignKey(Tutorial, on_delete=models.CASCADE)
     tutorial_id: UUID
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     user_id: UUID
+
     solution = models.TextField(_("Solution"))
     errors = models.JSONField(_("Errors"), blank=True, null=True)
+
+    objects = TutorialSubmissionQuerySet.as_manager()
 
     class Meta:
         constraints = [models.UniqueConstraint(fields=["tutorial", "user"], name="unique_user_tutorial_submission")]
@@ -25,7 +29,7 @@ class TutorialUserSubmission(AbstractBaseModel):
 
     @override
     def __str__(self) -> str:
-        return f"{self.tutorial.title} - {self.user.email}"
+        return f"[{self.tutorial.title}] - {self.user.email} Submission"
 
 
-auditlog.register(TutorialUserSubmission)
+auditlog.register(TutorialSubmission)
