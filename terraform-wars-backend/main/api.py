@@ -7,7 +7,7 @@ from ninja import NinjaAPI
 from ninja.security import SessionAuth
 from ninja.throttling import AnonRateThrottle, AuthRateThrottle
 
-from main.apps.core.exceptions import NotFoundError, ValidationError
+from main.apps.core.exceptions import ForbiddenError, NotFoundError, ValidationError
 from main.apps.tutorials.routers import tutorial_groups_router
 from main.apps.users.routers import users_router
 
@@ -48,6 +48,15 @@ root_api_router = NinjaAPI(
 
 
 # Attach exception handlers
+
+
+@root_api_router.exception_handler(ForbiddenError)
+def handle_forbidden_error(request: HttpRequest, exc: ForbiddenError) -> HttpResponse:
+    return root_api_router.create_response(
+        request,
+        data={"detail": str(exc)},
+        status=HTTPStatus.FORBIDDEN,
+    )
 
 
 @root_api_router.exception_handler(NotFoundError)

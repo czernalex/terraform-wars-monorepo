@@ -33,6 +33,10 @@ class TutorialGroupRepository(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def get_by_id_for_update(self, user: User, tutorial_group_id: UUID) -> TutorialGroup:
+        pass
+
+    @abc.abstractmethod
     def update(self, user: User, tutorial_group_id: UUID, data: UpdateTutorialGroupSchema) -> TutorialGroup:
         pass
 

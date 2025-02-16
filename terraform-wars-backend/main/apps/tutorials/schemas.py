@@ -20,6 +20,7 @@ class CreateTutorialGroupSchema(Schema):
 class UpdateTutorialGroupSchema(Schema):
     title: str
     description: str
+    state: TutorialGroupState
 
 
 class TutorialGroupListSchema(ModelSchema):

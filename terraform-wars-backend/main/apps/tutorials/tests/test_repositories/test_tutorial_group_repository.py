@@ -89,7 +89,7 @@ class TestDjangoORMTutorialGroupRepository:
         assert retrieved_tutorial_group.description == tutorial_group.description
         assert retrieved_tutorial_group.state == tutorial_group.state
 
-    def test_get_by_id_does_not_exist(self):
+    def test_get_by_id_not_found(self):
         repository = DjangoORMTutorialGroupRepository()
 
         with pytest.raises(NotFoundError):
@@ -108,7 +108,7 @@ class TestDjangoORMTutorialGroupRepository:
         assert retrieved_tutorial_group.description == tutorial_group.description
         assert retrieved_tutorial_group.state == tutorial_group.state
 
-    def test_get_by_id_for_update_does_not_exist(self):
+    def test_get_by_id_for_update_not_found(self):
         user = baker.make(User)
         repository = DjangoORMTutorialGroupRepository()
 
@@ -131,12 +131,16 @@ class TestDjangoORMTutorialGroupRepository:
 
         repository = DjangoORMTutorialGroupRepository()
         updated_tutorial_group = repository.update(
-            tutorial_group, UpdateTutorialGroupSchema(title="New Title", description="New Description")
+            tutorial_group,
+            UpdateTutorialGroupSchema(
+                title="New Title", description="New Description", state=TutorialGroupState.PUBLISHED
+            ),
         )
 
         assert updated_tutorial_group.user == user
         assert updated_tutorial_group.title == "New Title"
         assert updated_tutorial_group.description == "New Description"
+        assert updated_tutorial_group.state == TutorialGroupState.PUBLISHED
 
     def test_delete(self):
         user = baker.make(User)

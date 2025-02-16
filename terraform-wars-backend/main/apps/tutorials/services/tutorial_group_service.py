@@ -2,6 +2,11 @@ import logging
 from typing import Iterable
 from uuid import UUID
 
+from django.db import transaction
+from django.utils.translation import gettext_lazy as _
+
+from main.apps.core.exceptions import ForbiddenError
+from main.apps.tutorials.enums import TutorialGroupState
 from main.apps.tutorials.models import TutorialGroup
 from main.apps.tutorials.repositories import TutorialGroupRepository
 from main.apps.tutorials.schemas import (
@@ -28,10 +33,22 @@ class TutorialGroupService:
     def get_tutorial_group(self, tutorial_group_id: UUID) -> TutorialGroup:
         return self.tutorial_group_repository.get_by_id(tutorial_group_id)
 
+    @transaction.atomic
     def update_tutorial_group(
         self, user: User, tutorial_group_id: UUID, data: UpdateTutorialGroupSchema
     ) -> TutorialGroup:
-        return self.tutorial_group_repository.update(user, tutorial_group_id, data)
+        tutorial_group = self.tutorial_group_repository.get_by_id_for_update(user, tutorial_group_id)
 
+        if tutorial_group.state == TutorialGroupState.ARCHIVED:
+            logger.warning(f"Tutorial group {tutorial_group.id} is archived and cannot be updated.")
+            raise ForbiddenError(
+                _("Tutorial group %(tutorial_group_title)s is archived and cannot be updated.")
+                % {"tutorial_group_title": tutorial_group.title}
+            )
+
+        return self.tutorial_group_repository.update(tutorial_group, data)
+
+    @transaction.atomic
     def delete_tutorial_group(self, user: User, tutorial_group_id: UUID) -> None:
-        self.tutorial_group_repository.delete(user, tutorial_group_id)
+        tutorial_group = self.tutorial_group_repository.get_by_id_for_update(user, tutorial_group_id)
+        self.tutorial_group_repository.delete(tutorial_group)
