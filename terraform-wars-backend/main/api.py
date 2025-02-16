@@ -8,6 +8,7 @@ from ninja.security import SessionAuth
 from ninja.throttling import AnonRateThrottle, AuthRateThrottle
 
 from main.apps.core.exceptions import ForbiddenError, NotFoundError, ValidationError
+from main.apps.core.schemas import ForbiddenErrorSchema, NotFoundErrorSchema, ValidationErrorSchema
 from main.apps.tutorials.routers import tutorial_groups_router
 from main.apps.users.routers import users_router
 
@@ -54,7 +55,7 @@ root_api_router = NinjaAPI(
 def handle_forbidden_error(request: HttpRequest, exc: ForbiddenError) -> HttpResponse:
     return root_api_router.create_response(
         request,
-        data={"detail": str(exc)},
+        data=ForbiddenErrorSchema(detail=str(exc)),
         status=HTTPStatus.FORBIDDEN,
     )
 
@@ -63,7 +64,7 @@ def handle_forbidden_error(request: HttpRequest, exc: ForbiddenError) -> HttpRes
 def handle_not_found_error(request: HttpRequest, exc: NotFoundError) -> HttpResponse:
     return root_api_router.create_response(
         request,
-        data={"detail": str(exc)},
+        data=NotFoundErrorSchema(detail=str(exc)),
         status=HTTPStatus.NOT_FOUND,
     )
 
@@ -72,7 +73,7 @@ def handle_not_found_error(request: HttpRequest, exc: NotFoundError) -> HttpResp
 def handle_validation_error(request: HttpRequest, exc: ValidationError) -> HttpResponse:
     return root_api_router.create_response(
         request,
-        data={"detail": exc.errors},
+        data=ValidationErrorSchema(detail=exc.errors),
         status=HTTPStatus.UNPROCESSABLE_ENTITY,
     )
 

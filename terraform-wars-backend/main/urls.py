@@ -35,7 +35,7 @@ if settings.DEBUG:
     urlpatterns += static(settings.PRIVATE_MEDIA_LOCATION, document_root=settings.PRIVATE_MEDIA_ROOT)
 
 
-if settings.DEBUG_SILK:
+if settings.DEBUG and settings.DEBUG_SILK:
     urlpatterns += [path("silk/", include("silk.urls", namespace="silk"))]
 
 

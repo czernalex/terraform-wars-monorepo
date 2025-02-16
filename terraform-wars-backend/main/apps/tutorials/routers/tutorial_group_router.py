@@ -6,6 +6,7 @@ from anydi import auto
 from ninja import Body, Query, Router
 from ninja.pagination import paginate
 
+from main.apps.core.schemas import ForbiddenErrorSchema, NotFoundErrorSchema
 from main.apps.core.types import AuthedHttpRequest
 from main.apps.tutorials.models.tutorial_group import TutorialGroup
 from main.apps.tutorials.schemas import (
@@ -53,7 +54,10 @@ def create_tutorial_group(
 @tutorial_groups_router.get(
     "/{tutorial_group_id}/",
     url_name="tutorial-group-detail",
-    response={HTTPStatus.OK: TutorialGroupDetailSchema},
+    response={
+        HTTPStatus.OK: TutorialGroupDetailSchema,
+        HTTPStatus.NOT_FOUND: NotFoundErrorSchema,
+    },
     description="Get the tutorial group by its ID.",
 )
 def get_tutorial_group(
@@ -65,7 +69,11 @@ def get_tutorial_group(
 @tutorial_groups_router.put(
     "/{tutorial_group_id}/",
     url_name="tutorial-group-detail",
-    response={HTTPStatus.OK: TutorialGroupDetailSchema},
+    response={
+        HTTPStatus.OK: TutorialGroupDetailSchema,
+        HTTPStatus.FORBIDDEN: ForbiddenErrorSchema,
+        HTTPStatus.NOT_FOUND: NotFoundErrorSchema,
+    },
     description="Update the tutorial group.",
 )
 def update_tutorial_group(
@@ -81,7 +89,10 @@ def update_tutorial_group(
 @tutorial_groups_router.delete(
     "/{tutorial_group_id}/",
     url_name="tutorial-group-detail",
-    response={HTTPStatus.NO_CONTENT: None},
+    response={
+        HTTPStatus.NO_CONTENT: None,
+        HTTPStatus.NOT_FOUND: NotFoundErrorSchema,
+    },
     description="Delete the tutorial group.",
 )
 def delete_tutorial_group(
