@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Iterable
+from typing import Iterable, List
 from uuid import UUID
 
 from anydi import auto
@@ -23,7 +23,7 @@ tutorial_groups_router = Router()
 @tutorial_groups_router.get(
     "/",
     url_name="tutorial-group-list",
-    response={HTTPStatus.OK: list[TutorialGroupListSchema]},
+    response={HTTPStatus.OK: List[TutorialGroupListSchema]},
     description="Get the tutorial groups.",
 )
 @paginate
