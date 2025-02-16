@@ -1,7 +1,6 @@
 import pytest
 import uuid
 
-from main.apps.users.models.user import User
 from main.apps.tutorials.repositories import DjangoORMTutorialGroupRepository
 from main.apps.tutorials.schemas import (
     GetTutorialGroupFilterSchema,
@@ -15,41 +14,6 @@ from main.apps.core.exceptions import ForbiddenError, NotFoundError
 
 
 class TestTutorialGroupService:
-    @pytest.fixture
-    def user(self):
-        return User(
-            id=uuid.uuid4(),
-            email="test@test.com",
-            is_active=True,
-        )
-
-    @pytest.fixture
-    def tutorial_group_draft(self):
-        return TutorialGroup(
-            id=uuid.uuid4(),
-            title="Tutorial Group 1",
-            description="Description 1",
-            state=TutorialGroupState.DRAFT,
-        )
-
-    @pytest.fixture
-    def tutorial_group_published(self):
-        return TutorialGroup(
-            id=uuid.uuid4(),
-            title="Tutorial Group 2",
-            description="Description 2",
-            state=TutorialGroupState.PUBLISHED,
-        )
-
-    @pytest.fixture
-    def tutorial_group_archived(self):
-        return TutorialGroup(
-            id=uuid.uuid4(),
-            title="Tutorial Group 3",
-            description="Description 3",
-            state=TutorialGroupState.ARCHIVED,
-        )
-
     def test_get_tutorial_groups(self, mocker, tutorial_group_draft, tutorial_group_published):
         repository = DjangoORMTutorialGroupRepository()
         mocker.patch.object(
