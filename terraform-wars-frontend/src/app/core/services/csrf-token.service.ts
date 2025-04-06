@@ -1,4 +1,5 @@
 import { inject, Injectable } from '@angular/core';
+import { environment } from '@env/environment';
 import { CookieService } from './cookie.service';
 
 const CSRF_SAFE_METHODS = ['GET', 'HEAD', 'OPTIONS', 'TRACE'];
@@ -11,7 +12,7 @@ export class CsrfTokenService {
   cookieService = inject(CookieService);
 
   getCSRFToken(): string | null {
-    return this.cookieService.getCookie("terraform-wars-csrftoken");
+    return this.cookieService.getCookie(environment.csrfCookieName);
   }
 
   isCSRFTokenRequired(method: string): boolean {

@@ -1,6 +1,6 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { CsrfTokenService } from '../services/csrf-token.service';
+import { CsrfTokenService } from '@app/core/services/csrf-token.service';
 
 export const csrfTokenInterceptor: HttpInterceptorFn = (req, next) => {
   const csrfTokenService = inject(CsrfTokenService);
