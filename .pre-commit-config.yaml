@@ -8,6 +8,7 @@ repos:
       rev: v4.5.0
       hooks:
           - id: check-added-large-files # prevents giant files from being committed.
+            args: ['--maxkb=1024']  # Set limit to 1MB (1024KB)
           - id: check-case-conflict # checks for files that would conflict in case-insensitive filesystems.
           - id: check-merge-conflict # checks for files that contain merge conflict strings.
           - id: detect-private-key # detects the presence of private keys.

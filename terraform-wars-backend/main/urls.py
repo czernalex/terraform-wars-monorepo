@@ -16,7 +16,7 @@ def trigger_error(_: HttpRequest):
 urlpatterns = [
     path("healthcheck/", lambda request: HttpResponse(status=200)),
     path("accounts/", include("allauth.urls")),
-    path("allauth-api/", include("allauth.headless.urls")),
+    path("_allauth/", include("allauth.headless.urls")),
     path("api/", root_api_router.urls),
     path("admin/", admin.site.urls),
 ]

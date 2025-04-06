@@ -21,5 +21,21 @@
             "autoStartBrowser": false,
             "program": "${workspaceFolder}/manage.py"
         },
+        {
+            "name": "terraform-wars-frontend-serve",
+            "type": "chrome",
+            "request": "launch",
+            "preLaunchTask": "npm: start",
+            "url": "http://127.0.0.1:4200/",
+            "cwd": "${workspaceFolder}/terraform-wars-frontend"
+        },
+        {
+          "name": "terraform-wars-frontend-test",
+          "type": "chrome",
+          "request": "launch",
+          "preLaunchTask": "npm: test",
+          "url": "http://127.0.0.1:9876/debug.html",
+          "cwd": "${workspaceFolder}/terraform-wars-frontend"
+        }
     ]
 }
