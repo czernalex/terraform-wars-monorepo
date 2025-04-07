@@ -13,7 +13,7 @@ import {
 
 
 
-export const getMainAppsAllauthApiRoutersGetCsrfTokenMockHandler = (overrideResponse?: void | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<void> | void)) => {
+export const getMainAppsApiAuthRoutersGetCsrfTokenMockHandler = (overrideResponse?: void | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<void> | void)) => {
   return http.post('*/api/auth/csrf/', async (info) => {await delay(1000);
   if (typeof overrideResponse === 'function') {await overrideResponse(info); }
     return new HttpResponse(null,
@@ -23,4 +23,4 @@ export const getMainAppsAllauthApiRoutersGetCsrfTokenMockHandler = (overrideResp
   })
 }
 export const getAuthMock = () => [
-  getMainAppsAllauthApiRoutersGetCsrfTokenMockHandler()]
+  getMainAppsApiAuthRoutersGetCsrfTokenMockHandler()]

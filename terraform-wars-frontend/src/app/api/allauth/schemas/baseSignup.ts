@@ -228,6 +228,4 @@ import type { Email } from './email';
 
 export interface BaseSignup {
   email: Email;
-  first_name?: string;
-  last_name?: string;
 }

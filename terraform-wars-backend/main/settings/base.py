@@ -33,7 +33,7 @@ if "0.0.0.0" not in ALLOWED_HOSTS:
 # Apps
 
 INSTALLED_APPS = [
-    "main.apps.allauth_api",
+    "main.apps.api_auth",
     "main.apps.core",
     "main.apps.tutorials",
     "main.apps.users",
@@ -150,7 +150,7 @@ AUTHENTICATION_BACKENDS = [
 
 # Internationalization
 
-LANGUAGE_CODE = "cs"
+LANGUAGE_CODE = "en"
 TIME_ZONE = "Europe/Prague"
 USE_TZ = True
 
@@ -159,7 +159,6 @@ USE_L10N = True
 USE_THOUSAND_SEPARATOR = True
 
 LANGUAGES = [
-    ("cs", _("language.cs")),
     ("en", _("language.en")),
 ]
 
@@ -206,8 +205,8 @@ ACCOUNT_LOGIN_METHODS = ("email",)
 ACCOUNT_SIGNUP_FIELDS = [
     "email*",
     "password1*",
-    "password2*",
 ]
+
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
@@ -215,9 +214,8 @@ ACCOUNT_DEFAULT_HTTP_PROTOCOL = BASE_PROTOCOL
 ACCOUNT_USER_DISPLAY = lambda user: user.email  # noqa
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_LOGOUT_ON_GET = True
-ACCOUNT_SESSION_REMEMBER = True
-
-ACCOUNT_SIGNUP_FORM_CLASS = "main.apps.allauth_api.forms.UserSignupForm"
+ACCOUNT_SESSION_REMEMBER = None
+ACCOUNT_PASSWORD_RESET_BY_CODE_ENABLED = False
 
 ### ALLAUTH HEADLESS
 
@@ -227,7 +225,7 @@ HEADLESS_SERVE_SPECIFICATION = True
 HEADLESS_SPECIFICATION_TEMPLATE_NAME = "headless/spec/swagger_cdn.html"
 
 HEADLESS_FRONTEND_URLS = {
-    "account_confirm_email": FRONTEND_BASE_URL + "/auth/verify-email?key={key}",
+    "account_confirm_email": FRONTEND_BASE_URL + "/auth/verify-email/{key}",
     "account_reset_password": FRONTEND_BASE_URL + "/auth/password-reset",
     "account_reset_password_from_key": FRONTEND_BASE_URL + "/auth/password-reset/{key}",
     "account_signup": FRONTEND_BASE_URL + "/auth/sign-up",

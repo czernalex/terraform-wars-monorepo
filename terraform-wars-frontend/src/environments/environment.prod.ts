@@ -1,6 +1,6 @@
 export const environment = {
-    production: false,
-    baseApiUrl: 'http://localhost:8080',
+    production: true,
+    baseApiUrl: 'https://api.app.terraform-wars.cz',
     csrfCookieName: 'terraform-wars-csrftoken',
     csrfHeaderName: 'X-CSRFToken',
 };

@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class AllAuthApiConfig(AppConfig):
+class ApiAuthConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "main.apps.allauth_api"
+    name = "main.apps.api_auth"

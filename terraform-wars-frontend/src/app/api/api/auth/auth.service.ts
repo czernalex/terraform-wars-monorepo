@@ -50,15 +50,15 @@ export class AuthService {
  * Get a CSRF token
  * @summary Get Csrf Token
  */
- mainAppsAllauthApiRoutersGetCsrfToken<TData = void>(
+ mainAppsApiAuthRoutersGetCsrfToken<TData = void>(
      options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
   ): Observable<TData>;
-    mainAppsAllauthApiRoutersGetCsrfToken<TData = void>(
+    mainAppsApiAuthRoutersGetCsrfToken<TData = void>(
      options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
   ): Observable<AngularHttpResponse<TData>>;
-    mainAppsAllauthApiRoutersGetCsrfToken<TData = void>(
+    mainAppsApiAuthRoutersGetCsrfToken<TData = void>(
      options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;mainAppsAllauthApiRoutersGetCsrfToken<TData = void>(
+  ): Observable<HttpEvent<TData>>;mainAppsApiAuthRoutersGetCsrfToken<TData = void>(
      options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.post<TData>(
@@ -67,4 +67,4 @@ export class AuthService {
   }
 };
 
-export type MainAppsAllauthApiRoutersGetCsrfTokenClientResult = NonNullable<void>
+export type MainAppsApiAuthRoutersGetCsrfTokenClientResult = NonNullable<void>

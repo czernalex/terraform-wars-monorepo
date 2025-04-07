@@ -10,6 +10,7 @@ auth_router = Router()
 
 @auth_router.post(
     "/csrf/",
+    url_name="csrf",
     response={HTTPStatus.NO_CONTENT: None},
     auth=None,
     description="Get a CSRF token",

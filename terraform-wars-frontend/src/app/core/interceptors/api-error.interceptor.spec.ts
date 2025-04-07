@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpInterceptorFn } from '@angular/common/http';
 
-import { csrfTokenInterceptor } from './csrf-token.interceptor';
+import { apiErrorInterceptor } from './api-error.interceptor';
 
-describe('csrfTokenInterceptor', () => {
+describe('apiErrorInterceptor', () => {
   const interceptor: HttpInterceptorFn = (req, next) =>
-    TestBed.runInInjectionContext(() => csrfTokenInterceptor(req, next));
+    TestBed.runInInjectionContext(() => apiErrorInterceptor(req, next));
 
   beforeEach(() => {
     TestBed.configureTestingModule({});

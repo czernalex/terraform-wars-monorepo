@@ -12,6 +12,7 @@ class UserDetailSchema(ModelSchema):
     first_name: Optional[str]
     last_name: Optional[str]
     full_name: str
+    permissions: list[str]
 
     class Meta:
         model = User
@@ -21,3 +22,7 @@ class UserDetailSchema(ModelSchema):
             "first_name",
             "last_name",
         ]
+
+    @staticmethod
+    def resolve_permissions(obj: User) -> list[str]:
+        return list(obj.get_all_permissions())

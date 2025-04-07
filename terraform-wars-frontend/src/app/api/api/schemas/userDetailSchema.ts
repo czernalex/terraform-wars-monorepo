@@ -14,4 +14,5 @@ export interface UserDetailSchema {
   first_name: UserDetailSchemaFirstName;
   last_name: UserDetailSchemaLastName;
   full_name: string;
+  permissions: string[];
 }

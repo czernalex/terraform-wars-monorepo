@@ -7,7 +7,7 @@ from ninja import NinjaAPI
 from ninja.security import django_auth
 from ninja.throttling import AnonRateThrottle, AuthRateThrottle
 
-from main.apps.allauth_api.routers import auth_router
+from main.apps.api_auth.routers import auth_router
 from main.apps.core.exceptions import ForbiddenError, NotFoundError, ValidationError
 from main.apps.core.schemas import ForbiddenErrorSchema, NotFoundErrorSchema, ValidationErrorSchema
 from main.apps.tutorials.routers import tutorial_groups_router
