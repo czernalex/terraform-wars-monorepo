@@ -4,9 +4,10 @@ from django.conf import settings
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpRequest, HttpResponse
 from ninja import NinjaAPI
-from ninja.security import SessionAuth
+from ninja.security import django_auth
 from ninja.throttling import AnonRateThrottle, AuthRateThrottle
 
+from main.apps.api_auth.routers import auth_router
 from main.apps.core.exceptions import ForbiddenError, NotFoundError, ValidationError
 from main.apps.core.schemas import ForbiddenErrorSchema, NotFoundErrorSchema, ValidationErrorSchema
 from main.apps.tutorials.routers import tutorial_groups_router
@@ -18,13 +19,11 @@ root_api_router = NinjaAPI(
     urls_namespace="terraform-wars-api",
     version="0.0.1",
     description=(
-        "REST API for Terraform Wars frontend."
+        "REST API for Terraform Wars application."
         "<br>"
         "<br>"
-        "Authentication is managed by Django Allauth. Open API specification is available "
-        "<a href='https://docs.allauth.org/en/latest/headless/openapi-specification/' target='_blank'>here</a>."
-        "<br>"
-        "Please note, that the Allauth API endpoints are prefixed with <i>/allauth-api/</i> instead of <i>/_allauth/</i>."
+        "Authentication is managed by Django Allauth in headless mode. Open API specification is available "
+        f"<a href='{settings.BASE_URL}/_allauth/openapi.html' target='_blank'>here</a>."
         "<br>"
         "<br>"
         "<a href='/admin' class='btn'>Administration</a>"
@@ -33,7 +32,7 @@ root_api_router = NinjaAPI(
     servers=[
         {"url": "http://127.0.0.1:8000", "description": "Local development server"},
     ],
-    auth=SessionAuth(),
+    auth=django_auth,
     throttle=[
         AnonRateThrottle(rate="10/s"),
         AuthRateThrottle(rate="100/s"),
@@ -78,5 +77,6 @@ def handle_validation_error(request: HttpRequest, exc: ValidationError) -> HttpR
     )
 
 
+root_api_router.add_router("/auth", auth_router, tags=["auth"])
 root_api_router.add_router("/tutorial-groups", tutorial_groups_router, tags=["tutorial-groups"])
 root_api_router.add_router("/users", users_router, tags=["users"])

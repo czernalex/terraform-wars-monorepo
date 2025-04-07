@@ -15,7 +15,7 @@ BASE_PROTOCOL = config("BASE_PROTOCOL", default="https")
 BASE_DOMAIN = config("BASE_DOMAIN", default="")
 BASE_URL = f"{BASE_PROTOCOL}://{BASE_DOMAIN}"
 
-FRONTEND_BASE_URL = config("FRONTEND_BASE_URL", default="http://127.0.0.1:4242")
+FRONTEND_BASE_URL = config("FRONTEND_BASE_URL", default="http://localhost:4200")
 
 DEBUG = False
 DEBUG_SILK = config("DEBUG_SILK", cast=bool, default=False)
@@ -33,7 +33,7 @@ if "0.0.0.0" not in ALLOWED_HOSTS:
 # Apps
 
 INSTALLED_APPS = [
-    "main.apps.allauth_api",
+    "main.apps.api_auth",
     "main.apps.core",
     "main.apps.tutorials",
     "main.apps.users",
@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     "anydi.ext.django",
     "auditlog",
     "corsheaders",
-    "django_extensions",
     "rangefilter",
 ]
 
@@ -151,7 +150,7 @@ AUTHENTICATION_BACKENDS = [
 
 # Internationalization
 
-LANGUAGE_CODE = "cs"
+LANGUAGE_CODE = "en"
 TIME_ZONE = "Europe/Prague"
 USE_TZ = True
 
@@ -160,7 +159,6 @@ USE_L10N = True
 USE_THOUSAND_SEPARATOR = True
 
 LANGUAGES = [
-    ("cs", _("language.cs")),
     ("en", _("language.en")),
 ]
 
@@ -203,23 +201,31 @@ PRIVATE_MEDIA_URL = f"{BASE_URL}/{PRIVATE_MEDIA_LOCATION}/"
 
 ## ALLAUTH
 
-HEADLESS_ONLY = True
+ACCOUNT_LOGIN_METHODS = ("email",)
+ACCOUNT_SIGNUP_FIELDS = [
+    "email*",
+    "password1*",
+]
 
-ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = BASE_PROTOCOL
 ACCOUNT_USER_DISPLAY = lambda user: user.email  # noqa
-ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_SESSION_REMEMBER = None
+ACCOUNT_PASSWORD_RESET_BY_CODE_ENABLED = False
 
-ACCOUNT_SIGNUP_FORM_CLASS = "main.apps.allauth_api.forms.UserSignupForm"
+### ALLAUTH HEADLESS
+
+HEADLESS_ONLY = True
+HEADLESS_CLIENTS = ("browser",)
+HEADLESS_SERVE_SPECIFICATION = True
+HEADLESS_SPECIFICATION_TEMPLATE_NAME = "headless/spec/swagger_cdn.html"
 
 HEADLESS_FRONTEND_URLS = {
-    "account_confirm_email": FRONTEND_BASE_URL + "/auth/verify-email?key={key}",
+    "account_confirm_email": FRONTEND_BASE_URL + "/auth/verify-email/{key}",
     "account_reset_password": FRONTEND_BASE_URL + "/auth/password-reset",
     "account_reset_password_from_key": FRONTEND_BASE_URL + "/auth/password-reset/{key}",
     "account_signup": FRONTEND_BASE_URL + "/auth/sign-up",
@@ -267,7 +273,12 @@ AUDITLOG_INCLUDE_ALL_MODELS = False
 
 # CSRF and CORS
 
-CSRF_TRUSTED_ORIGINS = config("CSRF_ALLOWED_ORIGINS", cast=lambda v: [s.strip() for s in v.split(",")])
+SESSION_COOKIE_DOMAIN = config("SESSION_COOKIE_DOMAIN", default="localhost")
+
+CSRF_COOKIE_DOMAIN = config("CSRF_COOKIE_DOMAIN", default="localhost")
+CSRF_COOKIE_NAME = config("CSRF_COOKIE_NAME", default="terraform-wars-csrftoken")
+
+CSRF_TRUSTED_ORIGINS = config("CSRF_TRUSTED_ORIGINS", cast=lambda v: [s.strip() for s in v.split(",")])
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = (

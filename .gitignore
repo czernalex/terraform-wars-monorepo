@@ -71,6 +71,7 @@ docs/_build/
 
 .idea
 .DS_Store
+Thumbs.db
 
 .ipynb_checkpoints
 
@@ -86,3 +87,32 @@ celerybeat-schedule*
 **/commands/data/
 
 local.py
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Miscellaneous
+.angular
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
