@@ -226,6 +226,6 @@ return authenticator names as follows:
  */
 import type { User } from './user';
 
-export type PasswordResetInfoResponseData = {
-  user?: User;
-};
+export interface PasswordResetInfoResponseData {
+    user?: User;
+}

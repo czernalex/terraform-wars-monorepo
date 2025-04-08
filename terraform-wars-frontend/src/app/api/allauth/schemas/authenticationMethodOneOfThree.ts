@@ -227,8 +227,8 @@ return authenticator names as follows:
 import type { AuthenticationMethodOneOfThreeMethod } from './authenticationMethodOneOfThreeMethod';
 import type { Timestamp } from './timestamp';
 
-export type AuthenticationMethodOneOfThree = {
-  method: AuthenticationMethodOneOfThreeMethod;
-  at: Timestamp;
-  reauthenticated: boolean;
-};
+export interface AuthenticationMethodOneOfThree {
+    method: AuthenticationMethodOneOfThreeMethod;
+    at: Timestamp;
+    reauthenticated: boolean;
+}

@@ -224,37 +224,69 @@ return authenticator names as follows:
     }
  * OpenAPI spec version: 1
  */
-import {
-  faker
-} from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 
-import {
-  HttpResponse,
-  delay,
-  http
-} from 'msw';
+import { HttpResponse, delay, http } from 'msw';
 
-import {
-  AuthenticatorType
-} from '.././schemas';
-import type {
-  ConfigurationResponse
-} from '.././schemas';
+import { AuthenticatorType } from '.././schemas';
+import type { ConfigurationResponse } from '.././schemas';
 
+export const getGetAllauthBrowserV1ConfigResponseMock = (
+    overrideResponse: Partial<ConfigurationResponse> = {},
+): ConfigurationResponse => ({
+    data: {
+        account: {
+            login_methods: faker.helpers.arrayElement([
+                faker.helpers.arrayElements(['email', 'username'] as const),
+                undefined,
+            ]),
+            is_open_for_signup: faker.datatype.boolean(),
+            email_verification_by_code_enabled: faker.datatype.boolean(),
+            login_by_code_enabled: faker.datatype.boolean(),
+            password_reset_by_code_enabled: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]),
+        },
+        socialaccount: faker.helpers.arrayElement([
+            {
+                providers: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
+                    id: faker.string.alpha(20),
+                    name: faker.string.alpha(20),
+                    client_id: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+                    openid_configuration_url: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+                    flows: faker.helpers.arrayElements(['provider_redirect', 'provider_token'] as const),
+                })),
+            },
+            undefined,
+        ]),
+        mfa: faker.helpers.arrayElement([
+            { supported_types: faker.helpers.arrayElements(Object.values(AuthenticatorType)) },
+            undefined,
+        ]),
+        usersessions: faker.helpers.arrayElement([{ track_activity: faker.datatype.boolean() }, undefined]),
+    },
+    status: faker.helpers.arrayElement([200] as const),
+    ...overrideResponse,
+});
 
-export const getGetAllauthBrowserV1ConfigResponseMock = (overrideResponse: Partial< ConfigurationResponse > = {}): ConfigurationResponse => ({data: {account: {login_methods: faker.helpers.arrayElement([faker.helpers.arrayElements(['email','username'] as const), undefined]), is_open_for_signup: faker.datatype.boolean(), email_verification_by_code_enabled: faker.datatype.boolean(), login_by_code_enabled: faker.datatype.boolean(), password_reset_by_code_enabled: faker.helpers.arrayElement([faker.datatype.boolean(), undefined])}, socialaccount: faker.helpers.arrayElement([{providers: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({id: faker.string.alpha(20), name: faker.string.alpha(20), client_id: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), openid_configuration_url: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), flows: faker.helpers.arrayElements(['provider_redirect','provider_token'] as const)}))}, undefined]), mfa: faker.helpers.arrayElement([{supported_types: faker.helpers.arrayElements(Object.values(AuthenticatorType))}, undefined]), usersessions: faker.helpers.arrayElement([{track_activity: faker.datatype.boolean()}, undefined])}, status: faker.helpers.arrayElement([200] as const), ...overrideResponse})
+export const getGetAllauthBrowserV1ConfigMockHandler = (
+    overrideResponse?:
+        | ConfigurationResponse
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0],
+          ) => Promise<ConfigurationResponse> | ConfigurationResponse),
+) => {
+    return http.get('*/_allauth/browser/v1/config', async (info) => {
+        await delay(1000);
 
-
-export const getGetAllauthBrowserV1ConfigMockHandler = (overrideResponse?: ConfigurationResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<ConfigurationResponse> | ConfigurationResponse)) => {
-  return http.get('*/_allauth/browser/v1/config', async (info) => {await delay(1000);
-
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-            : getGetAllauthBrowserV1ConfigResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
-  })
-}
-export const getConfigurationMock = () => [
-  getGetAllauthBrowserV1ConfigMockHandler()]
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getGetAllauthBrowserV1ConfigResponseMock(),
+            ),
+            { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+    });
+};
+export const getConfigurationMock = () => [getGetAllauthBrowserV1ConfigMockHandler()];

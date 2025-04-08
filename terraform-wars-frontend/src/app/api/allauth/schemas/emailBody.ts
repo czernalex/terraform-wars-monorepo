@@ -225,8 +225,8 @@ return authenticator names as follows:
  * OpenAPI spec version: 1
  */
 
-export type EmailBody = {
-  /** An email address.
- */
-  email: string;
-};
+export interface EmailBody {
+    /** An email address.
+     */
+    email: string;
+}

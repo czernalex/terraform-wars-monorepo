@@ -225,19 +225,17 @@ return authenticator names as follows:
  * OpenAPI spec version: 1
  */
 
-export type FlowId = typeof FlowId[keyof typeof FlowId];
+export type FlowId = (typeof FlowId)[keyof typeof FlowId];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FlowId = {
-  login: 'login',
-  mfa_authenticate: 'mfa_authenticate',
-  mfa_reauthenticate: 'mfa_reauthenticate',
-  provider_redirect: 'provider_redirect',
-  provider_signup: 'provider_signup',
-  provider_token: 'provider_token',
-  reauthenticate: 'reauthenticate',
-  signup: 'signup',
-  verify_email: 'verify_email',
-  verify_phone: 'verify_phone',
+    login: 'login',
+    mfa_authenticate: 'mfa_authenticate',
+    mfa_reauthenticate: 'mfa_reauthenticate',
+    provider_redirect: 'provider_redirect',
+    provider_signup: 'provider_signup',
+    provider_token: 'provider_token',
+    reauthenticate: 'reauthenticate',
+    signup: 'signup',
+    verify_email: 'verify_email',
+    verify_phone: 'verify_phone',
 } as const;

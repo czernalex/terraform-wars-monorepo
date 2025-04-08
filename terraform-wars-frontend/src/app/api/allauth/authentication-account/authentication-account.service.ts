@@ -224,80 +224,66 @@ return authenticator names as follows:
     }
  * OpenAPI spec version: 1
  */
-import {
-  HttpClient
-} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import type {
-  HttpContext,
-  HttpEvent,
-  HttpHeaders,
-  HttpParams,
-  HttpResponse as AngularHttpResponse
+    HttpContext,
+    HttpEvent,
+    HttpHeaders,
+    HttpParams,
+    HttpResponse as AngularHttpResponse,
 } from '@angular/common/http';
 
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  Observable
-} from 'rxjs';
+import { Observable } from 'rxjs';
 
 import type {
-  AuthenticatedByPasswordResponse,
-  AuthenticatedResponse,
-  EmailVerificationInfoResponse,
-  LoginBody,
-  ReauthenticateBody,
-  SignupBody,
-  VerifyEmailBody,
-  VerifyPhoneBody
+    AuthenticatedByPasswordResponse,
+    AuthenticatedResponse,
+    EmailVerificationInfoResponse,
+    LoginBody,
+    ReauthenticateBody,
+    SignupBody,
+    VerifyEmailBody,
+    VerifyPhoneBody,
 } from '.././schemas';
 
-
-
-type HttpClientOptions = {
-  headers?: HttpHeaders | {
-      [header: string]: string | string[];
-  };
-  context?: HttpContext;
-  observe?: any;
-  params?: HttpParams | {
-    [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-  };
-  reportProgress?: boolean;
-  responseType?: any;
-  withCredentials?: boolean;
-};
-
-
+interface HttpClientOptions {
+    headers?: HttpHeaders | Record<string, string | string[]>;
+    context?: HttpContext;
+    observe?: any;
+    params?: HttpParams | Record<string, string | number | boolean | readonly (string | number | boolean)[]>;
+    reportProgress?: boolean;
+    responseType?: any;
+    withCredentials?: boolean;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationAccountService {
-  constructor(
-    private http: HttpClient,
-  ) {}/**
+    constructor(private http: HttpClient) {} /**
  * Login using a username-password or email-password combination.
 
  * @summary Login
  */
- postAllauthBrowserV1AuthLogin<TData = AuthenticatedByPasswordResponse>(
-    loginBody: LoginBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     postAllauthBrowserV1AuthLogin<TData = AuthenticatedByPasswordResponse>(
-    loginBody: LoginBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        loginBody: LoginBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     postAllauthBrowserV1AuthLogin<TData = AuthenticatedByPasswordResponse>(
-    loginBody: LoginBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;postAllauthBrowserV1AuthLogin<TData = AuthenticatedByPasswordResponse>(
-    loginBody: LoginBody, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.post<TData>(
-      `/_allauth/browser/v1/auth/login`,
-      loginBody,options
-    );
-  }
-/**
+        loginBody: LoginBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    postAllauthBrowserV1AuthLogin<TData = AuthenticatedByPasswordResponse>(
+        loginBody: LoginBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    postAllauthBrowserV1AuthLogin<TData = AuthenticatedByPasswordResponse>(
+        loginBody: LoginBody,
+        options?: HttpClientOptions,
+    ): Observable<TData> {
+        return this.http.post<TData>(`/_allauth/browser/v1/auth/login`, loginBody, options);
+    }
+    /**
  * Whether or not `username`, `email`, `phone` or combination of those are
 required depends on the configuration of django-allauth. Additionally,
 if a custom signup form is used there may be other custom properties
@@ -305,44 +291,45 @@ required.
 
  * @summary Signup
  */
- postAllauthBrowserV1AuthSignup<TData = AuthenticatedByPasswordResponse>(
-    signupBody: SignupBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     postAllauthBrowserV1AuthSignup<TData = AuthenticatedByPasswordResponse>(
-    signupBody: SignupBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        signupBody: SignupBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     postAllauthBrowserV1AuthSignup<TData = AuthenticatedByPasswordResponse>(
-    signupBody: SignupBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;postAllauthBrowserV1AuthSignup<TData = AuthenticatedByPasswordResponse>(
-    signupBody: SignupBody, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.post<TData>(
-      `/_allauth/browser/v1/auth/signup`,
-      signupBody,options
-    );
-  }
-/**
+        signupBody: SignupBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    postAllauthBrowserV1AuthSignup<TData = AuthenticatedByPasswordResponse>(
+        signupBody: SignupBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    postAllauthBrowserV1AuthSignup<TData = AuthenticatedByPasswordResponse>(
+        signupBody: SignupBody,
+        options?: HttpClientOptions,
+    ): Observable<TData> {
+        return this.http.post<TData>(`/_allauth/browser/v1/auth/signup`, signupBody, options);
+    }
+    /**
  * Obtain email verification information, given the token that was sent to
 the user by email.
 
  * @summary Get email verification information
  */
- getAllauthBrowserV1AuthEmailVerify<TData = EmailVerificationInfoResponse>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     getAllauthBrowserV1AuthEmailVerify<TData = EmailVerificationInfoResponse>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     getAllauthBrowserV1AuthEmailVerify<TData = EmailVerificationInfoResponse>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;getAllauthBrowserV1AuthEmailVerify<TData = EmailVerificationInfoResponse>(
-     options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.get<TData>(
-      `/_allauth/browser/v1/auth/email/verify`,options
-    );
-  }
-/**
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    getAllauthBrowserV1AuthEmailVerify<TData = EmailVerificationInfoResponse>(
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    getAllauthBrowserV1AuthEmailVerify<TData = EmailVerificationInfoResponse>(
+        options?: HttpClientOptions,
+    ): Observable<TData> {
+        return this.http.get<TData>(`/_allauth/browser/v1/auth/email/verify`, options);
+    }
+    /**
  * Complete the email verification process. Depending on the configuration,
 email addresses are either verified by opening a link that is sent to
 their email address, or, by inputting a code that is sent. On the API,
@@ -356,46 +343,50 @@ in. For example, in case `ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION` is set to
 
  * @summary Verify an email
  */
- postAllauthBrowserV1AuthEmailVerify<TData = AuthenticatedResponse>(
-    verifyEmailBody: VerifyEmailBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     postAllauthBrowserV1AuthEmailVerify<TData = AuthenticatedResponse>(
-    verifyEmailBody: VerifyEmailBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        verifyEmailBody: VerifyEmailBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     postAllauthBrowserV1AuthEmailVerify<TData = AuthenticatedResponse>(
-    verifyEmailBody: VerifyEmailBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;postAllauthBrowserV1AuthEmailVerify<TData = AuthenticatedResponse>(
-    verifyEmailBody: VerifyEmailBody, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.post<TData>(
-      `/_allauth/browser/v1/auth/email/verify`,
-      verifyEmailBody,options
-    );
-  }
-/**
+        verifyEmailBody: VerifyEmailBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    postAllauthBrowserV1AuthEmailVerify<TData = AuthenticatedResponse>(
+        verifyEmailBody: VerifyEmailBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    postAllauthBrowserV1AuthEmailVerify<TData = AuthenticatedResponse>(
+        verifyEmailBody: VerifyEmailBody,
+        options?: HttpClientOptions,
+    ): Observable<TData> {
+        return this.http.post<TData>(`/_allauth/browser/v1/auth/email/verify`, verifyEmailBody, options);
+    }
+    /**
  * Complete the phone number verification process. Note that a status code
 of 401 does not imply failure. It merely indicates that the phone number
 verification was successful, yet, the user is still not signed in.
 
  * @summary Verify a phone number
  */
- postAllauthBrowserV1AuthPhoneVerify<TData = AuthenticatedResponse>(
-    verifyPhoneBody: VerifyPhoneBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     postAllauthBrowserV1AuthPhoneVerify<TData = AuthenticatedResponse>(
-    verifyPhoneBody: VerifyPhoneBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        verifyPhoneBody: VerifyPhoneBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     postAllauthBrowserV1AuthPhoneVerify<TData = AuthenticatedResponse>(
-    verifyPhoneBody: VerifyPhoneBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;postAllauthBrowserV1AuthPhoneVerify<TData = AuthenticatedResponse>(
-    verifyPhoneBody: VerifyPhoneBody, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.post<TData>(
-      `/_allauth/browser/v1/auth/phone/verify`,
-      verifyPhoneBody,options
-    );
-  }
-/**
+        verifyPhoneBody: VerifyPhoneBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    postAllauthBrowserV1AuthPhoneVerify<TData = AuthenticatedResponse>(
+        verifyPhoneBody: VerifyPhoneBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    postAllauthBrowserV1AuthPhoneVerify<TData = AuthenticatedResponse>(
+        verifyPhoneBody: VerifyPhoneBody,
+        options?: HttpClientOptions,
+    ): Observable<TData> {
+        return this.http.post<TData>(`/_allauth/browser/v1/auth/phone/verify`, verifyPhoneBody, options);
+    }
+    /**
  * In order to safeguard the account, some actions require the user to be
 recently authenticated.  If you try to perform such an action without
 having been recently authenticated, a `401` status is returned, listing
@@ -405,27 +396,29 @@ password. This is the endpoint related towards that flow.
 
  * @summary Reauthenticate
  */
- postAllauthBrowserV1AuthReauthenticate<TData = AuthenticatedByPasswordResponse>(
-    reauthenticateBody: ReauthenticateBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     postAllauthBrowserV1AuthReauthenticate<TData = AuthenticatedByPasswordResponse>(
-    reauthenticateBody: ReauthenticateBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        reauthenticateBody: ReauthenticateBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     postAllauthBrowserV1AuthReauthenticate<TData = AuthenticatedByPasswordResponse>(
-    reauthenticateBody: ReauthenticateBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;postAllauthBrowserV1AuthReauthenticate<TData = AuthenticatedByPasswordResponse>(
-    reauthenticateBody: ReauthenticateBody, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.post<TData>(
-      `/_allauth/browser/v1/auth/reauthenticate`,
-      reauthenticateBody,options
-    );
-  }
-};
+        reauthenticateBody: ReauthenticateBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    postAllauthBrowserV1AuthReauthenticate<TData = AuthenticatedByPasswordResponse>(
+        reauthenticateBody: ReauthenticateBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    postAllauthBrowserV1AuthReauthenticate<TData = AuthenticatedByPasswordResponse>(
+        reauthenticateBody: ReauthenticateBody,
+        options?: HttpClientOptions,
+    ): Observable<TData> {
+        return this.http.post<TData>(`/_allauth/browser/v1/auth/reauthenticate`, reauthenticateBody, options);
+    }
+}
 
-export type PostAllauthBrowserV1AuthLoginClientResult = NonNullable<AuthenticatedByPasswordResponse>
-export type PostAllauthBrowserV1AuthSignupClientResult = NonNullable<AuthenticatedByPasswordResponse>
-export type GetAllauthBrowserV1AuthEmailVerifyClientResult = NonNullable<EmailVerificationInfoResponse>
-export type PostAllauthBrowserV1AuthEmailVerifyClientResult = NonNullable<AuthenticatedResponse>
-export type PostAllauthBrowserV1AuthPhoneVerifyClientResult = NonNullable<AuthenticatedResponse>
-export type PostAllauthBrowserV1AuthReauthenticateClientResult = NonNullable<AuthenticatedByPasswordResponse>
+export type PostAllauthBrowserV1AuthLoginClientResult = NonNullable<AuthenticatedByPasswordResponse>;
+export type PostAllauthBrowserV1AuthSignupClientResult = NonNullable<AuthenticatedByPasswordResponse>;
+export type GetAllauthBrowserV1AuthEmailVerifyClientResult = NonNullable<EmailVerificationInfoResponse>;
+export type PostAllauthBrowserV1AuthEmailVerifyClientResult = NonNullable<AuthenticatedResponse>;
+export type PostAllauthBrowserV1AuthPhoneVerifyClientResult = NonNullable<AuthenticatedResponse>;
+export type PostAllauthBrowserV1AuthReauthenticateClientResult = NonNullable<AuthenticatedByPasswordResponse>;

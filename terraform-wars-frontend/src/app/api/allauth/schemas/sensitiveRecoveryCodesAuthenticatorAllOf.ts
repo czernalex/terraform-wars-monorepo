@@ -226,8 +226,8 @@ return authenticator names as follows:
  */
 import type { AuthenticatorCode } from './authenticatorCode';
 
-export type SensitiveRecoveryCodesAuthenticatorAllOf = {
-  /** The list of unused codes.
- */
-  unused_codes: AuthenticatorCode[];
-};
+export interface SensitiveRecoveryCodesAuthenticatorAllOf {
+    /** The list of unused codes.
+     */
+    unused_codes: AuthenticatorCode[];
+}

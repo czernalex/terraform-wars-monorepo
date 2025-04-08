@@ -233,7 +233,7 @@ import type { AuthenticatedMeta } from './authenticatedMeta';
 
  */
 export interface ReauthenticationResponse {
-  status: ReauthenticationResponseStatus;
-  data: Authenticated;
-  meta: AuthenticatedMeta;
+    status: ReauthenticationResponseStatus;
+    data: Authenticated;
+    meta: AuthenticatedMeta;
 }

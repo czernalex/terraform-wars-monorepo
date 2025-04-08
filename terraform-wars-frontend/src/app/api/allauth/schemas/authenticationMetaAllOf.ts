@@ -229,6 +229,6 @@ return authenticator names as follows:
  * Metadata available in an authentication related response.
 
  */
-export type AuthenticationMetaAllOf = {
-  is_authenticated: boolean;
-};
+export interface AuthenticationMetaAllOf {
+    is_authenticated: boolean;
+}

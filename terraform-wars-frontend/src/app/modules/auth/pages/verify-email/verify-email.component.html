@@ -1,29 +1,21 @@
-@if (state === 'loading') {
-    <nz-result
-        [nzIcon]="loadingTemplate"
-        nzTitle="Verifying your email..."
-    >
+@if (state === "loading") {
+    <nz-result [nzIcon]="loadingTemplate" nzTitle="Verifying your email...">
         <ng-template #loadingTemplate>
             <nz-spin nzSize="large"></nz-spin>
         </ng-template>
     </nz-result>
-}
-@else if (state === 'success') {
+} @else if (state === "success") {
     <nz-result
-      nzStatus="success"
-      nzTitle="Email verified successfully"
-      nzSubTitle="You will be redirected to the login page shortly."
+        nzStatus="success"
+        nzTitle="Email verified successfully"
+        nzSubTitle="You will be redirected to the login page shortly."
     >
         <div nz-result-extra>
             <a nz-button nzType="link" routerLink="/auth/login">Go to login</a>
         </div>
     </nz-result>
-}
-@else {
-    <nz-result
-        nzStatus="error"
-        nzTitle="Failed to verify your email"
-    >
+} @else {
+    <nz-result nzStatus="error" nzTitle="Failed to verify your email">
         <div nz-result-extra>
             <a nz-button nzType="link" routerLink="/auth/login">Go to login</a>
         </div>

@@ -229,7 +229,7 @@ import type { EmailVerificationInfoData } from './emailVerificationInfoData';
 import type { EmailVerificationInfoMeta } from './emailVerificationInfoMeta';
 
 export interface EmailVerificationInfo {
-  status: StatusOK;
-  data: EmailVerificationInfoData;
-  meta: EmailVerificationInfoMeta;
+    status: StatusOK;
+    data: EmailVerificationInfoData;
+    meta: EmailVerificationInfoMeta;
 }

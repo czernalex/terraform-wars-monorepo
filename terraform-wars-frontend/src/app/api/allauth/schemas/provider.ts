@@ -227,19 +227,19 @@ return authenticator names as follows:
 import type { ProviderFlowsItem } from './providerFlowsItem';
 
 export interface Provider {
-  /** The provider ID.
- */
-  id: string;
-  /** The name of the provider.
- */
-  name: string;
-  /** The client ID (in case of OAuth2 or OpenID Connect based providers)
- */
-  client_id?: string;
-  /** The OIDC discovery or well-known URL (in case of OAuth2 or OpenID Connect based providers)
- */
-  openid_configuration_url?: string;
-  /** The authentication flows the provider integration supports.
- */
-  flows: ProviderFlowsItem[];
+    /** The provider ID.
+     */
+    id: string;
+    /** The name of the provider.
+     */
+    name: string;
+    /** The client ID (in case of OAuth2 or OpenID Connect based providers)
+     */
+    client_id?: string;
+    /** The OIDC discovery or well-known URL (in case of OAuth2 or OpenID Connect based providers)
+     */
+    openid_configuration_url?: string;
+    /** The authentication flows the provider integration supports.
+     */
+    flows: ProviderFlowsItem[];
 }

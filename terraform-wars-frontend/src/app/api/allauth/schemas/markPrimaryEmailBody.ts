@@ -225,11 +225,11 @@ return authenticator names as follows:
  * OpenAPI spec version: 1
  */
 
-export type MarkPrimaryEmailBody = {
-  /** An email address.
- */
-  email: string;
-  /** Primary flag.
- */
-  primary: boolean;
-};
+export interface MarkPrimaryEmailBody {
+    /** An email address.
+     */
+    email: string;
+    /** Primary flag.
+     */
+    primary: boolean;
+}

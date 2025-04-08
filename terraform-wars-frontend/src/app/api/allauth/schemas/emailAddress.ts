@@ -227,7 +227,7 @@ return authenticator names as follows:
 import type { Email } from './email';
 
 export interface EmailAddress {
-  email: Email;
-  primary: boolean;
-  verified: boolean;
+    email: Email;
+    primary: boolean;
+    verified: boolean;
 }

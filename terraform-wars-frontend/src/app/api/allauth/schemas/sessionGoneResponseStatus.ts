@@ -225,10 +225,8 @@ return authenticator names as follows:
  * OpenAPI spec version: 1
  */
 
-export type SessionGoneResponseStatus = typeof SessionGoneResponseStatus[keyof typeof SessionGoneResponseStatus];
+export type SessionGoneResponseStatus = (typeof SessionGoneResponseStatus)[keyof typeof SessionGoneResponseStatus];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SessionGoneResponseStatus = {
-  NUMBER_410: 410,
+    NUMBER_410: 410,
 } as const;

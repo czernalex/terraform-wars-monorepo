@@ -225,10 +225,9 @@ return authenticator names as follows:
  * OpenAPI spec version: 1
  */
 
-export type AuthenticationMethodOneOfMethod = typeof AuthenticationMethodOneOfMethod[keyof typeof AuthenticationMethodOneOfMethod];
+export type AuthenticationMethodOneOfMethod =
+    (typeof AuthenticationMethodOneOfMethod)[keyof typeof AuthenticationMethodOneOfMethod];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthenticationMethodOneOfMethod = {
-  password: 'password',
+    password: 'password',
 } as const;

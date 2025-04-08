@@ -1,78 +1,95 @@
 <div class="flex flex-col items-center justify-center min-h-screen p-4">
     <nz-card class="w-full max-w-md">
-      <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold mb-2">Terraform Wars</h1>
-        <p class="text-gray-600">Create an account</p>
-      </div>
-      <form nz-form [formGroup]="signUpForm" (ngSubmit)="signUp()" nzLayout="vertical" class="w-full max-w-md">
-        <nz-form-item>
-          <nz-form-label nzRequired class="font-medium">Email</nz-form-label>
-          <nz-form-control nzErrorTip="Please enter a valid email!">
-            <nz-input-group nzPrefixIcon="mail">
-              <input type="email" nz-input formControlName="email" placeholder="Email" autocomplete="email" class="w-full" />
-            </nz-input-group>
-          </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item>
-          <nz-form-label nzRequired class="font-medium">New password</nz-form-label>
-          <nz-form-control nzErrorTip="Please enter a valid password!">
-            <nz-input-group nzPrefixIcon="lock" [nzSuffix]="suffixTemplate">
-              <input
-                [type]="isRawPasswordVisible ? 'text' : 'password'"
-                nz-input formControlName="password1"
-                placeholder="New password"
-                autocomplete="new-password"
-                class="w-full"
-              />
-            </nz-input-group>
-            <ng-template #suffixTemplate>
-              <span
-                nz-icon
-                [nzType]="isRawPasswordVisible ? 'eye' : 'eye-invisible'"
-                (click)="isRawPasswordVisible = !isRawPasswordVisible"
-                class="cursor-pointer"
-              ></span>
-            </ng-template>
-          </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item>
-            <nz-form-label nzRequired class="font-medium">Confirm password</nz-form-label>
-            <nz-form-control [nzErrorTip]="signUpForm.errors?.['passwordsMismatch'] ? 'Password does not match new password!' : 'Please enter a valid password!'">
-              <nz-input-group nzPrefixIcon="lock" [nzSuffix]="suffixTemplate">
-                <input
-                  [type]="isRawPasswordVisible ? 'text' : 'password'"
-                  nz-input formControlName="password2"
-                  placeholder="Confirm password"
-                  autocomplete="new-password"
-                  class="w-full"
-                />
-              </nz-input-group>
-              <ng-template #suffixTemplate>
-                <span
-                  nz-icon
-                  [nzType]="isRawPasswordVisible ? 'eye' : 'eye-invisible'"
-                  (click)="isRawPasswordVisible = !isRawPasswordVisible"
-                  class="cursor-pointer"
-                ></span>
-              </ng-template>
-            </nz-form-control>
-          </nz-form-item>
-
-        <div class="flex justify-start items-center mb-6">
-            <span>Already have an account? <a nzType="link" routerLink="/auth/login">Login</a></span>
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold mb-2">Terraform Wars</h1>
+            <p class="text-gray-600">Create an account</p>
         </div>
+        <form nz-form [formGroup]="signUpForm" (ngSubmit)="signUp()" nzLayout="vertical" class="w-full max-w-md">
+            <nz-form-item>
+                <nz-form-label nzRequired class="font-medium">Email</nz-form-label>
+                <nz-form-control nzErrorTip="Please enter a valid email!">
+                    <nz-input-group nzPrefixIcon="mail">
+                        <input
+                            type="email"
+                            nz-input
+                            formControlName="email"
+                            placeholder="Email"
+                            autocomplete="email"
+                            class="w-full"
+                        />
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
 
-        <button
-          nz-button
-          nzType="primary"
-          [disabled]="!signUpForm.valid || signUpForm.pristine || loading"
-          [nzLoading]="loading"
-          class="w-full h-10"
-        >
-          Sign up
-        </button>
-      </form>
+            <nz-form-item>
+                <nz-form-label nzRequired class="font-medium">New password</nz-form-label>
+                <nz-form-control nzErrorTip="Please enter a valid password!">
+                    <nz-input-group nzPrefixIcon="lock" [nzSuffix]="suffixTemplate">
+                        <input
+                            [type]="isRawPasswordVisible ? 'text' : 'password'"
+                            nz-input
+                            formControlName="password1"
+                            placeholder="New password"
+                            autocomplete="new-password"
+                            class="w-full"
+                        />
+                    </nz-input-group>
+                    <ng-template #suffixTemplate>
+                        <span
+                            nz-icon
+                            [nzType]="isRawPasswordVisible ? 'eye' : 'eye-invisible'"
+                            (click)="isRawPasswordVisible = !isRawPasswordVisible"
+                            (keydown.control.enter)="isRawPasswordVisible = !isRawPasswordVisible"
+                            class="cursor-pointer"
+                        ></span>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-label nzRequired class="font-medium">Confirm password</nz-form-label>
+                <nz-form-control
+                    [nzErrorTip]="
+            signUpForm.errors?.['passwordsMismatch']
+              ? 'Password does not match new password!'
+              : 'Please enter a valid password!'
+          "
+                >
+                    <nz-input-group nzPrefixIcon="lock" [nzSuffix]="suffixTemplate">
+                        <input
+                            [type]="isRawPasswordVisible ? 'text' : 'password'"
+                            nz-input
+                            formControlName="password2"
+                            placeholder="Confirm password"
+                            autocomplete="new-password"
+                            class="w-full"
+                        />
+                    </nz-input-group>
+                    <ng-template #suffixTemplate>
+                        <span
+                            nz-icon
+                            [nzType]="isRawPasswordVisible ? 'eye' : 'eye-invisible'"
+                            (click)="isRawPasswordVisible = !isRawPasswordVisible"
+                            (keydown.control.enter)="isRawPasswordVisible = !isRawPasswordVisible"
+                            class="cursor-pointer"
+                        ></span>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+
+            <div class="flex justify-start items-center mb-6">
+                <span>Already have an account? <a nzType="link" routerLink="/auth/login">Login</a></span>
+            </div>
+
+            <button
+                nz-button
+                nzType="primary"
+                [disabled]="!signUpForm.valid || signUpForm.pristine || loading"
+                [nzLoading]="loading"
+                class="w-full h-10"
+            >
+                Sign up
+            </button>
+        </form>
     </nz-card>
-  </div>
+</div>

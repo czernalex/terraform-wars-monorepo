@@ -227,7 +227,7 @@ return authenticator names as follows:
 import type { StatusOK } from './statusOK';
 import type { ProviderSignupResponseData } from './providerSignupResponseData';
 
-export type ProviderSignupResponse = {
-  status: StatusOK;
-  data: ProviderSignupResponseData;
-};
+export interface ProviderSignupResponse {
+    status: StatusOK;
+    data: ProviderSignupResponseData;
+}

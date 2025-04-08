@@ -227,5 +227,5 @@ return authenticator names as follows:
 import type { AuthenticatorCode } from './authenticatorCode';
 
 export interface MFAAuthenticate {
-  code: AuthenticatorCode;
+    code: AuthenticatorCode;
 }

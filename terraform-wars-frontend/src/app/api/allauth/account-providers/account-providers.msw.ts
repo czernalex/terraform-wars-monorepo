@@ -224,49 +224,94 @@ return authenticator names as follows:
     }
  * OpenAPI spec version: 1
  */
-import {
-  faker
-} from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 
-import {
-  HttpResponse,
-  delay,
-  http
-} from 'msw';
+import { HttpResponse, delay, http } from 'msw';
 
-import type {
-  ProviderAccountsResponse
-} from '.././schemas';
+import type { ProviderAccountsResponse } from '.././schemas';
 
+export const getGetAllauthBrowserV1AccountProvidersResponseMock = (
+    overrideResponse: Partial<ProviderAccountsResponse> = {},
+): ProviderAccountsResponse => ({
+    status: faker.helpers.arrayElement([200] as const),
+    data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
+        uid: faker.string.alpha(20),
+        display: faker.string.alpha(20),
+        provider: {
+            id: faker.string.alpha(20),
+            name: faker.string.alpha(20),
+            client_id: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+            openid_configuration_url: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+            flows: faker.helpers.arrayElements(['provider_redirect', 'provider_token'] as const),
+        },
+    })),
+    ...overrideResponse,
+});
 
-export const getGetAllauthBrowserV1AccountProvidersResponseMock = (overrideResponse: Partial< ProviderAccountsResponse > = {}): ProviderAccountsResponse => ({status: faker.helpers.arrayElement([200] as const), data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({uid: faker.string.alpha(20), display: faker.string.alpha(20), provider: {id: faker.string.alpha(20), name: faker.string.alpha(20), client_id: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), openid_configuration_url: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), flows: faker.helpers.arrayElements(['provider_redirect','provider_token'] as const)}})), ...overrideResponse})
+export const getDeleteAllauthBrowserV1AccountProvidersResponseMock = (
+    overrideResponse: Partial<ProviderAccountsResponse> = {},
+): ProviderAccountsResponse => ({
+    status: faker.helpers.arrayElement([200] as const),
+    data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
+        uid: faker.string.alpha(20),
+        display: faker.string.alpha(20),
+        provider: {
+            id: faker.string.alpha(20),
+            name: faker.string.alpha(20),
+            client_id: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+            openid_configuration_url: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+            flows: faker.helpers.arrayElements(['provider_redirect', 'provider_token'] as const),
+        },
+    })),
+    ...overrideResponse,
+});
 
-export const getDeleteAllauthBrowserV1AccountProvidersResponseMock = (overrideResponse: Partial< ProviderAccountsResponse > = {}): ProviderAccountsResponse => ({status: faker.helpers.arrayElement([200] as const), data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({uid: faker.string.alpha(20), display: faker.string.alpha(20), provider: {id: faker.string.alpha(20), name: faker.string.alpha(20), client_id: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), openid_configuration_url: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), flows: faker.helpers.arrayElements(['provider_redirect','provider_token'] as const)}})), ...overrideResponse})
+export const getGetAllauthBrowserV1AccountProvidersMockHandler = (
+    overrideResponse?:
+        | ProviderAccountsResponse
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0],
+          ) => Promise<ProviderAccountsResponse> | ProviderAccountsResponse),
+) => {
+    return http.get('*/_allauth/browser/v1/account/providers', async (info) => {
+        await delay(1000);
 
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getGetAllauthBrowserV1AccountProvidersResponseMock(),
+            ),
+            { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+    });
+};
 
-export const getGetAllauthBrowserV1AccountProvidersMockHandler = (overrideResponse?: ProviderAccountsResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<ProviderAccountsResponse> | ProviderAccountsResponse)) => {
-  return http.get('*/_allauth/browser/v1/account/providers', async (info) => {await delay(1000);
+export const getDeleteAllauthBrowserV1AccountProvidersMockHandler = (
+    overrideResponse?:
+        | ProviderAccountsResponse
+        | ((
+              info: Parameters<Parameters<typeof http.delete>[1]>[0],
+          ) => Promise<ProviderAccountsResponse> | ProviderAccountsResponse),
+) => {
+    return http.delete('*/_allauth/browser/v1/account/providers', async (info) => {
+        await delay(1000);
 
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-            : getGetAllauthBrowserV1AccountProvidersResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
-  })
-}
-
-export const getDeleteAllauthBrowserV1AccountProvidersMockHandler = (overrideResponse?: ProviderAccountsResponse | ((info: Parameters<Parameters<typeof http.delete>[1]>[0]) => Promise<ProviderAccountsResponse> | ProviderAccountsResponse)) => {
-  return http.delete('*/_allauth/browser/v1/account/providers', async (info) => {await delay(1000);
-
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-            : getDeleteAllauthBrowserV1AccountProvidersResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
-  })
-}
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getDeleteAllauthBrowserV1AccountProvidersResponseMock(),
+            ),
+            { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+    });
+};
 export const getAccountProvidersMock = () => [
-  getGetAllauthBrowserV1AccountProvidersMockHandler(),
-  getDeleteAllauthBrowserV1AccountProvidersMockHandler()]
+    getGetAllauthBrowserV1AccountProvidersMockHandler(),
+    getDeleteAllauthBrowserV1AccountProvidersMockHandler(),
+];

@@ -225,4 +225,4 @@ return authenticator names as follows:
  * OpenAPI spec version: 1
  */
 
-export type WebAuthnCredentialCreationOptionsCreationOptions = { [key: string]: unknown };
+export type WebAuthnCredentialCreationOptionsCreationOptions = Record<string, unknown>;

@@ -228,9 +228,9 @@ import type { ProviderAccountID } from './providerAccountID';
 import type { Provider } from './provider';
 
 export interface ProviderAccount {
-  uid: ProviderAccountID;
-  /** A name derived from the third-party provider account data.
- */
-  display: string;
-  provider: Provider;
+    uid: ProviderAccountID;
+    /** A name derived from the third-party provider account data.
+     */
+    display: string;
+    provider: Provider;
 }

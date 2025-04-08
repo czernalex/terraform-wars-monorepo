@@ -226,7 +226,7 @@ return authenticator names as follows:
  */
 import type { AuthenticatorID } from './authenticatorID';
 
-export type UpdateWebAuthnBody = {
-  id?: AuthenticatorID;
-  name?: string;
-};
+export interface UpdateWebAuthnBody {
+    id?: AuthenticatorID;
+    name?: string;
+}

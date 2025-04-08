@@ -228,6 +228,6 @@ import type { ConfigurationResponseData } from './configurationResponseData';
 import type { StatusOK } from './statusOK';
 
 export interface ConfigurationResponse {
-  data: ConfigurationResponseData;
-  status: StatusOK;
+    data: ConfigurationResponseData;
+    status: StatusOK;
 }

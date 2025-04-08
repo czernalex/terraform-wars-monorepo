@@ -227,7 +227,7 @@ return authenticator names as follows:
 import type { StatusOK } from './statusOK';
 import type { TOTPAuthenticator } from './tOTPAuthenticator';
 
-export type TOTPAuthenticatorResponse = {
-  status: StatusOK;
-  data: TOTPAuthenticator;
-};
+export interface TOTPAuthenticatorResponse {
+    status: StatusOK;
+    data: TOTPAuthenticator;
+}

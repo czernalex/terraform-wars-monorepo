@@ -224,95 +224,180 @@ return authenticator names as follows:
     }
  * OpenAPI spec version: 1
  */
-import {
-  faker
-} from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 
-import {
-  HttpResponse,
-  delay,
-  http
-} from 'msw';
+import { HttpResponse, delay, http } from 'msw';
 
-import type {
-  EmailAddressesResponse,
-  StatusOKResponse
-} from '.././schemas';
+import type { EmailAddressesResponse, StatusOKResponse } from '.././schemas';
 
+export const getGetAllauthBrowserV1AccountEmailResponseMock = (
+    overrideResponse: Partial<EmailAddressesResponse> = {},
+): EmailAddressesResponse => ({
+    status: faker.helpers.arrayElement([200] as const),
+    data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
+        email: faker.string.alpha(20),
+        primary: faker.datatype.boolean(),
+        verified: faker.datatype.boolean(),
+    })),
+    ...overrideResponse,
+});
 
-export const getGetAllauthBrowserV1AccountEmailResponseMock = (overrideResponse: Partial< EmailAddressesResponse > = {}): EmailAddressesResponse => ({status: faker.helpers.arrayElement([200] as const), data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({email: faker.string.alpha(20), primary: faker.datatype.boolean(), verified: faker.datatype.boolean()})), ...overrideResponse})
+export const getPostAllauthBrowserV1AccountEmailResponseMock = (
+    overrideResponse: Partial<EmailAddressesResponse> = {},
+): EmailAddressesResponse => ({
+    status: faker.helpers.arrayElement([200] as const),
+    data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
+        email: faker.string.alpha(20),
+        primary: faker.datatype.boolean(),
+        verified: faker.datatype.boolean(),
+    })),
+    ...overrideResponse,
+});
 
-export const getPostAllauthBrowserV1AccountEmailResponseMock = (overrideResponse: Partial< EmailAddressesResponse > = {}): EmailAddressesResponse => ({status: faker.helpers.arrayElement([200] as const), data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({email: faker.string.alpha(20), primary: faker.datatype.boolean(), verified: faker.datatype.boolean()})), ...overrideResponse})
+export const getPutAllauthBrowserV1AccountEmailResponseMock = (
+    overrideResponse: Partial<StatusOKResponse> = {},
+): StatusOKResponse => ({ status: faker.helpers.arrayElement([200] as const), ...overrideResponse });
 
-export const getPutAllauthBrowserV1AccountEmailResponseMock = (overrideResponse: Partial< StatusOKResponse > = {}): StatusOKResponse => ({status: faker.helpers.arrayElement([200] as const), ...overrideResponse})
+export const getPatchAllauthBrowserV1AccountEmailResponseMock = (
+    overrideResponse: Partial<EmailAddressesResponse> = {},
+): EmailAddressesResponse => ({
+    status: faker.helpers.arrayElement([200] as const),
+    data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
+        email: faker.string.alpha(20),
+        primary: faker.datatype.boolean(),
+        verified: faker.datatype.boolean(),
+    })),
+    ...overrideResponse,
+});
 
-export const getPatchAllauthBrowserV1AccountEmailResponseMock = (overrideResponse: Partial< EmailAddressesResponse > = {}): EmailAddressesResponse => ({status: faker.helpers.arrayElement([200] as const), data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({email: faker.string.alpha(20), primary: faker.datatype.boolean(), verified: faker.datatype.boolean()})), ...overrideResponse})
+export const getDeleteAllauthBrowserV1AccountEmailResponseMock = (
+    overrideResponse: Partial<EmailAddressesResponse> = {},
+): EmailAddressesResponse => ({
+    status: faker.helpers.arrayElement([200] as const),
+    data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
+        email: faker.string.alpha(20),
+        primary: faker.datatype.boolean(),
+        verified: faker.datatype.boolean(),
+    })),
+    ...overrideResponse,
+});
 
-export const getDeleteAllauthBrowserV1AccountEmailResponseMock = (overrideResponse: Partial< EmailAddressesResponse > = {}): EmailAddressesResponse => ({status: faker.helpers.arrayElement([200] as const), data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({email: faker.string.alpha(20), primary: faker.datatype.boolean(), verified: faker.datatype.boolean()})), ...overrideResponse})
+export const getGetAllauthBrowserV1AccountEmailMockHandler = (
+    overrideResponse?:
+        | EmailAddressesResponse
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0],
+          ) => Promise<EmailAddressesResponse> | EmailAddressesResponse),
+) => {
+    return http.get('*/_allauth/browser/v1/account/email', async (info) => {
+        await delay(1000);
 
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getGetAllauthBrowserV1AccountEmailResponseMock(),
+            ),
+            { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+    });
+};
 
-export const getGetAllauthBrowserV1AccountEmailMockHandler = (overrideResponse?: EmailAddressesResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<EmailAddressesResponse> | EmailAddressesResponse)) => {
-  return http.get('*/_allauth/browser/v1/account/email', async (info) => {await delay(1000);
+export const getPostAllauthBrowserV1AccountEmailMockHandler = (
+    overrideResponse?:
+        | EmailAddressesResponse
+        | ((
+              info: Parameters<Parameters<typeof http.post>[1]>[0],
+          ) => Promise<EmailAddressesResponse> | EmailAddressesResponse),
+) => {
+    return http.post('*/_allauth/browser/v1/account/email', async (info) => {
+        await delay(1000);
 
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-            : getGetAllauthBrowserV1AccountEmailResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
-  })
-}
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getPostAllauthBrowserV1AccountEmailResponseMock(),
+            ),
+            { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+    });
+};
 
-export const getPostAllauthBrowserV1AccountEmailMockHandler = (overrideResponse?: EmailAddressesResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<EmailAddressesResponse> | EmailAddressesResponse)) => {
-  return http.post('*/_allauth/browser/v1/account/email', async (info) => {await delay(1000);
+export const getPutAllauthBrowserV1AccountEmailMockHandler = (
+    overrideResponse?:
+        | StatusOKResponse
+        | ((info: Parameters<Parameters<typeof http.put>[1]>[0]) => Promise<StatusOKResponse> | StatusOKResponse),
+) => {
+    return http.put('*/_allauth/browser/v1/account/email', async (info) => {
+        await delay(1000);
 
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-            : getPostAllauthBrowserV1AccountEmailResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
-  })
-}
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getPutAllauthBrowserV1AccountEmailResponseMock(),
+            ),
+            { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+    });
+};
 
-export const getPutAllauthBrowserV1AccountEmailMockHandler = (overrideResponse?: StatusOKResponse | ((info: Parameters<Parameters<typeof http.put>[1]>[0]) => Promise<StatusOKResponse> | StatusOKResponse)) => {
-  return http.put('*/_allauth/browser/v1/account/email', async (info) => {await delay(1000);
+export const getPatchAllauthBrowserV1AccountEmailMockHandler = (
+    overrideResponse?:
+        | EmailAddressesResponse
+        | ((
+              info: Parameters<Parameters<typeof http.patch>[1]>[0],
+          ) => Promise<EmailAddressesResponse> | EmailAddressesResponse),
+) => {
+    return http.patch('*/_allauth/browser/v1/account/email', async (info) => {
+        await delay(1000);
 
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-            : getPutAllauthBrowserV1AccountEmailResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
-  })
-}
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getPatchAllauthBrowserV1AccountEmailResponseMock(),
+            ),
+            { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+    });
+};
 
-export const getPatchAllauthBrowserV1AccountEmailMockHandler = (overrideResponse?: EmailAddressesResponse | ((info: Parameters<Parameters<typeof http.patch>[1]>[0]) => Promise<EmailAddressesResponse> | EmailAddressesResponse)) => {
-  return http.patch('*/_allauth/browser/v1/account/email', async (info) => {await delay(1000);
+export const getDeleteAllauthBrowserV1AccountEmailMockHandler = (
+    overrideResponse?:
+        | EmailAddressesResponse
+        | ((
+              info: Parameters<Parameters<typeof http.delete>[1]>[0],
+          ) => Promise<EmailAddressesResponse> | EmailAddressesResponse),
+) => {
+    return http.delete('*/_allauth/browser/v1/account/email', async (info) => {
+        await delay(1000);
 
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-            : getPatchAllauthBrowserV1AccountEmailResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
-  })
-}
-
-export const getDeleteAllauthBrowserV1AccountEmailMockHandler = (overrideResponse?: EmailAddressesResponse | ((info: Parameters<Parameters<typeof http.delete>[1]>[0]) => Promise<EmailAddressesResponse> | EmailAddressesResponse)) => {
-  return http.delete('*/_allauth/browser/v1/account/email', async (info) => {await delay(1000);
-
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-            : getDeleteAllauthBrowserV1AccountEmailResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
-  })
-}
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getDeleteAllauthBrowserV1AccountEmailResponseMock(),
+            ),
+            { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+    });
+};
 export const getAccountEmailMock = () => [
-  getGetAllauthBrowserV1AccountEmailMockHandler(),
-  getPostAllauthBrowserV1AccountEmailMockHandler(),
-  getPutAllauthBrowserV1AccountEmailMockHandler(),
-  getPatchAllauthBrowserV1AccountEmailMockHandler(),
-  getDeleteAllauthBrowserV1AccountEmailMockHandler()]
+    getGetAllauthBrowserV1AccountEmailMockHandler(),
+    getPostAllauthBrowserV1AccountEmailMockHandler(),
+    getPutAllauthBrowserV1AccountEmailMockHandler(),
+    getPatchAllauthBrowserV1AccountEmailMockHandler(),
+    getDeleteAllauthBrowserV1AccountEmailMockHandler(),
+];

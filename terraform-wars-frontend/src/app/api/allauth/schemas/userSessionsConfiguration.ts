@@ -230,7 +230,7 @@ return authenticator names as follows:
 
  */
 export interface UserSessionsConfiguration {
-  /** Matches `settings.USERSESSIONS_TRACK_ACTIVITY`.
- */
-  track_activity: boolean;
+    /** Matches `settings.USERSESSIONS_TRACK_ACTIVITY`.
+     */
+    track_activity: boolean;
 }

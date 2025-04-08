@@ -225,10 +225,9 @@ return authenticator names as follows:
  * OpenAPI spec version: 1
  */
 
-export type TOTPAuthenticatorNotFoundResponseStatus = typeof TOTPAuthenticatorNotFoundResponseStatus[keyof typeof TOTPAuthenticatorNotFoundResponseStatus];
+export type TOTPAuthenticatorNotFoundResponseStatus =
+    (typeof TOTPAuthenticatorNotFoundResponseStatus)[keyof typeof TOTPAuthenticatorNotFoundResponseStatus];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TOTPAuthenticatorNotFoundResponseStatus = {
-  NUMBER_404: 404,
+    NUMBER_404: 404,
 } as const;

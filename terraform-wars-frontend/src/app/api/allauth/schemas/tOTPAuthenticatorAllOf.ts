@@ -226,6 +226,6 @@ return authenticator names as follows:
  */
 import type { TOTPAuthenticatorAllOfType } from './tOTPAuthenticatorAllOfType';
 
-export type TOTPAuthenticatorAllOf = {
-  type: TOTPAuthenticatorAllOfType;
-};
+export interface TOTPAuthenticatorAllOf {
+    type: TOTPAuthenticatorAllOfType;
+}

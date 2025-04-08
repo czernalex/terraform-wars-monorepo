@@ -227,7 +227,7 @@ return authenticator names as follows:
 import type { Password } from './password';
 
 export interface ResetPassword {
-  /** The password reset key */
-  key: string;
-  password: Password;
+    /** The password reset key */
+    key: string;
+    password: Password;
 }

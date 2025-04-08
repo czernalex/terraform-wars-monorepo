@@ -229,9 +229,9 @@ import type { Process } from './process';
 import type { ProviderTokenToken } from './providerTokenToken';
 
 export interface ProviderToken {
-  provider: ProviderID;
-  process: Process;
-  /** The token.
- */
-  token: ProviderTokenToken;
+    provider: ProviderID;
+    process: Process;
+    /** The token.
+     */
+    token: ProviderTokenToken;
 }

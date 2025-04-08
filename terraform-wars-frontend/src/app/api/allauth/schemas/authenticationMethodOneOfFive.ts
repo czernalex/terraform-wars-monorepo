@@ -229,9 +229,9 @@ import type { Timestamp } from './timestamp';
 import type { ProviderID } from './providerID';
 import type { ProviderAccountID } from './providerAccountID';
 
-export type AuthenticationMethodOneOfFive = {
-  method: AuthenticationMethodOneOfFiveMethod;
-  at: Timestamp;
-  provider: ProviderID;
-  uid: ProviderAccountID;
-};
+export interface AuthenticationMethodOneOfFive {
+    method: AuthenticationMethodOneOfFiveMethod;
+    at: Timestamp;
+    provider: ProviderID;
+    uid: ProviderAccountID;
+}

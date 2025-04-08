@@ -227,5 +227,5 @@ return authenticator names as follows:
 import type { WebAuthnCredentialCreationOptionsCreationOptions } from './webAuthnCredentialCreationOptionsCreationOptions';
 
 export interface WebAuthnCredentialCreationOptions {
-  creation_options: WebAuthnCredentialCreationOptionsCreationOptions;
+    creation_options: WebAuthnCredentialCreationOptionsCreationOptions;
 }

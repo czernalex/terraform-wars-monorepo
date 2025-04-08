@@ -226,6 +226,6 @@ return authenticator names as follows:
  */
 import type { Phone } from './phone';
 
-export type LoginAnyOfThree = {
-  phone: Phone;
-};
+export interface LoginAnyOfThree {
+    phone: Phone;
+}

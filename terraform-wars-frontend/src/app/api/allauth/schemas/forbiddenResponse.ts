@@ -227,5 +227,5 @@ return authenticator names as follows:
 import type { ForbiddenResponseStatus } from './forbiddenResponseStatus';
 
 export interface ForbiddenResponse {
-  status: ForbiddenResponseStatus;
+    status: ForbiddenResponseStatus;
 }

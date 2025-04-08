@@ -226,6 +226,6 @@ return authenticator names as follows:
  */
 import type { Username } from './username';
 
-export type LoginAnyOf = {
-  username: Username;
-};
+export interface LoginAnyOf {
+    username: Username;
+}

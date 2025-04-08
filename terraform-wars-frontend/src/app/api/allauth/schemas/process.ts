@@ -234,11 +234,9 @@ account will be connected to the list of provider accounts for the
 currently authenticated user.
 
  */
-export type Process = typeof Process[keyof typeof Process];
+export type Process = (typeof Process)[keyof typeof Process];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const Process = {
-  login: 'login',
-  connect: 'connect',
+    login: 'login',
+    connect: 'connect',
 } as const;

@@ -224,94 +224,70 @@ return authenticator names as follows:
     }
  * OpenAPI spec version: 1
  */
-import {
-  HttpClient
-} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import type {
-  HttpContext,
-  HttpEvent,
-  HttpHeaders,
-  HttpParams,
-  HttpResponse as AngularHttpResponse
+    HttpContext,
+    HttpEvent,
+    HttpHeaders,
+    HttpParams,
+    HttpResponse as AngularHttpResponse,
 } from '@angular/common/http';
 
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  Observable
-} from 'rxjs';
+import { Observable } from 'rxjs';
 
-import type {
-  AuthenticatedResponse
-} from '.././schemas';
+import type { AuthenticatedResponse } from '.././schemas';
 
-
-
-type HttpClientOptions = {
-  headers?: HttpHeaders | {
-      [header: string]: string | string[];
-  };
-  context?: HttpContext;
-  observe?: any;
-  params?: HttpParams | {
-    [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-  };
-  reportProgress?: boolean;
-  responseType?: any;
-  withCredentials?: boolean;
-};
-
-
+interface HttpClientOptions {
+    headers?: HttpHeaders | Record<string, string | string[]>;
+    context?: HttpContext;
+    observe?: any;
+    params?: HttpParams | Record<string, string | number | boolean | readonly (string | number | boolean)[]>;
+    reportProgress?: boolean;
+    responseType?: any;
+    withCredentials?: boolean;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationCurrentSessionService {
-  constructor(
-    private http: HttpClient,
-  ) {}/**
+    constructor(private http: HttpClient) {} /**
  * Retrieve information about the authentication status for the current
 session.
 
  * @summary Get authentication status
 
  */
- getAllauthBrowserV1AuthSession<TData = AuthenticatedResponse>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     getAllauthBrowserV1AuthSession<TData = AuthenticatedResponse>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     getAllauthBrowserV1AuthSession<TData = AuthenticatedResponse>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;getAllauthBrowserV1AuthSession<TData = AuthenticatedResponse>(
-     options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.get<TData>(
-      `/_allauth/browser/v1/auth/session`,options
-    );
-  }
-/**
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    getAllauthBrowserV1AuthSession<TData = AuthenticatedResponse>(
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    getAllauthBrowserV1AuthSession<TData = AuthenticatedResponse>(options?: HttpClientOptions): Observable<TData> {
+        return this.http.get<TData>(`/_allauth/browser/v1/auth/session`, options);
+    }
+    /**
  * Logs out the user from the current session.
 
  * @summary Logout
  */
- deleteAllauthBrowserV1AuthSession<TData = unknown>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     deleteAllauthBrowserV1AuthSession<TData = unknown>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     deleteAllauthBrowserV1AuthSession<TData = unknown>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;deleteAllauthBrowserV1AuthSession<TData = unknown>(
-     options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.delete<TData>(
-      `/_allauth/browser/v1/auth/session`,options
-    );
-  }
-};
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    deleteAllauthBrowserV1AuthSession<TData = unknown>(
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    deleteAllauthBrowserV1AuthSession<TData = unknown>(options?: HttpClientOptions): Observable<TData> {
+        return this.http.delete<TData>(`/_allauth/browser/v1/auth/session`, options);
+    }
+}
 
-export type GetAllauthBrowserV1AuthSessionClientResult = NonNullable<AuthenticatedResponse>
-export type DeleteAllauthBrowserV1AuthSessionClientResult = NonNullable<unknown>
+export type GetAllauthBrowserV1AuthSessionClientResult = NonNullable<AuthenticatedResponse>;
+export type DeleteAllauthBrowserV1AuthSessionClientResult = NonNullable<unknown>;

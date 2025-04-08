@@ -230,12 +230,12 @@ import type { ClientID } from './clientID';
  * The token.
 
  */
-export type ProviderTokenToken = {
-  client_id: ClientID;
-  /** The ID token.
- */
-  id_token?: string;
-  /** The access token.
- */
-  access_token?: string;
-};
+export interface ProviderTokenToken {
+    client_id: ClientID;
+    /** The ID token.
+     */
+    id_token?: string;
+    /** The access token.
+     */
+    access_token?: string;
+}

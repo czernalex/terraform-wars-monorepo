@@ -224,56 +224,40 @@ return authenticator names as follows:
     }
  * OpenAPI spec version: 1
  */
-import {
-  HttpClient
-} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import type {
-  HttpContext,
-  HttpEvent,
-  HttpHeaders,
-  HttpParams,
-  HttpResponse as AngularHttpResponse
+    HttpContext,
+    HttpEvent,
+    HttpHeaders,
+    HttpParams,
+    HttpResponse as AngularHttpResponse,
 } from '@angular/common/http';
 
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  Observable
-} from 'rxjs';
+import { Observable } from 'rxjs';
 
 import type {
-  AuthenticatedResponse,
-  ProviderRedirectBody,
-  ProviderSignupBody,
-  ProviderSignupResponse,
-  ProviderTokenBody
+    AuthenticatedResponse,
+    ProviderRedirectBody,
+    ProviderSignupBody,
+    ProviderSignupResponse,
+    ProviderTokenBody,
 } from '.././schemas';
 
-
-
-type HttpClientOptions = {
-  headers?: HttpHeaders | {
-      [header: string]: string | string[];
-  };
-  context?: HttpContext;
-  observe?: any;
-  params?: HttpParams | {
-    [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-  };
-  reportProgress?: boolean;
-  responseType?: any;
-  withCredentials?: boolean;
-};
-
-
+interface HttpClientOptions {
+    headers?: HttpHeaders | Record<string, string | string[]>;
+    context?: HttpContext;
+    observe?: any;
+    params?: HttpParams | Record<string, string | number | boolean | readonly (string | number | boolean)[]>;
+    reportProgress?: boolean;
+    responseType?: any;
+    withCredentials?: boolean;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationProvidersService {
-  constructor(
-    private http: HttpClient,
-  ) {}/**
+    constructor(private http: HttpClient) {} /**
  * Initiates the third-party provider authentication redirect flow. As calling
 this endpoint results in a user facing redirect (302), this call is only
 available in a browser, and must be called in a synchronous (non-XHR)
@@ -281,27 +265,30 @@ manner.
 
  * @summary Provider redirect
  */
- postAllauthBrowserV1AuthProviderRedirect<TData = unknown>(
-    providerRedirectBody: ProviderRedirectBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     postAllauthBrowserV1AuthProviderRedirect<TData = unknown>(
-    providerRedirectBody: ProviderRedirectBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        providerRedirectBody: ProviderRedirectBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     postAllauthBrowserV1AuthProviderRedirect<TData = unknown>(
-    providerRedirectBody: ProviderRedirectBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;postAllauthBrowserV1AuthProviderRedirect<TData = unknown>(
-    providerRedirectBody: ProviderRedirectBody, options?: HttpClientOptions
-  ): Observable<TData>  {const formUrlEncoded = new URLSearchParams();
-formUrlEncoded.append('provider', providerRedirectBody.provider)
-formUrlEncoded.append('callback_url', providerRedirectBody.callback_url)
-formUrlEncoded.append('process', providerRedirectBody.process)
+        providerRedirectBody: ProviderRedirectBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    postAllauthBrowserV1AuthProviderRedirect<TData = unknown>(
+        providerRedirectBody: ProviderRedirectBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    postAllauthBrowserV1AuthProviderRedirect<TData = unknown>(
+        providerRedirectBody: ProviderRedirectBody,
+        options?: HttpClientOptions,
+    ): Observable<TData> {
+        const formUrlEncoded = new URLSearchParams();
+        formUrlEncoded.append('provider', providerRedirectBody.provider);
+        formUrlEncoded.append('callback_url', providerRedirectBody.callback_url);
+        formUrlEncoded.append('process', providerRedirectBody.process);
 
-    return this.http.post<TData>(
-      `/_allauth/browser/v1/auth/provider/redirect`,
-      formUrlEncoded,options
-    );
-  }
-/**
+        return this.http.post<TData>(`/_allauth/browser/v1/auth/provider/redirect`, formUrlEncoded, options);
+    }
+    /**
  * Authenticates with a third-party provider using provider tokens received
 by other means. For example, in case of a mobile app, the authentication
 flow runs completely on the device itself, without any interaction with
@@ -311,23 +298,25 @@ via this endpoint to authenticate on the server.
 
  * @summary Provider token
  */
- postAllauthBrowserV1AuthProviderToken<TData = AuthenticatedResponse>(
-    providerTokenBody: ProviderTokenBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     postAllauthBrowserV1AuthProviderToken<TData = AuthenticatedResponse>(
-    providerTokenBody: ProviderTokenBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        providerTokenBody: ProviderTokenBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     postAllauthBrowserV1AuthProviderToken<TData = AuthenticatedResponse>(
-    providerTokenBody: ProviderTokenBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;postAllauthBrowserV1AuthProviderToken<TData = AuthenticatedResponse>(
-    providerTokenBody: ProviderTokenBody, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.post<TData>(
-      `/_allauth/browser/v1/auth/provider/token`,
-      providerTokenBody,options
-    );
-  }
-/**
+        providerTokenBody: ProviderTokenBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    postAllauthBrowserV1AuthProviderToken<TData = AuthenticatedResponse>(
+        providerTokenBody: ProviderTokenBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    postAllauthBrowserV1AuthProviderToken<TData = AuthenticatedResponse>(
+        providerTokenBody: ProviderTokenBody,
+        options?: HttpClientOptions,
+    ): Observable<TData> {
+        return this.http.post<TData>(`/_allauth/browser/v1/auth/provider/token`, providerTokenBody, options);
+    }
+    /**
  * If, while signing up using a third-party provider account, there is
 insufficient information received from the provider to automatically
 complete the signup process, an additional step is needed to complete
@@ -337,22 +326,21 @@ can be retrieved via this endpoint.
 
  * @summary Provider signup information
  */
- getAllauthBrowserV1AuthProviderSignup<TData = ProviderSignupResponse>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     getAllauthBrowserV1AuthProviderSignup<TData = ProviderSignupResponse>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     getAllauthBrowserV1AuthProviderSignup<TData = ProviderSignupResponse>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;getAllauthBrowserV1AuthProviderSignup<TData = ProviderSignupResponse>(
-     options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.get<TData>(
-      `/_allauth/browser/v1/auth/provider/signup`,options
-    );
-  }
-/**
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    getAllauthBrowserV1AuthProviderSignup<TData = ProviderSignupResponse>(
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    getAllauthBrowserV1AuthProviderSignup<TData = ProviderSignupResponse>(
+        options?: HttpClientOptions,
+    ): Observable<TData> {
+        return this.http.get<TData>(`/_allauth/browser/v1/auth/provider/signup`, options);
+    }
+    /**
  * If, while signing up using a third-party provider account, there is
 insufficient information received from the provider to automatically
 complete the signup process, an additional step is needed to complete
@@ -360,25 +348,27 @@ the missing data before the user is fully signed up and authenticated.
 
  * @summary Provider signup
  */
- postAllauthBrowserV1AuthProviderSignup<TData = AuthenticatedResponse>(
-    providerSignupBody: ProviderSignupBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     postAllauthBrowserV1AuthProviderSignup<TData = AuthenticatedResponse>(
-    providerSignupBody: ProviderSignupBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        providerSignupBody: ProviderSignupBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     postAllauthBrowserV1AuthProviderSignup<TData = AuthenticatedResponse>(
-    providerSignupBody: ProviderSignupBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;postAllauthBrowserV1AuthProviderSignup<TData = AuthenticatedResponse>(
-    providerSignupBody: ProviderSignupBody, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.post<TData>(
-      `/_allauth/browser/v1/auth/provider/signup`,
-      providerSignupBody,options
-    );
-  }
-};
+        providerSignupBody: ProviderSignupBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    postAllauthBrowserV1AuthProviderSignup<TData = AuthenticatedResponse>(
+        providerSignupBody: ProviderSignupBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    postAllauthBrowserV1AuthProviderSignup<TData = AuthenticatedResponse>(
+        providerSignupBody: ProviderSignupBody,
+        options?: HttpClientOptions,
+    ): Observable<TData> {
+        return this.http.post<TData>(`/_allauth/browser/v1/auth/provider/signup`, providerSignupBody, options);
+    }
+}
 
-export type PostAllauthBrowserV1AuthProviderRedirectClientResult = NonNullable<unknown>
-export type PostAllauthBrowserV1AuthProviderTokenClientResult = NonNullable<AuthenticatedResponse>
-export type GetAllauthBrowserV1AuthProviderSignupClientResult = NonNullable<ProviderSignupResponse>
-export type PostAllauthBrowserV1AuthProviderSignupClientResult = NonNullable<AuthenticatedResponse>
+export type PostAllauthBrowserV1AuthProviderRedirectClientResult = NonNullable<unknown>;
+export type PostAllauthBrowserV1AuthProviderTokenClientResult = NonNullable<AuthenticatedResponse>;
+export type GetAllauthBrowserV1AuthProviderSignupClientResult = NonNullable<ProviderSignupResponse>;
+export type PostAllauthBrowserV1AuthProviderSignupClientResult = NonNullable<AuthenticatedResponse>;

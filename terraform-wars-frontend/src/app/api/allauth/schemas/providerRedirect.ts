@@ -228,9 +228,9 @@ import type { ProviderID } from './providerID';
 import type { Process } from './process';
 
 export interface ProviderRedirect {
-  provider: ProviderID;
-  /** The URL to return to after the redirect flow is complete.
- */
-  callback_url: string;
-  process: Process;
+    provider: ProviderID;
+    /** The URL to return to after the redirect flow is complete.
+     */
+    callback_url: string;
+    process: Process;
 }

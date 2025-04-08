@@ -227,7 +227,7 @@ return authenticator names as follows:
 import type { StatusOK } from './statusOK';
 import type { EmailAddress } from './emailAddress';
 
-export type EmailAddressesResponse = {
-  status: StatusOK;
-  data: EmailAddress[];
-};
+export interface EmailAddressesResponse {
+    status: StatusOK;
+    data: EmailAddress[];
+}

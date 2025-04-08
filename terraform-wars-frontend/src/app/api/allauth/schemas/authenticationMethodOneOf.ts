@@ -229,9 +229,9 @@ import type { Timestamp } from './timestamp';
 import type { Email } from './email';
 import type { Username } from './username';
 
-export type AuthenticationMethodOneOf = {
-  method: AuthenticationMethodOneOfMethod;
-  at: Timestamp;
-  email?: Email;
-  username?: Username;
-};
+export interface AuthenticationMethodOneOf {
+    method: AuthenticationMethodOneOfMethod;
+    at: Timestamp;
+    email?: Email;
+    username?: Username;
+}

@@ -226,7 +226,7 @@ return authenticator names as follows:
  */
 
 export interface EndSessions {
-  /** The IDs of the sessions that are to be ended.
- */
-  sessions: number[];
+    /** The IDs of the sessions that are to be ended.
+     */
+    sessions: number[];
 }

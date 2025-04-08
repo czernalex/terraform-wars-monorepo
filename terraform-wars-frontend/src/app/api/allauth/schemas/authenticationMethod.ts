@@ -229,4 +229,8 @@ import type { AuthenticationMethodOneOfThree } from './authenticationMethodOneOf
 import type { AuthenticationMethodOneOfFive } from './authenticationMethodOneOfFive';
 import type { AuthenticationMethodOneOfSeven } from './authenticationMethodOneOfSeven';
 
-export type AuthenticationMethod = AuthenticationMethodOneOf | AuthenticationMethodOneOfThree | AuthenticationMethodOneOfFive | AuthenticationMethodOneOfSeven;
+export type AuthenticationMethod =
+    | AuthenticationMethodOneOf
+    | AuthenticationMethodOneOfThree
+    | AuthenticationMethodOneOfFive
+    | AuthenticationMethodOneOfSeven;

@@ -228,6 +228,6 @@ import type { ErrorResponseStatus } from './errorResponseStatus';
 import type { ErrorResponseErrorsItem } from './errorResponseErrorsItem';
 
 export interface ErrorResponse {
-  status?: ErrorResponseStatus;
-  errors?: ErrorResponseErrorsItem[];
+    status?: ErrorResponseStatus;
+    errors?: ErrorResponseErrorsItem[];
 }

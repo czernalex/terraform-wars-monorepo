@@ -227,7 +227,7 @@ return authenticator names as follows:
 import type { ProviderID } from './providerID';
 import type { ProviderAccountID } from './providerAccountID';
 
-export type ProviderAccountBody = {
-  provider: ProviderID;
-  account: ProviderAccountID;
-};
+export interface ProviderAccountBody {
+    provider: ProviderID;
+    account: ProviderAccountID;
+}

@@ -229,11 +229,9 @@ return authenticator names as follows:
  * The type of authenticator.
 
  */
-export type AuthenticatorType = typeof AuthenticatorType[keyof typeof AuthenticatorType];
+export type AuthenticatorType = (typeof AuthenticatorType)[keyof typeof AuthenticatorType];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthenticatorType = {
-  recovery_codes: 'recovery_codes',
-  totp: 'totp',
+    recovery_codes: 'recovery_codes',
+    totp: 'totp',
 } as const;

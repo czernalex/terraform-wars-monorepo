@@ -226,6 +226,6 @@ return authenticator names as follows:
  */
 
 export interface VerifyPhone {
-  /** The phone verification code */
-  code: string;
+    /** The phone verification code */
+    code: string;
 }

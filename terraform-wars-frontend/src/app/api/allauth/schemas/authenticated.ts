@@ -228,8 +228,8 @@ import type { User } from './user';
 import type { AuthenticationMethod } from './authenticationMethod';
 
 export interface Authenticated {
-  user: User;
-  /** A list of methods used to authenticate.
- */
-  methods: AuthenticationMethod[];
+    user: User;
+    /** A list of methods used to authenticate.
+     */
+    methods: AuthenticationMethod[];
 }

@@ -226,8 +226,8 @@ return authenticator names as follows:
  */
 import type { AuthenticatorID } from './authenticatorID';
 
-export type DeleteWebAuthnBody = {
-  /** The IDs of the authenticator that are to be deleted.
- */
-  authenticators: AuthenticatorID[];
-};
+export interface DeleteWebAuthnBody {
+    /** The IDs of the authenticator that are to be deleted.
+     */
+    authenticators: AuthenticatorID[];
+}

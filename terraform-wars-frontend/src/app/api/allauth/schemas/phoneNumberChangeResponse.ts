@@ -228,6 +228,6 @@ import type { StatusAccepted } from './statusAccepted';
 import type { PhoneNumber } from './phoneNumber';
 
 export interface PhoneNumberChangeResponse {
-  status: StatusAccepted;
-  data: PhoneNumber[];
+    status: StatusAccepted;
+    data: PhoneNumber[];
 }

@@ -227,6 +227,6 @@ return authenticator names as follows:
 import type { Timestamp } from './timestamp';
 
 export interface BaseAuthenticator {
-  last_used_at: Timestamp;
-  created_at: Timestamp;
+    last_used_at: Timestamp;
+    created_at: Timestamp;
 }

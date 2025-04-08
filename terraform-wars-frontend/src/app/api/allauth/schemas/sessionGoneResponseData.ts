@@ -225,4 +225,4 @@ return authenticator names as follows:
  * OpenAPI spec version: 1
  */
 
-export type SessionGoneResponseData = { [key: string]: unknown };
+export type SessionGoneResponseData = Record<string, unknown>;

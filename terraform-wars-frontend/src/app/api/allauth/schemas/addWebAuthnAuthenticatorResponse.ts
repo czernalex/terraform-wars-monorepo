@@ -228,8 +228,8 @@ import type { StatusOK } from './statusOK';
 import type { WebAuthnAuthenticator } from './webAuthnAuthenticator';
 import type { AddWebAuthnAuthenticatorResponseMeta } from './addWebAuthnAuthenticatorResponseMeta';
 
-export type AddWebAuthnAuthenticatorResponse = {
-  status: StatusOK;
-  data: WebAuthnAuthenticator;
-  meta: AddWebAuthnAuthenticatorResponseMeta;
-};
+export interface AddWebAuthnAuthenticatorResponse {
+    status: StatusOK;
+    data: WebAuthnAuthenticator;
+    meta: AddWebAuthnAuthenticatorResponseMeta;
+}

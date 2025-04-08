@@ -224,73 +224,56 @@ return authenticator names as follows:
     }
  * OpenAPI spec version: 1
  */
-import {
-  HttpClient
-} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import type {
-  HttpContext,
-  HttpEvent,
-  HttpHeaders,
-  HttpParams,
-  HttpResponse as AngularHttpResponse
+    HttpContext,
+    HttpEvent,
+    HttpHeaders,
+    HttpParams,
+    HttpResponse as AngularHttpResponse,
 } from '@angular/common/http';
 
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  Observable
-} from 'rxjs';
+import { Observable } from 'rxjs';
 
-import type {
-  AuthenticatedByCodeResponse,
-  ConfirmLoginCodeBody
-} from '.././schemas';
+import type { AuthenticatedByCodeResponse, ConfirmLoginCodeBody } from '.././schemas';
 
-
-
-type HttpClientOptions = {
-  headers?: HttpHeaders | {
-      [header: string]: string | string[];
-  };
-  context?: HttpContext;
-  observe?: any;
-  params?: HttpParams | {
-    [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-  };
-  reportProgress?: boolean;
-  responseType?: any;
-  withCredentials?: boolean;
-};
-
-
+interface HttpClientOptions {
+    headers?: HttpHeaders | Record<string, string | string[]>;
+    context?: HttpContext;
+    observe?: any;
+    params?: HttpParams | Record<string, string | number | boolean | readonly (string | number | boolean)[]>;
+    reportProgress?: boolean;
+    responseType?: any;
+    withCredentials?: boolean;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationLoginByCodeService {
-  constructor(
-    private http: HttpClient,
-  ) {}/**
+    constructor(private http: HttpClient) {} /**
  * Use this endpoint to pass along the received "special" login code.
 
  * @summary Confirm login code
  */
- postAllauthBrowserV1AuthCodeConfirm<TData = AuthenticatedByCodeResponse>(
-    confirmLoginCodeBody: ConfirmLoginCodeBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     postAllauthBrowserV1AuthCodeConfirm<TData = AuthenticatedByCodeResponse>(
-    confirmLoginCodeBody: ConfirmLoginCodeBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        confirmLoginCodeBody: ConfirmLoginCodeBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     postAllauthBrowserV1AuthCodeConfirm<TData = AuthenticatedByCodeResponse>(
-    confirmLoginCodeBody: ConfirmLoginCodeBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;postAllauthBrowserV1AuthCodeConfirm<TData = AuthenticatedByCodeResponse>(
-    confirmLoginCodeBody: ConfirmLoginCodeBody, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.post<TData>(
-      `/_allauth/browser/v1/auth/code/confirm`,
-      confirmLoginCodeBody,options
-    );
-  }
-};
+        confirmLoginCodeBody: ConfirmLoginCodeBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    postAllauthBrowserV1AuthCodeConfirm<TData = AuthenticatedByCodeResponse>(
+        confirmLoginCodeBody: ConfirmLoginCodeBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    postAllauthBrowserV1AuthCodeConfirm<TData = AuthenticatedByCodeResponse>(
+        confirmLoginCodeBody: ConfirmLoginCodeBody,
+        options?: HttpClientOptions,
+    ): Observable<TData> {
+        return this.http.post<TData>(`/_allauth/browser/v1/auth/code/confirm`, confirmLoginCodeBody, options);
+    }
+}
 
-export type PostAllauthBrowserV1AuthCodeConfirmClientResult = NonNullable<AuthenticatedByCodeResponse>
+export type PostAllauthBrowserV1AuthCodeConfirmClientResult = NonNullable<AuthenticatedByCodeResponse>;

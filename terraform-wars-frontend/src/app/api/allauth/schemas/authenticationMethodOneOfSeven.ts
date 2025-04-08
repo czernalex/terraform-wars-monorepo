@@ -228,9 +228,9 @@ import type { AuthenticationMethodOneOfSevenMethod } from './authenticationMetho
 import type { Timestamp } from './timestamp';
 import type { AuthenticatorType } from './authenticatorType';
 
-export type AuthenticationMethodOneOfSeven = {
-  method: AuthenticationMethodOneOfSevenMethod;
-  at: Timestamp;
-  type: AuthenticatorType;
-  reauthenticated?: boolean;
-};
+export interface AuthenticationMethodOneOfSeven {
+    method: AuthenticationMethodOneOfSevenMethod;
+    at: Timestamp;
+    type: AuthenticatorType;
+    reauthenticated?: boolean;
+}

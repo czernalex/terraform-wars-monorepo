@@ -227,11 +227,11 @@ return authenticator names as follows:
 import type { WebAuthnAuthenticatorAllOfType } from './webAuthnAuthenticatorAllOfType';
 import type { AuthenticatorID } from './authenticatorID';
 
-export type WebAuthnAuthenticatorAllOf = {
-  type: WebAuthnAuthenticatorAllOfType;
-  id: AuthenticatorID;
-  name: string;
-  /** Whether or not this authenticator represents a passkey. Absent if it is not specified.
- */
-  is_passwordless?: boolean;
-};
+export interface WebAuthnAuthenticatorAllOf {
+    type: WebAuthnAuthenticatorAllOfType;
+    id: AuthenticatorID;
+    name: string;
+    /** Whether or not this authenticator represents a passkey. Absent if it is not specified.
+     */
+    is_passwordless?: boolean;
+}

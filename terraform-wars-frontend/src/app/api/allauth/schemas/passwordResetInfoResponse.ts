@@ -227,7 +227,7 @@ return authenticator names as follows:
 import type { StatusOK } from './statusOK';
 import type { PasswordResetInfoResponseData } from './passwordResetInfoResponseData';
 
-export type PasswordResetInfoResponse = {
-  status: StatusOK;
-  data: PasswordResetInfoResponseData;
-};
+export interface PasswordResetInfoResponse {
+    status: StatusOK;
+    data: PasswordResetInfoResponseData;
+}

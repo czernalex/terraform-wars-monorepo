@@ -227,7 +227,7 @@ return authenticator names as follows:
 import type { TOTPAuthenticatorNotFoundResponseStatus } from './tOTPAuthenticatorNotFoundResponseStatus';
 import type { TOTPAuthenticatorNotFoundResponseMeta } from './tOTPAuthenticatorNotFoundResponseMeta';
 
-export type TOTPAuthenticatorNotFoundResponse = {
-  status: TOTPAuthenticatorNotFoundResponseStatus;
-  meta: TOTPAuthenticatorNotFoundResponseMeta;
-};
+export interface TOTPAuthenticatorNotFoundResponse {
+    status: TOTPAuthenticatorNotFoundResponseStatus;
+    meta: TOTPAuthenticatorNotFoundResponseMeta;
+}

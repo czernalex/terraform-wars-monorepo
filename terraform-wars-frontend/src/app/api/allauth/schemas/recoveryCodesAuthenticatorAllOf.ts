@@ -226,14 +226,14 @@ return authenticator names as follows:
  */
 import type { RecoveryCodesAuthenticatorAllOfType } from './recoveryCodesAuthenticatorAllOfType';
 
-export type RecoveryCodesAuthenticatorAllOf = {
-  /** The authenticator type.
- */
-  type: RecoveryCodesAuthenticatorAllOfType;
-  /** The total number of recovery codes that initially were available.
- */
-  total_code_count: number;
-  /** The number of recovery codes that are unused.
- */
-  unused_code_count: number;
-};
+export interface RecoveryCodesAuthenticatorAllOf {
+    /** The authenticator type.
+     */
+    type: RecoveryCodesAuthenticatorAllOfType;
+    /** The total number of recovery codes that initially were available.
+     */
+    total_code_count: number;
+    /** The number of recovery codes that are unused.
+     */
+    unused_code_count: number;
+}

@@ -226,6 +226,6 @@ return authenticator names as follows:
  */
 import type { AuthenticatorCode } from './authenticatorCode';
 
-export type SetupTOTPBody = {
-  code: AuthenticatorCode;
-};
+export interface SetupTOTPBody {
+    code: AuthenticatorCode;
+}
