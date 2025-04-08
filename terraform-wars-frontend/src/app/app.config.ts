@@ -13,6 +13,7 @@ import { withCredentialsInterceptor } from './core/interceptors/with-credentials
 import { CsrfTokenService } from './core/services/csrf-token.service';
 import * as Sentry from "@sentry/angular";
 import { AuthService } from './core/services/auth.service';
+import { sessionExpiredInterceptor } from './core/interceptors/session-expired.interceptor';
 
 registerLocaleData(en);
 
@@ -25,6 +26,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideHttpClient(
       withInterceptors([
+        sessionExpiredInterceptor,
         apiUrlInterceptor,
         withCredentialsInterceptor,
       ]),
