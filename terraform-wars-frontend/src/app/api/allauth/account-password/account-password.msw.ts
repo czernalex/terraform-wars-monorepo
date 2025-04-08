@@ -224,22 +224,17 @@ return authenticator names as follows:
     }
  * OpenAPI spec version: 1
  */
-import {
-  HttpResponse,
-  delay,
-  http
-} from 'msw';
+import { HttpResponse, delay, http } from 'msw';
 
-
-
-export const getPostAllauthBrowserV1AccountPasswordChangeMockHandler = (overrideResponse?: unknown | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<unknown> | unknown)) => {
-  return http.post('*/_allauth/browser/v1/account/password/change', async (info) => {await delay(1000);
-  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
-    return new HttpResponse(null,
-      { status: 200,
-
-      })
-  })
-}
-export const getAccountPasswordMock = () => [
-  getPostAllauthBrowserV1AccountPasswordChangeMockHandler()]
+export const getPostAllauthBrowserV1AccountPasswordChangeMockHandler = (
+    overrideResponse?: unknown | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<unknown> | unknown),
+) => {
+    return http.post('*/_allauth/browser/v1/account/password/change', async (info) => {
+        await delay(1000);
+        if (typeof overrideResponse === 'function') {
+            await overrideResponse(info);
+        }
+        return new HttpResponse(null, { status: 200 });
+    });
+};
+export const getAccountPasswordMock = () => [getPostAllauthBrowserV1AccountPasswordChangeMockHandler()];

@@ -226,9 +226,9 @@ return authenticator names as follows:
  */
 import type { Password } from './password';
 
-export type ChangePasswordBody = {
-  current_password?: Password;
-  /** The current password.
- */
-  new_password: string;
-};
+export interface ChangePasswordBody {
+    current_password?: Password;
+    /** The current password.
+     */
+    new_password: string;
+}

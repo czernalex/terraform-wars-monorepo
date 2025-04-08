@@ -228,8 +228,8 @@ import type { EmailAddress } from './emailAddress';
 import type { ProviderAccount } from './providerAccount';
 import type { User } from './user';
 
-export type ProviderSignupResponseData = {
-  email: EmailAddress[];
-  account: ProviderAccount;
-  user: User;
-};
+export interface ProviderSignupResponseData {
+    email: EmailAddress[];
+    account: ProviderAccount;
+    user: User;
+}

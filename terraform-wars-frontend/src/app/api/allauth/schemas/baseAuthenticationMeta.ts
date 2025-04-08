@@ -226,10 +226,10 @@ return authenticator names as follows:
  */
 
 export interface BaseAuthenticationMeta {
-  /** The session token (`app` clients only).
- */
-  session_token?: string;
-  /** The access token (`app` clients only).
- */
-  access_token?: string;
+    /** The session token (`app` clients only).
+     */
+    session_token?: string;
+    /** The access token (`app` clients only).
+     */
+    access_token?: string;
 }

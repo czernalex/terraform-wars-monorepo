@@ -227,7 +227,7 @@ return authenticator names as follows:
 import type { StatusOK } from './statusOK';
 import type { WebAuthnAuthenticator } from './webAuthnAuthenticator';
 
-export type WebAuthnAuthenticatorResponse = {
-  status: StatusOK;
-  data: WebAuthnAuthenticator;
-};
+export interface WebAuthnAuthenticatorResponse {
+    status: StatusOK;
+    data: WebAuthnAuthenticator;
+}

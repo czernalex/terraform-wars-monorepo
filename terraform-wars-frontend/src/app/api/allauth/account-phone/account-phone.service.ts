@@ -224,75 +224,52 @@ return authenticator names as follows:
     }
  * OpenAPI spec version: 1
  */
-import {
-  HttpClient
-} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import type {
-  HttpContext,
-  HttpEvent,
-  HttpHeaders,
-  HttpParams,
-  HttpResponse as AngularHttpResponse
+    HttpContext,
+    HttpEvent,
+    HttpHeaders,
+    HttpParams,
+    HttpResponse as AngularHttpResponse,
 } from '@angular/common/http';
 
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  Observable
-} from 'rxjs';
+import { Observable } from 'rxjs';
 
-import type {
-  PhoneBody,
-  PhoneNumberChangeResponse,
-  PhoneNumbersResponse
-} from '.././schemas';
+import type { PhoneBody, PhoneNumberChangeResponse, PhoneNumbersResponse } from '.././schemas';
 
-
-
-type HttpClientOptions = {
-  headers?: HttpHeaders | {
-      [header: string]: string | string[];
-  };
-  context?: HttpContext;
-  observe?: any;
-  params?: HttpParams | {
-    [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-  };
-  reportProgress?: boolean;
-  responseType?: any;
-  withCredentials?: boolean;
-};
-
-
+interface HttpClientOptions {
+    headers?: HttpHeaders | Record<string, string | string[]>;
+    context?: HttpContext;
+    observe?: any;
+    params?: HttpParams | Record<string, string | number | boolean | readonly (string | number | boolean)[]>;
+    reportProgress?: boolean;
+    responseType?: any;
+    withCredentials?: boolean;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AccountPhoneService {
-  constructor(
-    private http: HttpClient,
-  ) {}/**
+    constructor(private http: HttpClient) {} /**
  * Retrieves the phone number of the account, if any. Note that while the
 endpoint returns a list of phone numbers, at most one entry is returned.
 
  * @summary Get the phone number
  */
- getAllauthBrowserV1AccountPhone<TData = PhoneNumbersResponse>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     getAllauthBrowserV1AccountPhone<TData = PhoneNumbersResponse>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     getAllauthBrowserV1AccountPhone<TData = PhoneNumbersResponse>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;getAllauthBrowserV1AccountPhone<TData = PhoneNumbersResponse>(
-     options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.get<TData>(
-      `/_allauth/browser/v1/account/phone`,options
-    );
-  }
-/**
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    getAllauthBrowserV1AccountPhone<TData = PhoneNumbersResponse>(
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    getAllauthBrowserV1AccountPhone<TData = PhoneNumbersResponse>(options?: HttpClientOptions): Observable<TData> {
+        return this.http.get<TData>(`/_allauth/browser/v1/account/phone`, options);
+    }
+    /**
  * Initiate the phone number change process. After posting a new phone
 number, proceed with the phone verification endpoint to confirm the
 change of the phone number by posting the verification code.
@@ -300,23 +277,25 @@ change of the phone number by posting the verification code.
  * @summary Change the phone number
 
  */
- postAllauthBrowserV1AccountPhone<TData = PhoneNumberChangeResponse>(
-    phoneBody: PhoneBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     postAllauthBrowserV1AccountPhone<TData = PhoneNumberChangeResponse>(
-    phoneBody: PhoneBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        phoneBody: PhoneBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     postAllauthBrowserV1AccountPhone<TData = PhoneNumberChangeResponse>(
-    phoneBody: PhoneBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;postAllauthBrowserV1AccountPhone<TData = PhoneNumberChangeResponse>(
-    phoneBody: PhoneBody, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.post<TData>(
-      `/_allauth/browser/v1/account/phone`,
-      phoneBody,options
-    );
-  }
-};
+        phoneBody: PhoneBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    postAllauthBrowserV1AccountPhone<TData = PhoneNumberChangeResponse>(
+        phoneBody: PhoneBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    postAllauthBrowserV1AccountPhone<TData = PhoneNumberChangeResponse>(
+        phoneBody: PhoneBody,
+        options?: HttpClientOptions,
+    ): Observable<TData> {
+        return this.http.post<TData>(`/_allauth/browser/v1/account/phone`, phoneBody, options);
+    }
+}
 
-export type GetAllauthBrowserV1AccountPhoneClientResult = NonNullable<PhoneNumbersResponse>
-export type PostAllauthBrowserV1AccountPhoneClientResult = NonNullable<PhoneNumberChangeResponse>
+export type GetAllauthBrowserV1AccountPhoneClientResult = NonNullable<PhoneNumbersResponse>;
+export type PostAllauthBrowserV1AccountPhoneClientResult = NonNullable<PhoneNumberChangeResponse>;

@@ -230,6 +230,6 @@ return authenticator names as follows:
 
  */
 export interface PhoneNumber {
-  phone: string;
-  verified: boolean;
+    phone: string;
+    verified: boolean;
 }

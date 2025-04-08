@@ -224,52 +224,34 @@ return authenticator names as follows:
     }
  * OpenAPI spec version: 1
  */
-import {
-  HttpClient
-} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import type {
-  HttpContext,
-  HttpEvent,
-  HttpHeaders,
-  HttpParams,
-  HttpResponse as AngularHttpResponse
+    HttpContext,
+    HttpEvent,
+    HttpHeaders,
+    HttpParams,
+    HttpResponse as AngularHttpResponse,
 } from '@angular/common/http';
 
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  Observable
-} from 'rxjs';
+import { Observable } from 'rxjs';
 
-import type {
-  ChangePasswordBody
-} from '.././schemas';
+import type { ChangePasswordBody } from '.././schemas';
 
-
-
-type HttpClientOptions = {
-  headers?: HttpHeaders | {
-      [header: string]: string | string[];
-  };
-  context?: HttpContext;
-  observe?: any;
-  params?: HttpParams | {
-    [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-  };
-  reportProgress?: boolean;
-  responseType?: any;
-  withCredentials?: boolean;
-};
-
-
+interface HttpClientOptions {
+    headers?: HttpHeaders | Record<string, string | string[]>;
+    context?: HttpContext;
+    observe?: any;
+    params?: HttpParams | Record<string, string | number | boolean | readonly (string | number | boolean)[]>;
+    reportProgress?: boolean;
+    responseType?: any;
+    withCredentials?: boolean;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AccountPasswordService {
-  constructor(
-    private http: HttpClient,
-  ) {}/**
+    constructor(private http: HttpClient) {} /**
  * In order to change the password of an account, the current and new
 password must be provider.  However, accounts that were created by
 signing up using a third-party provider do not have a password set. In
@@ -277,22 +259,24 @@ that case, the current password is not required.
 
  * @summary Change password
  */
- postAllauthBrowserV1AccountPasswordChange<TData = unknown>(
-    changePasswordBody: ChangePasswordBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     postAllauthBrowserV1AccountPasswordChange<TData = unknown>(
-    changePasswordBody: ChangePasswordBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        changePasswordBody: ChangePasswordBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     postAllauthBrowserV1AccountPasswordChange<TData = unknown>(
-    changePasswordBody: ChangePasswordBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;postAllauthBrowserV1AccountPasswordChange<TData = unknown>(
-    changePasswordBody: ChangePasswordBody, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.post<TData>(
-      `/_allauth/browser/v1/account/password/change`,
-      changePasswordBody,options
-    );
-  }
-};
+        changePasswordBody: ChangePasswordBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    postAllauthBrowserV1AccountPasswordChange<TData = unknown>(
+        changePasswordBody: ChangePasswordBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    postAllauthBrowserV1AccountPasswordChange<TData = unknown>(
+        changePasswordBody: ChangePasswordBody,
+        options?: HttpClientOptions,
+    ): Observable<TData> {
+        return this.http.post<TData>(`/_allauth/browser/v1/account/password/change`, changePasswordBody, options);
+    }
+}
 
-export type PostAllauthBrowserV1AccountPasswordChangeClientResult = NonNullable<unknown>
+export type PostAllauthBrowserV1AccountPasswordChangeClientResult = NonNullable<unknown>;

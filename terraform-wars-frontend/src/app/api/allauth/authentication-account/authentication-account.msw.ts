@@ -224,114 +224,463 @@ return authenticator names as follows:
     }
  * OpenAPI spec version: 1
  */
-import {
-  faker
-} from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 
-import {
-  HttpResponse,
-  delay,
-  http
-} from 'msw';
+import { HttpResponse, delay, http } from 'msw';
 
-import {
-  AuthenticatorType
-} from '.././schemas';
+import { AuthenticatorType } from '.././schemas';
 import type {
-  AuthenticatedByPasswordResponse,
-  AuthenticatedResponse,
-  EmailVerificationInfoResponse
+    AuthenticatedByPasswordResponse,
+    AuthenticatedResponse,
+    EmailVerificationInfoResponse,
 } from '.././schemas';
 
+export const getPostAllauthBrowserV1AuthLoginResponseMock = (
+    overrideResponse: Partial<AuthenticatedByPasswordResponse> = {},
+): AuthenticatedByPasswordResponse => ({
+    status: faker.helpers.arrayElement([200] as const),
+    data: {
+        user: {
+            id: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    faker.number.int({ min: undefined, max: undefined }),
+                    faker.string.alpha(20),
+                ]),
+                undefined,
+            ]),
+            display: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+            has_usable_password: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]),
+            email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+            username: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+        },
+        methods: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() =>
+            faker.helpers.arrayElement([
+                {
+                    method: faker.helpers.arrayElement(['password'] as const),
+                    at: faker.number.int({ min: undefined, max: undefined }),
+                    email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+                    username: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+                },
+                {
+                    method: faker.helpers.arrayElement(['password'] as const),
+                    at: faker.number.int({ min: undefined, max: undefined }),
+                    reauthenticated: faker.datatype.boolean(),
+                },
+                {
+                    method: faker.helpers.arrayElement(['socialaccount'] as const),
+                    at: faker.number.int({ min: undefined, max: undefined }),
+                    provider: faker.string.alpha(20),
+                    uid: faker.string.alpha(20),
+                },
+                {
+                    method: faker.helpers.arrayElement(['mfa'] as const),
+                    at: faker.number.int({ min: undefined, max: undefined }),
+                    type: faker.helpers.arrayElement(Object.values(AuthenticatorType)),
+                    reauthenticated: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]),
+                },
+            ]),
+        ),
+    },
+    meta: {
+        ...{
+            session_token: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+            access_token: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+        },
+        ...{ is_authenticated: faker.datatype.boolean() },
+    },
+    ...overrideResponse,
+});
 
-export const getPostAllauthBrowserV1AuthLoginResponseMock = (overrideResponse: Partial< AuthenticatedByPasswordResponse > = {}): AuthenticatedByPasswordResponse => ({status: faker.helpers.arrayElement([200] as const), data: {user: {id: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}),faker.string.alpha(20),]), undefined]), display: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), has_usable_password: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), username: faker.helpers.arrayElement([faker.string.alpha(20), undefined])}, methods: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => (faker.helpers.arrayElement([{method: faker.helpers.arrayElement(['password'] as const), at: faker.number.int({min: undefined, max: undefined}), email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), username: faker.helpers.arrayElement([faker.string.alpha(20), undefined])},{method: faker.helpers.arrayElement(['password'] as const), at: faker.number.int({min: undefined, max: undefined}), reauthenticated: faker.datatype.boolean()},{method: faker.helpers.arrayElement(['socialaccount'] as const), at: faker.number.int({min: undefined, max: undefined}), provider: faker.string.alpha(20), uid: faker.string.alpha(20)},{method: faker.helpers.arrayElement(['mfa'] as const), at: faker.number.int({min: undefined, max: undefined}), type: faker.helpers.arrayElement(Object.values(AuthenticatorType)), reauthenticated: faker.helpers.arrayElement([faker.datatype.boolean(), undefined])},])))}, meta: {...{session_token: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), access_token: faker.helpers.arrayElement([faker.string.alpha(20), undefined])},...{is_authenticated: faker.datatype.boolean()},}, ...overrideResponse})
+export const getPostAllauthBrowserV1AuthSignupResponseMock = (
+    overrideResponse: Partial<AuthenticatedByPasswordResponse> = {},
+): AuthenticatedByPasswordResponse => ({
+    status: faker.helpers.arrayElement([200] as const),
+    data: {
+        user: {
+            id: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    faker.number.int({ min: undefined, max: undefined }),
+                    faker.string.alpha(20),
+                ]),
+                undefined,
+            ]),
+            display: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+            has_usable_password: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]),
+            email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+            username: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+        },
+        methods: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() =>
+            faker.helpers.arrayElement([
+                {
+                    method: faker.helpers.arrayElement(['password'] as const),
+                    at: faker.number.int({ min: undefined, max: undefined }),
+                    email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+                    username: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+                },
+                {
+                    method: faker.helpers.arrayElement(['password'] as const),
+                    at: faker.number.int({ min: undefined, max: undefined }),
+                    reauthenticated: faker.datatype.boolean(),
+                },
+                {
+                    method: faker.helpers.arrayElement(['socialaccount'] as const),
+                    at: faker.number.int({ min: undefined, max: undefined }),
+                    provider: faker.string.alpha(20),
+                    uid: faker.string.alpha(20),
+                },
+                {
+                    method: faker.helpers.arrayElement(['mfa'] as const),
+                    at: faker.number.int({ min: undefined, max: undefined }),
+                    type: faker.helpers.arrayElement(Object.values(AuthenticatorType)),
+                    reauthenticated: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]),
+                },
+            ]),
+        ),
+    },
+    meta: {
+        ...{
+            session_token: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+            access_token: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+        },
+        ...{ is_authenticated: faker.datatype.boolean() },
+    },
+    ...overrideResponse,
+});
 
-export const getPostAllauthBrowserV1AuthSignupResponseMock = (overrideResponse: Partial< AuthenticatedByPasswordResponse > = {}): AuthenticatedByPasswordResponse => ({status: faker.helpers.arrayElement([200] as const), data: {user: {id: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}),faker.string.alpha(20),]), undefined]), display: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), has_usable_password: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), username: faker.helpers.arrayElement([faker.string.alpha(20), undefined])}, methods: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => (faker.helpers.arrayElement([{method: faker.helpers.arrayElement(['password'] as const), at: faker.number.int({min: undefined, max: undefined}), email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), username: faker.helpers.arrayElement([faker.string.alpha(20), undefined])},{method: faker.helpers.arrayElement(['password'] as const), at: faker.number.int({min: undefined, max: undefined}), reauthenticated: faker.datatype.boolean()},{method: faker.helpers.arrayElement(['socialaccount'] as const), at: faker.number.int({min: undefined, max: undefined}), provider: faker.string.alpha(20), uid: faker.string.alpha(20)},{method: faker.helpers.arrayElement(['mfa'] as const), at: faker.number.int({min: undefined, max: undefined}), type: faker.helpers.arrayElement(Object.values(AuthenticatorType)), reauthenticated: faker.helpers.arrayElement([faker.datatype.boolean(), undefined])},])))}, meta: {...{session_token: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), access_token: faker.helpers.arrayElement([faker.string.alpha(20), undefined])},...{is_authenticated: faker.datatype.boolean()},}, ...overrideResponse})
+export const getGetAllauthBrowserV1AuthEmailVerifyResponseMock = (
+    overrideResponse: Partial<EmailVerificationInfoResponse> = {},
+): EmailVerificationInfoResponse => ({
+    status: faker.helpers.arrayElement([200] as const),
+    data: {
+        email: faker.string.alpha(20),
+        user: {
+            id: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    faker.number.int({ min: undefined, max: undefined }),
+                    faker.string.alpha(20),
+                ]),
+                undefined,
+            ]),
+            display: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+            has_usable_password: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]),
+            email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+            username: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+        },
+    },
+    meta: { is_authenticating: faker.datatype.boolean() },
+    ...overrideResponse,
+});
 
-export const getGetAllauthBrowserV1AuthEmailVerifyResponseMock = (overrideResponse: Partial< EmailVerificationInfoResponse > = {}): EmailVerificationInfoResponse => ({status: faker.helpers.arrayElement([200] as const), data: {email: faker.string.alpha(20), user: {id: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}),faker.string.alpha(20),]), undefined]), display: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), has_usable_password: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), username: faker.helpers.arrayElement([faker.string.alpha(20), undefined])}}, meta: {is_authenticating: faker.datatype.boolean()}, ...overrideResponse})
+export const getPostAllauthBrowserV1AuthEmailVerifyResponseMock = (
+    overrideResponse: Partial<AuthenticatedResponse> = {},
+): AuthenticatedResponse => ({
+    status: faker.helpers.arrayElement([200] as const),
+    data: {
+        user: {
+            id: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    faker.number.int({ min: undefined, max: undefined }),
+                    faker.string.alpha(20),
+                ]),
+                undefined,
+            ]),
+            display: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+            has_usable_password: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]),
+            email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+            username: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+        },
+        methods: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() =>
+            faker.helpers.arrayElement([
+                {
+                    method: faker.helpers.arrayElement(['password'] as const),
+                    at: faker.number.int({ min: undefined, max: undefined }),
+                    email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+                    username: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+                },
+                {
+                    method: faker.helpers.arrayElement(['password'] as const),
+                    at: faker.number.int({ min: undefined, max: undefined }),
+                    reauthenticated: faker.datatype.boolean(),
+                },
+                {
+                    method: faker.helpers.arrayElement(['socialaccount'] as const),
+                    at: faker.number.int({ min: undefined, max: undefined }),
+                    provider: faker.string.alpha(20),
+                    uid: faker.string.alpha(20),
+                },
+                {
+                    method: faker.helpers.arrayElement(['mfa'] as const),
+                    at: faker.number.int({ min: undefined, max: undefined }),
+                    type: faker.helpers.arrayElement(Object.values(AuthenticatorType)),
+                    reauthenticated: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]),
+                },
+            ]),
+        ),
+    },
+    meta: {
+        ...{
+            session_token: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+            access_token: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+        },
+        ...{ is_authenticated: faker.datatype.boolean() },
+    },
+    ...overrideResponse,
+});
 
-export const getPostAllauthBrowserV1AuthEmailVerifyResponseMock = (overrideResponse: Partial< AuthenticatedResponse > = {}): AuthenticatedResponse => ({status: faker.helpers.arrayElement([200] as const), data: {user: {id: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}),faker.string.alpha(20),]), undefined]), display: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), has_usable_password: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), username: faker.helpers.arrayElement([faker.string.alpha(20), undefined])}, methods: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => (faker.helpers.arrayElement([{method: faker.helpers.arrayElement(['password'] as const), at: faker.number.int({min: undefined, max: undefined}), email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), username: faker.helpers.arrayElement([faker.string.alpha(20), undefined])},{method: faker.helpers.arrayElement(['password'] as const), at: faker.number.int({min: undefined, max: undefined}), reauthenticated: faker.datatype.boolean()},{method: faker.helpers.arrayElement(['socialaccount'] as const), at: faker.number.int({min: undefined, max: undefined}), provider: faker.string.alpha(20), uid: faker.string.alpha(20)},{method: faker.helpers.arrayElement(['mfa'] as const), at: faker.number.int({min: undefined, max: undefined}), type: faker.helpers.arrayElement(Object.values(AuthenticatorType)), reauthenticated: faker.helpers.arrayElement([faker.datatype.boolean(), undefined])},])))}, meta: {...{session_token: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), access_token: faker.helpers.arrayElement([faker.string.alpha(20), undefined])},...{is_authenticated: faker.datatype.boolean()},}, ...overrideResponse})
+export const getPostAllauthBrowserV1AuthPhoneVerifyResponseMock = (
+    overrideResponse: Partial<AuthenticatedResponse> = {},
+): AuthenticatedResponse => ({
+    status: faker.helpers.arrayElement([200] as const),
+    data: {
+        user: {
+            id: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    faker.number.int({ min: undefined, max: undefined }),
+                    faker.string.alpha(20),
+                ]),
+                undefined,
+            ]),
+            display: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+            has_usable_password: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]),
+            email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+            username: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+        },
+        methods: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() =>
+            faker.helpers.arrayElement([
+                {
+                    method: faker.helpers.arrayElement(['password'] as const),
+                    at: faker.number.int({ min: undefined, max: undefined }),
+                    email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+                    username: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+                },
+                {
+                    method: faker.helpers.arrayElement(['password'] as const),
+                    at: faker.number.int({ min: undefined, max: undefined }),
+                    reauthenticated: faker.datatype.boolean(),
+                },
+                {
+                    method: faker.helpers.arrayElement(['socialaccount'] as const),
+                    at: faker.number.int({ min: undefined, max: undefined }),
+                    provider: faker.string.alpha(20),
+                    uid: faker.string.alpha(20),
+                },
+                {
+                    method: faker.helpers.arrayElement(['mfa'] as const),
+                    at: faker.number.int({ min: undefined, max: undefined }),
+                    type: faker.helpers.arrayElement(Object.values(AuthenticatorType)),
+                    reauthenticated: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]),
+                },
+            ]),
+        ),
+    },
+    meta: {
+        ...{
+            session_token: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+            access_token: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+        },
+        ...{ is_authenticated: faker.datatype.boolean() },
+    },
+    ...overrideResponse,
+});
 
-export const getPostAllauthBrowserV1AuthPhoneVerifyResponseMock = (overrideResponse: Partial< AuthenticatedResponse > = {}): AuthenticatedResponse => ({status: faker.helpers.arrayElement([200] as const), data: {user: {id: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}),faker.string.alpha(20),]), undefined]), display: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), has_usable_password: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), username: faker.helpers.arrayElement([faker.string.alpha(20), undefined])}, methods: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => (faker.helpers.arrayElement([{method: faker.helpers.arrayElement(['password'] as const), at: faker.number.int({min: undefined, max: undefined}), email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), username: faker.helpers.arrayElement([faker.string.alpha(20), undefined])},{method: faker.helpers.arrayElement(['password'] as const), at: faker.number.int({min: undefined, max: undefined}), reauthenticated: faker.datatype.boolean()},{method: faker.helpers.arrayElement(['socialaccount'] as const), at: faker.number.int({min: undefined, max: undefined}), provider: faker.string.alpha(20), uid: faker.string.alpha(20)},{method: faker.helpers.arrayElement(['mfa'] as const), at: faker.number.int({min: undefined, max: undefined}), type: faker.helpers.arrayElement(Object.values(AuthenticatorType)), reauthenticated: faker.helpers.arrayElement([faker.datatype.boolean(), undefined])},])))}, meta: {...{session_token: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), access_token: faker.helpers.arrayElement([faker.string.alpha(20), undefined])},...{is_authenticated: faker.datatype.boolean()},}, ...overrideResponse})
+export const getPostAllauthBrowserV1AuthReauthenticateResponseMock = (
+    overrideResponse: Partial<AuthenticatedByPasswordResponse> = {},
+): AuthenticatedByPasswordResponse => ({
+    status: faker.helpers.arrayElement([200] as const),
+    data: {
+        user: {
+            id: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    faker.number.int({ min: undefined, max: undefined }),
+                    faker.string.alpha(20),
+                ]),
+                undefined,
+            ]),
+            display: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+            has_usable_password: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]),
+            email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+            username: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+        },
+        methods: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() =>
+            faker.helpers.arrayElement([
+                {
+                    method: faker.helpers.arrayElement(['password'] as const),
+                    at: faker.number.int({ min: undefined, max: undefined }),
+                    email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+                    username: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+                },
+                {
+                    method: faker.helpers.arrayElement(['password'] as const),
+                    at: faker.number.int({ min: undefined, max: undefined }),
+                    reauthenticated: faker.datatype.boolean(),
+                },
+                {
+                    method: faker.helpers.arrayElement(['socialaccount'] as const),
+                    at: faker.number.int({ min: undefined, max: undefined }),
+                    provider: faker.string.alpha(20),
+                    uid: faker.string.alpha(20),
+                },
+                {
+                    method: faker.helpers.arrayElement(['mfa'] as const),
+                    at: faker.number.int({ min: undefined, max: undefined }),
+                    type: faker.helpers.arrayElement(Object.values(AuthenticatorType)),
+                    reauthenticated: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]),
+                },
+            ]),
+        ),
+    },
+    meta: {
+        ...{
+            session_token: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+            access_token: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+        },
+        ...{ is_authenticated: faker.datatype.boolean() },
+    },
+    ...overrideResponse,
+});
 
-export const getPostAllauthBrowserV1AuthReauthenticateResponseMock = (overrideResponse: Partial< AuthenticatedByPasswordResponse > = {}): AuthenticatedByPasswordResponse => ({status: faker.helpers.arrayElement([200] as const), data: {user: {id: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}),faker.string.alpha(20),]), undefined]), display: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), has_usable_password: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), username: faker.helpers.arrayElement([faker.string.alpha(20), undefined])}, methods: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => (faker.helpers.arrayElement([{method: faker.helpers.arrayElement(['password'] as const), at: faker.number.int({min: undefined, max: undefined}), email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), username: faker.helpers.arrayElement([faker.string.alpha(20), undefined])},{method: faker.helpers.arrayElement(['password'] as const), at: faker.number.int({min: undefined, max: undefined}), reauthenticated: faker.datatype.boolean()},{method: faker.helpers.arrayElement(['socialaccount'] as const), at: faker.number.int({min: undefined, max: undefined}), provider: faker.string.alpha(20), uid: faker.string.alpha(20)},{method: faker.helpers.arrayElement(['mfa'] as const), at: faker.number.int({min: undefined, max: undefined}), type: faker.helpers.arrayElement(Object.values(AuthenticatorType)), reauthenticated: faker.helpers.arrayElement([faker.datatype.boolean(), undefined])},])))}, meta: {...{session_token: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), access_token: faker.helpers.arrayElement([faker.string.alpha(20), undefined])},...{is_authenticated: faker.datatype.boolean()},}, ...overrideResponse})
+export const getPostAllauthBrowserV1AuthLoginMockHandler = (
+    overrideResponse?:
+        | AuthenticatedByPasswordResponse
+        | ((
+              info: Parameters<Parameters<typeof http.post>[1]>[0],
+          ) => Promise<AuthenticatedByPasswordResponse> | AuthenticatedByPasswordResponse),
+) => {
+    return http.post('*/_allauth/browser/v1/auth/login', async (info) => {
+        await delay(1000);
 
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getPostAllauthBrowserV1AuthLoginResponseMock(),
+            ),
+            { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+    });
+};
 
-export const getPostAllauthBrowserV1AuthLoginMockHandler = (overrideResponse?: AuthenticatedByPasswordResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<AuthenticatedByPasswordResponse> | AuthenticatedByPasswordResponse)) => {
-  return http.post('*/_allauth/browser/v1/auth/login', async (info) => {await delay(1000);
+export const getPostAllauthBrowserV1AuthSignupMockHandler = (
+    overrideResponse?:
+        | AuthenticatedByPasswordResponse
+        | ((
+              info: Parameters<Parameters<typeof http.post>[1]>[0],
+          ) => Promise<AuthenticatedByPasswordResponse> | AuthenticatedByPasswordResponse),
+) => {
+    return http.post('*/_allauth/browser/v1/auth/signup', async (info) => {
+        await delay(1000);
 
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-            : getPostAllauthBrowserV1AuthLoginResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
-  })
-}
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getPostAllauthBrowserV1AuthSignupResponseMock(),
+            ),
+            { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+    });
+};
 
-export const getPostAllauthBrowserV1AuthSignupMockHandler = (overrideResponse?: AuthenticatedByPasswordResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<AuthenticatedByPasswordResponse> | AuthenticatedByPasswordResponse)) => {
-  return http.post('*/_allauth/browser/v1/auth/signup', async (info) => {await delay(1000);
+export const getGetAllauthBrowserV1AuthEmailVerifyMockHandler = (
+    overrideResponse?:
+        | EmailVerificationInfoResponse
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0],
+          ) => Promise<EmailVerificationInfoResponse> | EmailVerificationInfoResponse),
+) => {
+    return http.get('*/_allauth/browser/v1/auth/email/verify', async (info) => {
+        await delay(1000);
 
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-            : getPostAllauthBrowserV1AuthSignupResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
-  })
-}
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getGetAllauthBrowserV1AuthEmailVerifyResponseMock(),
+            ),
+            { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+    });
+};
 
-export const getGetAllauthBrowserV1AuthEmailVerifyMockHandler = (overrideResponse?: EmailVerificationInfoResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<EmailVerificationInfoResponse> | EmailVerificationInfoResponse)) => {
-  return http.get('*/_allauth/browser/v1/auth/email/verify', async (info) => {await delay(1000);
+export const getPostAllauthBrowserV1AuthEmailVerifyMockHandler = (
+    overrideResponse?:
+        | AuthenticatedResponse
+        | ((
+              info: Parameters<Parameters<typeof http.post>[1]>[0],
+          ) => Promise<AuthenticatedResponse> | AuthenticatedResponse),
+) => {
+    return http.post('*/_allauth/browser/v1/auth/email/verify', async (info) => {
+        await delay(1000);
 
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-            : getGetAllauthBrowserV1AuthEmailVerifyResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
-  })
-}
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getPostAllauthBrowserV1AuthEmailVerifyResponseMock(),
+            ),
+            { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+    });
+};
 
-export const getPostAllauthBrowserV1AuthEmailVerifyMockHandler = (overrideResponse?: AuthenticatedResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<AuthenticatedResponse> | AuthenticatedResponse)) => {
-  return http.post('*/_allauth/browser/v1/auth/email/verify', async (info) => {await delay(1000);
+export const getPostAllauthBrowserV1AuthPhoneVerifyMockHandler = (
+    overrideResponse?:
+        | AuthenticatedResponse
+        | ((
+              info: Parameters<Parameters<typeof http.post>[1]>[0],
+          ) => Promise<AuthenticatedResponse> | AuthenticatedResponse),
+) => {
+    return http.post('*/_allauth/browser/v1/auth/phone/verify', async (info) => {
+        await delay(1000);
 
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-            : getPostAllauthBrowserV1AuthEmailVerifyResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
-  })
-}
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getPostAllauthBrowserV1AuthPhoneVerifyResponseMock(),
+            ),
+            { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+    });
+};
 
-export const getPostAllauthBrowserV1AuthPhoneVerifyMockHandler = (overrideResponse?: AuthenticatedResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<AuthenticatedResponse> | AuthenticatedResponse)) => {
-  return http.post('*/_allauth/browser/v1/auth/phone/verify', async (info) => {await delay(1000);
+export const getPostAllauthBrowserV1AuthReauthenticateMockHandler = (
+    overrideResponse?:
+        | AuthenticatedByPasswordResponse
+        | ((
+              info: Parameters<Parameters<typeof http.post>[1]>[0],
+          ) => Promise<AuthenticatedByPasswordResponse> | AuthenticatedByPasswordResponse),
+) => {
+    return http.post('*/_allauth/browser/v1/auth/reauthenticate', async (info) => {
+        await delay(1000);
 
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-            : getPostAllauthBrowserV1AuthPhoneVerifyResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
-  })
-}
-
-export const getPostAllauthBrowserV1AuthReauthenticateMockHandler = (overrideResponse?: AuthenticatedByPasswordResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<AuthenticatedByPasswordResponse> | AuthenticatedByPasswordResponse)) => {
-  return http.post('*/_allauth/browser/v1/auth/reauthenticate', async (info) => {await delay(1000);
-
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-            : getPostAllauthBrowserV1AuthReauthenticateResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
-  })
-}
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getPostAllauthBrowserV1AuthReauthenticateResponseMock(),
+            ),
+            { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+    });
+};
 export const getAuthenticationAccountMock = () => [
-  getPostAllauthBrowserV1AuthLoginMockHandler(),
-  getPostAllauthBrowserV1AuthSignupMockHandler(),
-  getGetAllauthBrowserV1AuthEmailVerifyMockHandler(),
-  getPostAllauthBrowserV1AuthEmailVerifyMockHandler(),
-  getPostAllauthBrowserV1AuthPhoneVerifyMockHandler(),
-  getPostAllauthBrowserV1AuthReauthenticateMockHandler()]
+    getPostAllauthBrowserV1AuthLoginMockHandler(),
+    getPostAllauthBrowserV1AuthSignupMockHandler(),
+    getGetAllauthBrowserV1AuthEmailVerifyMockHandler(),
+    getPostAllauthBrowserV1AuthEmailVerifyMockHandler(),
+    getPostAllauthBrowserV1AuthPhoneVerifyMockHandler(),
+    getPostAllauthBrowserV1AuthReauthenticateMockHandler(),
+];

@@ -226,6 +226,6 @@ return authenticator names as follows:
  */
 import type { WebAuthnCredential } from './webAuthnCredential';
 
-export type AuthenticateWebAuthnBody = {
-  credential: WebAuthnCredential;
-};
+export interface AuthenticateWebAuthnBody {
+    credential: WebAuthnCredential;
+}

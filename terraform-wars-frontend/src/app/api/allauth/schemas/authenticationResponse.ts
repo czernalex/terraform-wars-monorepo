@@ -233,7 +233,7 @@ import type { AuthenticationMeta } from './authenticationMeta';
 
  */
 export interface AuthenticationResponse {
-  status: AuthenticationResponseStatus;
-  data: AuthenticationResponseData;
-  meta: AuthenticationMeta;
+    status: AuthenticationResponseStatus;
+    data: AuthenticationResponseData;
+    meta: AuthenticationMeta;
 }

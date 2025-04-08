@@ -227,5 +227,5 @@ return authenticator names as follows:
 import type { Email } from './email';
 
 export interface RequestPassword {
-  email: Email;
+    email: Email;
 }

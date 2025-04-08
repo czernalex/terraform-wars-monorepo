@@ -225,8 +225,8 @@ return authenticator names as follows:
  * OpenAPI spec version: 1
  */
 
-export type AddWebAuthnAuthenticatorResponseMeta = {
-  /** Whether or not recovery codes where generated automatically.
- */
-  recovery_codes_generated?: boolean;
-};
+export interface AddWebAuthnAuthenticatorResponseMeta {
+    /** Whether or not recovery codes where generated automatically.
+     */
+    recovery_codes_generated?: boolean;
+}

@@ -231,9 +231,9 @@ import type { AccountConfigurationLoginMethodsItem } from './accountConfiguratio
 
  */
 export interface AccountConfiguration {
-  login_methods?: AccountConfigurationLoginMethodsItem[];
-  is_open_for_signup: boolean;
-  email_verification_by_code_enabled: boolean;
-  login_by_code_enabled: boolean;
-  password_reset_by_code_enabled?: boolean;
+    login_methods?: AccountConfigurationLoginMethodsItem[];
+    is_open_for_signup: boolean;
+    email_verification_by_code_enabled: boolean;
+    login_by_code_enabled: boolean;
+    password_reset_by_code_enabled?: boolean;
 }

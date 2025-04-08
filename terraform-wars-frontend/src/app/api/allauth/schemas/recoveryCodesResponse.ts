@@ -227,7 +227,7 @@ return authenticator names as follows:
 import type { StatusOK } from './statusOK';
 import type { SensitiveRecoveryCodesAuthenticator } from './sensitiveRecoveryCodesAuthenticator';
 
-export type RecoveryCodesResponse = {
-  status: StatusOK;
-  data: SensitiveRecoveryCodesAuthenticator;
-};
+export interface RecoveryCodesResponse {
+    status: StatusOK;
+    data: SensitiveRecoveryCodesAuthenticator;
+}

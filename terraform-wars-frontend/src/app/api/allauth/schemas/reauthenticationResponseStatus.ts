@@ -225,10 +225,9 @@ return authenticator names as follows:
  * OpenAPI spec version: 1
  */
 
-export type ReauthenticationResponseStatus = typeof ReauthenticationResponseStatus[keyof typeof ReauthenticationResponseStatus];
+export type ReauthenticationResponseStatus =
+    (typeof ReauthenticationResponseStatus)[keyof typeof ReauthenticationResponseStatus];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ReauthenticationResponseStatus = {
-  NUMBER_401: 401,
+    NUMBER_401: 401,
 } as const;

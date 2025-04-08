@@ -229,7 +229,7 @@ import type { Authenticated } from './authenticated';
 import type { AuthenticationMeta } from './authenticationMeta';
 
 export interface AuthenticatedResponse {
-  status: StatusOK;
-  data: Authenticated;
-  meta: AuthenticationMeta;
+    status: StatusOK;
+    data: Authenticated;
+    meta: AuthenticationMeta;
 }

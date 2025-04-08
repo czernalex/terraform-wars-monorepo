@@ -225,10 +225,9 @@ return authenticator names as follows:
  * OpenAPI spec version: 1
  */
 
-export type WebAuthnAuthenticatorAllOfType = typeof WebAuthnAuthenticatorAllOfType[keyof typeof WebAuthnAuthenticatorAllOfType];
+export type WebAuthnAuthenticatorAllOfType =
+    (typeof WebAuthnAuthenticatorAllOfType)[keyof typeof WebAuthnAuthenticatorAllOfType];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const WebAuthnAuthenticatorAllOfType = {
-  webauthn: 'webauthn',
+    webauthn: 'webauthn',
 } as const;

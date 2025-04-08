@@ -226,6 +226,6 @@ return authenticator names as follows:
  */
 import type { Flow } from './flow';
 
-export type AuthenticationResponseData = {
-  flows: Flow[];
-};
+export interface AuthenticationResponseData {
+    flows: Flow[];
+}

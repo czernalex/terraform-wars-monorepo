@@ -233,7 +233,7 @@ import type { AuthenticationMeta } from './authenticationMeta';
 
  */
 export interface SessionGoneResponse {
-  status: SessionGoneResponseStatus;
-  data: SessionGoneResponseData;
-  meta: AuthenticationMeta;
+    status: SessionGoneResponseStatus;
+    data: SessionGoneResponseData;
+    meta: AuthenticationMeta;
 }

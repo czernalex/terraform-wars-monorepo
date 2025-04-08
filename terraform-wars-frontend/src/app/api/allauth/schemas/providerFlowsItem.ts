@@ -225,11 +225,9 @@ return authenticator names as follows:
  * OpenAPI spec version: 1
  */
 
-export type ProviderFlowsItem = typeof ProviderFlowsItem[keyof typeof ProviderFlowsItem];
+export type ProviderFlowsItem = (typeof ProviderFlowsItem)[keyof typeof ProviderFlowsItem];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ProviderFlowsItem = {
-  provider_redirect: 'provider_redirect',
-  provider_token: 'provider_token',
+    provider_redirect: 'provider_redirect',
+    provider_token: 'provider_token',
 } as const;

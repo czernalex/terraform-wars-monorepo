@@ -9,49 +9,47 @@ import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-verify-email',
-  imports: [NzResultModule, NzSpinModule, RouterModule],
-  templateUrl: './verify-email.component.html',
-  styleUrl: './verify-email.component.css'
+    selector: 'app-verify-email',
+    imports: [NzResultModule, NzSpinModule, RouterModule],
+    templateUrl: './verify-email.component.html',
+    styleUrl: './verify-email.component.css',
 })
 export class VerifyEmailComponent extends BaseComponent implements OnInit {
-  @Input() key: string = '';
+    @Input() key = '';
 
-  private authenticationAccountService = inject(AuthenticationAccountService);
-  private messageService = inject(NzMessageService);
-  private router = inject(Router);
+    private authenticationAccountService = inject(AuthenticationAccountService);
+    private messageService = inject(NzMessageService);
+    private router = inject(Router);
 
-  state: 'loading' | 'success' | 'error' = 'loading';
+    state: 'loading' | 'success' | 'error' = 'loading';
 
-  ngOnInit(): void {
-    this.verifyEmail();
-  }
+    ngOnInit(): void {
+        this.verifyEmail();
+    }
 
-  verifyEmail() {
-    const apiCall$ = this.authenticationAccountService.postAllauthBrowserV1AuthEmailVerify({
-      key: this.key
-    });
+    verifyEmail() {
+        const apiCall$ = this.authenticationAccountService.postAllauthBrowserV1AuthEmailVerify({
+            key: this.key,
+        });
 
-    apiCall$.pipe(
-      takeUntil(this.ngUnsubscribe$),
-    ).subscribe({
-      next: () => {
-        this.state = 'success';
-        this.messageService.success('Email verified successfully');
-        this.router.navigateByUrl('/');
-      },
-      error: (error) => {
-        if (error.status === 401) {
-          this.state = 'success';
-          this.messageService.success('Email verified successfully. You can login now.');
-          this.router.navigateByUrl('/auth/login');
-          return;
-        }
+        apiCall$.pipe(takeUntil(this.ngUnsubscribe$)).subscribe({
+            next: () => {
+                this.state = 'success';
+                this.messageService.success('Email verified successfully');
+                this.router.navigateByUrl('/');
+            },
+            error: (error) => {
+                if (error.status === 401) {
+                    this.state = 'success';
+                    this.messageService.success('Email verified successfully. You can login now.');
+                    this.router.navigateByUrl('/auth/login');
+                    return;
+                }
 
-        this.state = 'error';
-        const errorMessage = error.error?.errors?.[0]?.message || 'Failed to verify email';
-        this.messageService.error(errorMessage);
-      }
-    });
-  }
+                this.state = 'error';
+                const errorMessage = error.error?.errors?.[0]?.message || 'Failed to verify email';
+                this.messageService.error(errorMessage);
+            },
+        });
+    }
 }

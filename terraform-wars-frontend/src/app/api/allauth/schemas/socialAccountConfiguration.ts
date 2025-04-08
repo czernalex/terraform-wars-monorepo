@@ -231,5 +231,5 @@ import type { ProviderList } from './providerList';
 
  */
 export interface SocialAccountConfiguration {
-  providers: ProviderList;
+    providers: ProviderList;
 }

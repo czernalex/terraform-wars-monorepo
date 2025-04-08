@@ -231,7 +231,7 @@ import type { AuthenticatorType } from './authenticatorType';
 
  */
 export interface MFAConfiguration {
-  /** Matches `settings.MFA_SUPPORTED_TYPES`.
- */
-  supported_types: AuthenticatorType[];
+    /** Matches `settings.MFA_SUPPORTED_TYPES`.
+     */
+    supported_types: AuthenticatorType[];
 }

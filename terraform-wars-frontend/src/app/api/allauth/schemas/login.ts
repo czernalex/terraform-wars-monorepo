@@ -229,10 +229,13 @@ import type { LoginAnyOfTwo } from './loginAnyOfTwo';
 import type { LoginAnyOfThree } from './loginAnyOfThree';
 import type { Password } from './password';
 
-export type Login = (LoginAnyOf & {
-  password: Password;
-}) | (LoginAnyOfTwo & {
-  password: Password;
-}) | (LoginAnyOfThree & {
-  password: Password;
-});
+export type Login =
+    | (LoginAnyOf & {
+          password: Password;
+      })
+    | (LoginAnyOfTwo & {
+          password: Password;
+      })
+    | (LoginAnyOfThree & {
+          password: Password;
+      });

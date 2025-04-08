@@ -227,5 +227,5 @@ return authenticator names as follows:
 import type { Email } from './email';
 
 export interface BaseSignup {
-  email: Email;
+    email: Email;
 }

@@ -224,167 +224,151 @@ return authenticator names as follows:
     }
  * OpenAPI spec version: 1
  */
-import {
-  HttpClient
-} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import type {
-  HttpContext,
-  HttpEvent,
-  HttpHeaders,
-  HttpParams,
-  HttpResponse as AngularHttpResponse
+    HttpContext,
+    HttpEvent,
+    HttpHeaders,
+    HttpParams,
+    HttpResponse as AngularHttpResponse,
 } from '@angular/common/http';
 
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  Observable
-} from 'rxjs';
+import { Observable } from 'rxjs';
 
-import type {
-  EmailAddressesResponse,
-  EmailBody,
-  MarkPrimaryEmailBody,
-  StatusOKResponse
-} from '.././schemas';
+import type { EmailAddressesResponse, EmailBody, MarkPrimaryEmailBody, StatusOKResponse } from '.././schemas';
 
-
-
-type HttpClientOptions = {
-  headers?: HttpHeaders | {
-      [header: string]: string | string[];
-  };
-  context?: HttpContext;
-  observe?: any;
-  params?: HttpParams | {
-    [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-  };
-  reportProgress?: boolean;
-  responseType?: any;
-  withCredentials?: boolean;
-};
-
-
+interface HttpClientOptions {
+    headers?: HttpHeaders | Record<string, string | string[]>;
+    context?: HttpContext;
+    observe?: any;
+    params?: HttpParams | Record<string, string | number | boolean | readonly (string | number | boolean)[]>;
+    reportProgress?: boolean;
+    responseType?: any;
+    withCredentials?: boolean;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AccountEmailService {
-  constructor(
-    private http: HttpClient,
-  ) {}/**
+    constructor(private http: HttpClient) {} /**
  * Retrieves the list of email addreses of the account.
 
  * @summary List email addresses
  */
- getAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     getAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     getAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;getAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(
-     options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.get<TData>(
-      `/_allauth/browser/v1/account/email`,options
-    );
-  }
-/**
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    getAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    getAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(options?: HttpClientOptions): Observable<TData> {
+        return this.http.get<TData>(`/_allauth/browser/v1/account/email`, options);
+    }
+    /**
  * Add a new email address to the account. The email address will be marked as unverified, and
 an email verification mail will be sent.
 
  * @summary Add an email addresses
 
  */
- postAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(
-    emailBody: EmailBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     postAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(
-    emailBody: EmailBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        emailBody: EmailBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     postAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(
-    emailBody: EmailBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;postAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(
-    emailBody: EmailBody, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.post<TData>(
-      `/_allauth/browser/v1/account/email`,
-      emailBody,options
-    );
-  }
-/**
+        emailBody: EmailBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    postAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(
+        emailBody: EmailBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    postAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(
+        emailBody: EmailBody,
+        options?: HttpClientOptions,
+    ): Observable<TData> {
+        return this.http.post<TData>(`/_allauth/browser/v1/account/email`, emailBody, options);
+    }
+    /**
  * Requests for (another) email verification email to be sent. Note that
 sending emails is rate limited, so when you send too many requests the
 email will not be sent.
 
  * @summary Request email verification
  */
- putAllauthBrowserV1AccountEmail<TData = StatusOKResponse>(
-    emailBody: EmailBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     putAllauthBrowserV1AccountEmail<TData = StatusOKResponse>(
-    emailBody: EmailBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        emailBody: EmailBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     putAllauthBrowserV1AccountEmail<TData = StatusOKResponse>(
-    emailBody: EmailBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;putAllauthBrowserV1AccountEmail<TData = StatusOKResponse>(
-    emailBody: EmailBody, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.put<TData>(
-      `/_allauth/browser/v1/account/email`,
-      emailBody,options
-    );
-  }
-/**
+        emailBody: EmailBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    putAllauthBrowserV1AccountEmail<TData = StatusOKResponse>(
+        emailBody: EmailBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    putAllauthBrowserV1AccountEmail<TData = StatusOKResponse>(
+        emailBody: EmailBody,
+        options?: HttpClientOptions,
+    ): Observable<TData> {
+        return this.http.put<TData>(`/_allauth/browser/v1/account/email`, emailBody, options);
+    }
+    /**
  * Used to change primary email address to a different one. Note that only verified email addresses
 can be marked as primary.
 
  * @summary Change primary email address
  */
- patchAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(
-    markPrimaryEmailBody: MarkPrimaryEmailBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     patchAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(
-    markPrimaryEmailBody: MarkPrimaryEmailBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        markPrimaryEmailBody: MarkPrimaryEmailBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     patchAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(
-    markPrimaryEmailBody: MarkPrimaryEmailBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;patchAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(
-    markPrimaryEmailBody: MarkPrimaryEmailBody, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.patch<TData>(
-      `/_allauth/browser/v1/account/email`,
-      markPrimaryEmailBody,options
-    );
-  }
-/**
+        markPrimaryEmailBody: MarkPrimaryEmailBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    patchAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(
+        markPrimaryEmailBody: MarkPrimaryEmailBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    patchAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(
+        markPrimaryEmailBody: MarkPrimaryEmailBody,
+        options?: HttpClientOptions,
+    ): Observable<TData> {
+        return this.http.patch<TData>(`/_allauth/browser/v1/account/email`, markPrimaryEmailBody, options);
+    }
+    /**
  * Used to remove an email address.
 
  * @summary Remove an email address
  */
- deleteAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(
-    emailBody: EmailBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     deleteAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(
-    emailBody: EmailBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        emailBody: EmailBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     deleteAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(
-    emailBody: EmailBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;deleteAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(
-    emailBody: EmailBody, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.delete<TData>(
-      `/_allauth/browser/v1/account/email`,{body:
-      emailBody, ...options}
-    );
-  }
-};
+        emailBody: EmailBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    deleteAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(
+        emailBody: EmailBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    deleteAllauthBrowserV1AccountEmail<TData = EmailAddressesResponse>(
+        emailBody: EmailBody,
+        options?: HttpClientOptions,
+    ): Observable<TData> {
+        return this.http.delete<TData>(`/_allauth/browser/v1/account/email`, { body: emailBody, ...options });
+    }
+}
 
-export type GetAllauthBrowserV1AccountEmailClientResult = NonNullable<EmailAddressesResponse>
-export type PostAllauthBrowserV1AccountEmailClientResult = NonNullable<EmailAddressesResponse>
-export type PutAllauthBrowserV1AccountEmailClientResult = NonNullable<StatusOKResponse>
-export type PatchAllauthBrowserV1AccountEmailClientResult = NonNullable<EmailAddressesResponse>
-export type DeleteAllauthBrowserV1AccountEmailClientResult = NonNullable<EmailAddressesResponse>
+export type GetAllauthBrowserV1AccountEmailClientResult = NonNullable<EmailAddressesResponse>;
+export type PostAllauthBrowserV1AccountEmailClientResult = NonNullable<EmailAddressesResponse>;
+export type PutAllauthBrowserV1AccountEmailClientResult = NonNullable<StatusOKResponse>;
+export type PatchAllauthBrowserV1AccountEmailClientResult = NonNullable<EmailAddressesResponse>;
+export type DeleteAllauthBrowserV1AccountEmailClientResult = NonNullable<EmailAddressesResponse>;

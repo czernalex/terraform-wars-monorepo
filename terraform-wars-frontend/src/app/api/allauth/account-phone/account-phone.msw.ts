@@ -224,50 +224,80 @@ return authenticator names as follows:
     }
  * OpenAPI spec version: 1
  */
-import {
-  faker
-} from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 
-import {
-  HttpResponse,
-  delay,
-  http
-} from 'msw';
+import { HttpResponse, delay, http } from 'msw';
 
-import type {
-  PhoneNumberChangeResponse,
-  PhoneNumbersResponse
-} from '.././schemas';
+import type { PhoneNumberChangeResponse, PhoneNumbersResponse } from '.././schemas';
 
+export const getGetAllauthBrowserV1AccountPhoneResponseMock = (
+    overrideResponse: Partial<PhoneNumbersResponse> = {},
+): PhoneNumbersResponse => ({
+    status: faker.helpers.arrayElement([200] as const),
+    data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
+        phone: faker.string.alpha(20),
+        verified: faker.datatype.boolean(),
+    })),
+    ...overrideResponse,
+});
 
-export const getGetAllauthBrowserV1AccountPhoneResponseMock = (overrideResponse: Partial< PhoneNumbersResponse > = {}): PhoneNumbersResponse => ({status: faker.helpers.arrayElement([200] as const), data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({phone: faker.string.alpha(20), verified: faker.datatype.boolean()})), ...overrideResponse})
+export const getPostAllauthBrowserV1AccountPhoneResponseMock = (
+    overrideResponse: Partial<PhoneNumberChangeResponse> = {},
+): PhoneNumberChangeResponse => ({
+    status: faker.helpers.arrayElement([202] as const),
+    data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
+        phone: faker.string.alpha(20),
+        verified: faker.datatype.boolean(),
+    })),
+    ...overrideResponse,
+});
 
-export const getPostAllauthBrowserV1AccountPhoneResponseMock = (overrideResponse: Partial< PhoneNumberChangeResponse > = {}): PhoneNumberChangeResponse => ({status: faker.helpers.arrayElement([202] as const), data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({phone: faker.string.alpha(20), verified: faker.datatype.boolean()})), ...overrideResponse})
+export const getGetAllauthBrowserV1AccountPhoneMockHandler = (
+    overrideResponse?:
+        | PhoneNumbersResponse
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0],
+          ) => Promise<PhoneNumbersResponse> | PhoneNumbersResponse),
+) => {
+    return http.get('*/_allauth/browser/v1/account/phone', async (info) => {
+        await delay(1000);
 
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getGetAllauthBrowserV1AccountPhoneResponseMock(),
+            ),
+            { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+    });
+};
 
-export const getGetAllauthBrowserV1AccountPhoneMockHandler = (overrideResponse?: PhoneNumbersResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<PhoneNumbersResponse> | PhoneNumbersResponse)) => {
-  return http.get('*/_allauth/browser/v1/account/phone', async (info) => {await delay(1000);
+export const getPostAllauthBrowserV1AccountPhoneMockHandler = (
+    overrideResponse?:
+        | PhoneNumberChangeResponse
+        | ((
+              info: Parameters<Parameters<typeof http.post>[1]>[0],
+          ) => Promise<PhoneNumberChangeResponse> | PhoneNumberChangeResponse),
+) => {
+    return http.post('*/_allauth/browser/v1/account/phone', async (info) => {
+        await delay(1000);
 
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-            : getGetAllauthBrowserV1AccountPhoneResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
-  })
-}
-
-export const getPostAllauthBrowserV1AccountPhoneMockHandler = (overrideResponse?: PhoneNumberChangeResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<PhoneNumberChangeResponse> | PhoneNumberChangeResponse)) => {
-  return http.post('*/_allauth/browser/v1/account/phone', async (info) => {await delay(1000);
-
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-            : getPostAllauthBrowserV1AccountPhoneResponseMock()),
-      { status: 202,
-        headers: { 'Content-Type': 'application/json' }
-      })
-  })
-}
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getPostAllauthBrowserV1AccountPhoneResponseMock(),
+            ),
+            { status: 202, headers: { 'Content-Type': 'application/json' } },
+        );
+    });
+};
 export const getAccountPhoneMock = () => [
-  getGetAllauthBrowserV1AccountPhoneMockHandler(),
-  getPostAllauthBrowserV1AccountPhoneMockHandler()]
+    getGetAllauthBrowserV1AccountPhoneMockHandler(),
+    getPostAllauthBrowserV1AccountPhoneMockHandler(),
+];

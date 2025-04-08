@@ -227,5 +227,5 @@ return authenticator names as follows:
 import type { WebAuthnCredentialRequestOptionsRequestOptions } from './webAuthnCredentialRequestOptionsRequestOptions';
 
 export interface WebAuthnCredentialRequestOptions {
-  request_options: WebAuthnCredentialRequestOptionsRequestOptions;
+    request_options: WebAuthnCredentialRequestOptionsRequestOptions;
 }

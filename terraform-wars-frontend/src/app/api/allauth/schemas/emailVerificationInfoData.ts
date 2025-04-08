@@ -227,7 +227,7 @@ return authenticator names as follows:
 import type { Email } from './email';
 import type { User } from './user';
 
-export type EmailVerificationInfoData = {
-  email: Email;
-  user: User;
-};
+export interface EmailVerificationInfoData {
+    email: Email;
+    user: User;
+}

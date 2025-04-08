@@ -228,7 +228,7 @@ import type { FlowId } from './flowId';
 import type { Provider } from './provider';
 
 export interface Flow {
-  id: FlowId;
-  provider?: Provider;
-  is_pending?: boolean;
+    id: FlowId;
+    provider?: Provider;
+    is_pending?: boolean;
 }

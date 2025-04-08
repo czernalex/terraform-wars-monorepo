@@ -225,6 +225,6 @@ return authenticator names as follows:
  * OpenAPI spec version: 1
  */
 
-export type PhoneBody = {
-  phone: string;
-};
+export interface PhoneBody {
+    phone: string;
+}

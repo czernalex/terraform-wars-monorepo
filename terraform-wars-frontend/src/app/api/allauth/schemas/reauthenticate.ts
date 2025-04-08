@@ -227,5 +227,5 @@ return authenticator names as follows:
 import type { Password } from './password';
 
 export interface Reauthenticate {
-  password: Password;
+    password: Password;
 }

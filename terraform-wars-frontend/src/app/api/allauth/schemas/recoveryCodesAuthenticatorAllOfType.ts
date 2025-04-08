@@ -229,10 +229,9 @@ return authenticator names as follows:
  * The authenticator type.
 
  */
-export type RecoveryCodesAuthenticatorAllOfType = typeof RecoveryCodesAuthenticatorAllOfType[keyof typeof RecoveryCodesAuthenticatorAllOfType];
+export type RecoveryCodesAuthenticatorAllOfType =
+    (typeof RecoveryCodesAuthenticatorAllOfType)[keyof typeof RecoveryCodesAuthenticatorAllOfType];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RecoveryCodesAuthenticatorAllOfType = {
-  recovery_codes: 'recovery_codes',
+    recovery_codes: 'recovery_codes',
 } as const;

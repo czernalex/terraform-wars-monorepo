@@ -225,10 +225,8 @@ return authenticator names as follows:
  * OpenAPI spec version: 1
  */
 
-export type ConflictResponseStatus = typeof ConflictResponseStatus[keyof typeof ConflictResponseStatus];
+export type ConflictResponseStatus = (typeof ConflictResponseStatus)[keyof typeof ConflictResponseStatus];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConflictResponseStatus = {
-  NUMBER_409: 409,
+    NUMBER_409: 409,
 } as const;

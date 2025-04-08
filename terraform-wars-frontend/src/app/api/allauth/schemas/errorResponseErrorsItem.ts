@@ -225,14 +225,14 @@ return authenticator names as follows:
  * OpenAPI spec version: 1
  */
 
-export type ErrorResponseErrorsItem = {
-  /** An error code.
- */
-  code: string;
-  /** The name of the input parameter that was incorrect.
- */
-  param?: string;
-  /** A human readable error message.
- */
-  message: number;
-};
+export interface ErrorResponseErrorsItem {
+    /** An error code.
+     */
+    code: string;
+    /** The name of the input parameter that was incorrect.
+     */
+    param?: string;
+    /** A human readable error message.
+     */
+    message: number;
+}

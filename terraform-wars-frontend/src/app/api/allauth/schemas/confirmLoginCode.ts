@@ -227,5 +227,5 @@ return authenticator names as follows:
 import type { Code } from './code';
 
 export interface ConfirmLoginCode {
-  code: Code;
+    code: Code;
 }

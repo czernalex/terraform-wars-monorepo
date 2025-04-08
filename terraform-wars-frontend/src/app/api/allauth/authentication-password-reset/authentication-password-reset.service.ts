@@ -224,56 +224,40 @@ return authenticator names as follows:
     }
  * OpenAPI spec version: 1
  */
-import {
-  HttpClient
-} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import type {
-  HttpContext,
-  HttpEvent,
-  HttpHeaders,
-  HttpParams,
-  HttpResponse as AngularHttpResponse
+    HttpContext,
+    HttpEvent,
+    HttpHeaders,
+    HttpParams,
+    HttpResponse as AngularHttpResponse,
 } from '@angular/common/http';
 
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  Observable
-} from 'rxjs';
+import { Observable } from 'rxjs';
 
 import type {
-  AuthenticatedByPasswordResponse,
-  PasswordResetInfoResponse,
-  RequestPasswordBody,
-  ResetPasswordBody,
-  StatusOKResponse
+    AuthenticatedByPasswordResponse,
+    PasswordResetInfoResponse,
+    RequestPasswordBody,
+    ResetPasswordBody,
+    StatusOKResponse,
 } from '.././schemas';
 
-
-
-type HttpClientOptions = {
-  headers?: HttpHeaders | {
-      [header: string]: string | string[];
-  };
-  context?: HttpContext;
-  observe?: any;
-  params?: HttpParams | {
-    [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-  };
-  reportProgress?: boolean;
-  responseType?: any;
-  withCredentials?: boolean;
-};
-
-
+interface HttpClientOptions {
+    headers?: HttpHeaders | Record<string, string | string[]>;
+    context?: HttpContext;
+    observe?: any;
+    params?: HttpParams | Record<string, string | number | boolean | readonly (string | number | boolean)[]>;
+    reportProgress?: boolean;
+    responseType?: any;
+    withCredentials?: boolean;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationPasswordResetService {
-  constructor(
-    private http: HttpClient,
-  ) {}/**
+    constructor(private http: HttpClient) {} /**
  * Initiates the password reset procedure. Depending on whether or not
 `ACCOUNT_PASSWORD_RESET_BY_CODE_ENABLED` is `True`, the procedure is
 either stateless or stateful.
@@ -288,23 +272,25 @@ receive a 200 on a successful password reset request.
 
  * @summary Request password
  */
- postAllauthBrowserV1AuthPasswordRequest<TData = StatusOKResponse>(
-    requestPasswordBody: RequestPasswordBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     postAllauthBrowserV1AuthPasswordRequest<TData = StatusOKResponse>(
-    requestPasswordBody: RequestPasswordBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        requestPasswordBody: RequestPasswordBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     postAllauthBrowserV1AuthPasswordRequest<TData = StatusOKResponse>(
-    requestPasswordBody: RequestPasswordBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;postAllauthBrowserV1AuthPasswordRequest<TData = StatusOKResponse>(
-    requestPasswordBody: RequestPasswordBody, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.post<TData>(
-      `/_allauth/browser/v1/auth/password/request`,
-      requestPasswordBody,options
-    );
-  }
-/**
+        requestPasswordBody: RequestPasswordBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    postAllauthBrowserV1AuthPasswordRequest<TData = StatusOKResponse>(
+        requestPasswordBody: RequestPasswordBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    postAllauthBrowserV1AuthPasswordRequest<TData = StatusOKResponse>(
+        requestPasswordBody: RequestPasswordBody,
+        options?: HttpClientOptions,
+    ): Observable<TData> {
+        return this.http.post<TData>(`/_allauth/browser/v1/auth/password/request`, requestPasswordBody, options);
+    }
+    /**
  * Used to obtain information on and validate a password reset key.  The
 key passed is either the key encoded in the password reset URL that the
 user has received per email, or, the password reset code in case of
@@ -314,22 +300,21 @@ the number of requests you can make is limited (by
 
  * @summary Get password reset information
  */
- getAllauthBrowserV1AuthPasswordReset<TData = PasswordResetInfoResponse>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     getAllauthBrowserV1AuthPasswordReset<TData = PasswordResetInfoResponse>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     getAllauthBrowserV1AuthPasswordReset<TData = PasswordResetInfoResponse>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;getAllauthBrowserV1AuthPasswordReset<TData = PasswordResetInfoResponse>(
-     options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.get<TData>(
-      `/_allauth/browser/v1/auth/password/reset`,options
-    );
-  }
-/**
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    getAllauthBrowserV1AuthPasswordReset<TData = PasswordResetInfoResponse>(
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    getAllauthBrowserV1AuthPasswordReset<TData = PasswordResetInfoResponse>(
+        options?: HttpClientOptions,
+    ): Observable<TData> {
+        return this.http.get<TData>(`/_allauth/browser/v1/auth/password/reset`, options);
+    }
+    /**
  * Perform the password reset, by handing over the password reset key and
 the new password. After successfully completing the password reset, the
 user is either logged in (in case `ACCOUNT_LOGIN_ON_PASSWORD_RESET` is
@@ -339,24 +324,26 @@ of the former, a `200` status code is returned, in case of the latter a
 
  * @summary Reset password
  */
- postAllauthBrowserV1AuthPasswordReset<TData = AuthenticatedByPasswordResponse>(
-    resetPasswordBody: ResetPasswordBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     postAllauthBrowserV1AuthPasswordReset<TData = AuthenticatedByPasswordResponse>(
-    resetPasswordBody: ResetPasswordBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        resetPasswordBody: ResetPasswordBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     postAllauthBrowserV1AuthPasswordReset<TData = AuthenticatedByPasswordResponse>(
-    resetPasswordBody: ResetPasswordBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;postAllauthBrowserV1AuthPasswordReset<TData = AuthenticatedByPasswordResponse>(
-    resetPasswordBody: ResetPasswordBody, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.post<TData>(
-      `/_allauth/browser/v1/auth/password/reset`,
-      resetPasswordBody,options
-    );
-  }
-};
+        resetPasswordBody: ResetPasswordBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    postAllauthBrowserV1AuthPasswordReset<TData = AuthenticatedByPasswordResponse>(
+        resetPasswordBody: ResetPasswordBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    postAllauthBrowserV1AuthPasswordReset<TData = AuthenticatedByPasswordResponse>(
+        resetPasswordBody: ResetPasswordBody,
+        options?: HttpClientOptions,
+    ): Observable<TData> {
+        return this.http.post<TData>(`/_allauth/browser/v1/auth/password/reset`, resetPasswordBody, options);
+    }
+}
 
-export type PostAllauthBrowserV1AuthPasswordRequestClientResult = NonNullable<StatusOKResponse>
-export type GetAllauthBrowserV1AuthPasswordResetClientResult = NonNullable<PasswordResetInfoResponse>
-export type PostAllauthBrowserV1AuthPasswordResetClientResult = NonNullable<AuthenticatedByPasswordResponse>
+export type PostAllauthBrowserV1AuthPasswordRequestClientResult = NonNullable<StatusOKResponse>;
+export type GetAllauthBrowserV1AuthPasswordResetClientResult = NonNullable<PasswordResetInfoResponse>;
+export type PostAllauthBrowserV1AuthPasswordResetClientResult = NonNullable<AuthenticatedByPasswordResponse>;

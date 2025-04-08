@@ -225,10 +225,8 @@ return authenticator names as follows:
  * OpenAPI spec version: 1
  */
 
-export type ForbiddenResponseStatus = typeof ForbiddenResponseStatus[keyof typeof ForbiddenResponseStatus];
+export type ForbiddenResponseStatus = (typeof ForbiddenResponseStatus)[keyof typeof ForbiddenResponseStatus];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ForbiddenResponseStatus = {
-  NUMBER_403: 403,
+    NUMBER_403: 403,
 } as const;

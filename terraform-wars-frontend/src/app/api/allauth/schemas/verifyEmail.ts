@@ -226,6 +226,6 @@ return authenticator names as follows:
  */
 
 export interface VerifyEmail {
-  /** The email verification key */
-  key: string;
+    /** The email verification key */
+    key: string;
 }

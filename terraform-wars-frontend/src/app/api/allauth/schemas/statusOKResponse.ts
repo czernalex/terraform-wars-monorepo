@@ -226,6 +226,6 @@ return authenticator names as follows:
  */
 import type { StatusOK } from './statusOK';
 
-export type StatusOKResponse = {
-  status: StatusOK;
-};
+export interface StatusOKResponse {
+    status: StatusOK;
+}

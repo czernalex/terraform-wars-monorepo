@@ -227,10 +227,10 @@ return authenticator names as follows:
 import type { Timestamp } from './timestamp';
 
 export interface Session {
-  user_agent: string;
-  ip: string;
-  created_at: Timestamp;
-  is_current: boolean;
-  id: number;
-  last_seen_at?: Timestamp;
+    user_agent: string;
+    ip: string;
+    created_at: Timestamp;
+    is_current: boolean;
+    id: number;
+    last_seen_at?: Timestamp;
 }

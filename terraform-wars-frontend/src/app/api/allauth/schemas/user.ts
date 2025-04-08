@@ -229,15 +229,15 @@ import type { Email } from './email';
 import type { Username } from './username';
 
 export interface User {
-  /** The user ID.
- */
-  id?: UserId;
-  /** The display name for the user.
- */
-  display?: string;
-  /** Whether or not the account has a password set.
- */
-  has_usable_password?: boolean;
-  email?: Email;
-  username?: Username;
+    /** The user ID.
+     */
+    id?: UserId;
+    /** The display name for the user.
+     */
+    display?: string;
+    /** Whether or not the account has a password set.
+     */
+    has_usable_password?: boolean;
+    email?: Email;
+    username?: Username;
 }

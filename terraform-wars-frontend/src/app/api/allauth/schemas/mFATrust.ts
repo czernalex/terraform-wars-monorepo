@@ -226,5 +226,5 @@ return authenticator names as follows:
  */
 
 export interface MFATrust {
-  trust: boolean;
+    trust: boolean;
 }

@@ -225,6 +225,6 @@ return authenticator names as follows:
  * OpenAPI spec version: 1
  */
 
-export type EmailVerificationInfoMeta = {
-  is_authenticating: boolean;
-};
+export interface EmailVerificationInfoMeta {
+    is_authenticating: boolean;
+}

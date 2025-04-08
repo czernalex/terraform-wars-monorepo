@@ -229,9 +229,9 @@ import type { SocialAccountConfiguration } from './socialAccountConfiguration';
 import type { MFAConfiguration } from './mFAConfiguration';
 import type { UserSessionsConfiguration } from './userSessionsConfiguration';
 
-export type ConfigurationResponseData = {
-  account: AccountConfiguration;
-  socialaccount?: SocialAccountConfiguration;
-  mfa?: MFAConfiguration;
-  usersessions?: UserSessionsConfiguration;
-};
+export interface ConfigurationResponseData {
+    account: AccountConfiguration;
+    socialaccount?: SocialAccountConfiguration;
+    mfa?: MFAConfiguration;
+    usersessions?: UserSessionsConfiguration;
+}

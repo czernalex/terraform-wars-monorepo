@@ -224,71 +224,51 @@ return authenticator names as follows:
     }
  * OpenAPI spec version: 1
  */
-import {
-  HttpClient
-} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import type {
-  HttpContext,
-  HttpEvent,
-  HttpHeaders,
-  HttpParams,
-  HttpResponse as AngularHttpResponse
+    HttpContext,
+    HttpEvent,
+    HttpHeaders,
+    HttpParams,
+    HttpResponse as AngularHttpResponse,
 } from '@angular/common/http';
 
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  Observable
-} from 'rxjs';
+import { Observable } from 'rxjs';
 
-import type {
-  ProviderAccountBody,
-  ProviderAccountsResponse
-} from '.././schemas';
+import type { ProviderAccountBody, ProviderAccountsResponse } from '.././schemas';
 
-
-
-type HttpClientOptions = {
-  headers?: HttpHeaders | {
-      [header: string]: string | string[];
-  };
-  context?: HttpContext;
-  observe?: any;
-  params?: HttpParams | {
-    [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-  };
-  reportProgress?: boolean;
-  responseType?: any;
-  withCredentials?: boolean;
-};
-
-
+interface HttpClientOptions {
+    headers?: HttpHeaders | Record<string, string | string[]>;
+    context?: HttpContext;
+    observe?: any;
+    params?: HttpParams | Record<string, string | number | boolean | readonly (string | number | boolean)[]>;
+    reportProgress?: boolean;
+    responseType?: any;
+    withCredentials?: boolean;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AccountProvidersService {
-  constructor(
-    private http: HttpClient,
-  ) {}/**
- * @summary List the connected third-party provider accounts
- */
- getAllauthBrowserV1AccountProviders<TData = ProviderAccountsResponse>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
+    constructor(private http: HttpClient) {} /**
+     * @summary List the connected third-party provider accounts
+     */
     getAllauthBrowserV1AccountProviders<TData = ProviderAccountsResponse>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     getAllauthBrowserV1AccountProviders<TData = ProviderAccountsResponse>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;getAllauthBrowserV1AccountProviders<TData = ProviderAccountsResponse>(
-     options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.get<TData>(
-      `/_allauth/browser/v1/account/providers`,options
-    );
-  }
-/**
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    getAllauthBrowserV1AccountProviders<TData = ProviderAccountsResponse>(
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    getAllauthBrowserV1AccountProviders<TData = ProviderAccountsResponse>(
+        options?: HttpClientOptions,
+    ): Observable<TData> {
+        return this.http.get<TData>(`/_allauth/browser/v1/account/providers`, options);
+    }
+    /**
  * Disconnect a third-party provider account, returning the remaining
 accounts that are still connected. The disconnect is not allowed if it
 would leave the account unusable. For example, if no password was
@@ -297,23 +277,28 @@ set up yet.
  * @summary Disconnect a third-party provider account
 
  */
- deleteAllauthBrowserV1AccountProviders<TData = ProviderAccountsResponse>(
-    providerAccountBody: ProviderAccountBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
     deleteAllauthBrowserV1AccountProviders<TData = ProviderAccountsResponse>(
-    providerAccountBody: ProviderAccountBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
+        providerAccountBody: ProviderAccountBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+    ): Observable<TData>;
     deleteAllauthBrowserV1AccountProviders<TData = ProviderAccountsResponse>(
-    providerAccountBody: ProviderAccountBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;deleteAllauthBrowserV1AccountProviders<TData = ProviderAccountsResponse>(
-    providerAccountBody: ProviderAccountBody, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.delete<TData>(
-      `/_allauth/browser/v1/account/providers`,{body:
-      providerAccountBody, ...options}
-    );
-  }
-};
+        providerAccountBody: ProviderAccountBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+    ): Observable<AngularHttpResponse<TData>>;
+    deleteAllauthBrowserV1AccountProviders<TData = ProviderAccountsResponse>(
+        providerAccountBody: ProviderAccountBody,
+        options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+    ): Observable<HttpEvent<TData>>;
+    deleteAllauthBrowserV1AccountProviders<TData = ProviderAccountsResponse>(
+        providerAccountBody: ProviderAccountBody,
+        options?: HttpClientOptions,
+    ): Observable<TData> {
+        return this.http.delete<TData>(`/_allauth/browser/v1/account/providers`, {
+            body: providerAccountBody,
+            ...options,
+        });
+    }
+}
 
-export type GetAllauthBrowserV1AccountProvidersClientResult = NonNullable<ProviderAccountsResponse>
-export type DeleteAllauthBrowserV1AccountProvidersClientResult = NonNullable<ProviderAccountsResponse>
+export type GetAllauthBrowserV1AccountProvidersClientResult = NonNullable<ProviderAccountsResponse>;
+export type DeleteAllauthBrowserV1AccountProvidersClientResult = NonNullable<ProviderAccountsResponse>;
