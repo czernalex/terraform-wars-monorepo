@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpInterceptorFn } from '@angular/common/http';
 
-import { apiErrorInterceptor } from './api-error.interceptor';
+import { sessionExpiredInterceptor } from './session-expired.interceptor';
 
-describe('apiErrorInterceptor', () => {
+describe('sessionExpiredInterceptor', () => {
   const interceptor: HttpInterceptorFn = (req, next) =>
-    TestBed.runInInjectionContext(() => apiErrorInterceptor(req, next));
+    TestBed.runInInjectionContext(() => sessionExpiredInterceptor(req, next));
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
