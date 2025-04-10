@@ -16,7 +16,7 @@
         "-p",
         "test*.py"
     ],
-    "typescript.preferences.importModuleSpecifier": "project-relative",
+    "typescript.preferences.importModuleSpecifier": "non-relative",
     "files.associations": {
         "*.css": "tailwindcss"
     }
