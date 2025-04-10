@@ -8,7 +8,7 @@ export const sessionExpiredInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req).pipe(
         catchError((error: HttpErrorResponse) => {
             if (authService.isSessionExpired(error, req.url)) {
-                authService.emitSessionExpired();
+                authService.setSessionExpired();
             }
             return throwError(() => error);
         }),

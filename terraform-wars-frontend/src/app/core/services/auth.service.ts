@@ -48,8 +48,7 @@ export class AuthService {
         return error.status === 401 && !EXEMPT_ROUTES.includes(requestUrl);
     }
 
-    emitSessionExpired() {
-        this.authenticatedUser = null;
+    setSessionExpired() {
         this.sessionExpiredSubject.next();
     }
 
