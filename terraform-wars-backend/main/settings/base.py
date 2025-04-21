@@ -12,12 +12,12 @@ config = AutoConfig(os.environ.get("DJANGO_CONFIG_ENV_DIR"))
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 BASE_PROTOCOL = config("BASE_PROTOCOL", default="https")
-BASE_DOMAIN = config("BASE_DOMAIN", default="")
+BASE_DOMAIN = config("BASE_DOMAIN")
 BASE_URL = f"{BASE_PROTOCOL}://{BASE_DOMAIN}"
 
 FRONTEND_BASE_URL = config("FRONTEND_BASE_URL", default="http://localhost:4200")
 
-DEBUG = False
+DEBUG = config("DEBUG", cast=bool, default=False)
 DEBUG_SILK = config("DEBUG_SILK", cast=bool, default=False)
 
 SECRET_KEY = config("SECRET_KEY")
@@ -175,28 +175,47 @@ STATICFILES_DIRS = [
     BASE_DIR.parent / "static",
 ]
 
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.filesystem.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-    },
-    "private": {
-        "BACKEND": "main.apps.core.storage_backends.PrivateMediaStorage",
-    },
-}
+USE_LOCAL_STATIC_STORAGE = config("USE_LOCAL_STATIC_STORAGE", cast=bool, default=False)
 
-STATIC_LOCATION = "static"
-STATIC_URL = f"{BASE_URL}/{STATIC_LOCATION}/"
+if USE_LOCAL_STATIC_STORAGE:
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.filesystem.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+        "private": {
+            "BACKEND": "django.core.files.storage.filesystem.FileSystemStorage",
+        },
+    }
 
-PUBLIC_MEDIA_LOCATION = "media"
-MEDIA_ROOT = BASE_DIR.parent / "media"
-MEDIA_URL = f"{BASE_URL}/{PUBLIC_MEDIA_LOCATION}/"
+    STATIC_LOCATION = "static"
+    STATIC_URL = f"{BASE_URL}/{STATIC_LOCATION}/"
 
-PRIVATE_MEDIA_LOCATION = "private-media"
-PRIVATE_MEDIA_ROOT = BASE_DIR.parent / "private-media"
-PRIVATE_MEDIA_URL = f"{BASE_URL}/{PRIVATE_MEDIA_LOCATION}/"
+    PUBLIC_MEDIA_LOCATION = "media"
+    MEDIA_ROOT = BASE_DIR.parent / "media"
+    MEDIA_URL = f"{BASE_URL}/{PUBLIC_MEDIA_LOCATION}/"
+
+    PRIVATE_MEDIA_LOCATION = "private-media"
+    PRIVATE_MEDIA_ROOT = BASE_DIR.parent / "private-media"
+    PRIVATE_MEDIA_URL = f"{BASE_URL}/{PRIVATE_MEDIA_LOCATION}/"
+else:
+    options = {
+        "bucket_name": config("GCS_BUCKET_NAME"),
+    }
+
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+        },
+        "private": {
+            "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+        },
+    }
 
 
 ## ALLAUTH

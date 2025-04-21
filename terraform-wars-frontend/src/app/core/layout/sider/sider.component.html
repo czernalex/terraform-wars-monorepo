@@ -1,0 +1,61 @@
+<!-- <nz-sider
+  nzCollapsible
+  nzBreakpoint="md"
+  [nzCollapsedWidth]="0"
+  nzTheme="light"
+>
+    <ul nz-menu nzTheme="light" nzMode="inline">
+      <li nz-menu-item>
+        <nz-icon nzType="user" />
+        <span>nav 1</span>
+      </li>
+      <li nz-menu-item>
+        <nz-icon nzType="video-camera" />
+        <span>nav 2</span>
+      </li>
+      <li nz-menu-item>
+        <nz-icon nzType="upload" />
+        <span>nav 3</span>
+      </li>
+      <li nz-menu-item>
+        <nz-icon nzType="user" />
+        <span>nav 4</span>
+      </li>
+    </ul>
+</nz-sider> -->
+
+<nz-sider class="menu-sidebar"
+  nzCollapsible
+  nzWidth="256px"
+  nzBreakpoint="md"
+  [nzTrigger]="null"
+>
+<div class="sidebar-logo">
+  <a href="https://ng.ant.design/" target="_blank">
+    <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
+    <h1>Terraform Wars</h1>
+  </a>
+</div>
+<ul nz-menu nzTheme="dark" nzMode="inline">
+  <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
+    <ul>
+      <li nz-menu-item nzMatchRouter>
+        <a routerLink="/welcome">Welcome</a>
+      </li>
+      <li nz-menu-item nzMatchRouter>
+        <a>Monitor</a>
+      </li>
+      <li nz-menu-item nzMatchRouter>
+        <a>Workplace</a>
+      </li>
+    </ul>
+  </li>
+  <li nz-submenu nzOpen nzTitle="Form" nzIcon="form">
+    <ul>
+      <li nz-menu-item nzMatchRouter>
+        <a>Basic Form</a>
+      </li>
+    </ul>
+  </li>
+</ul>
+</nz-sider>

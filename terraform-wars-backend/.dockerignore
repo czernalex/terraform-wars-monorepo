@@ -6,3 +6,4 @@ deployment/
 node_modules/
 build/
 __pycache__/
+docker-compose.yml

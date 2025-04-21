@@ -1,14 +1,16 @@
 import { Routes } from '@angular/router';
-import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.component';
-import { AuthLayoutComponent } from './core/layouts/auth-layout/auth-layout.component';
-import { canActivateAuthGuard } from './core/guards/can-activate-auth.guard';
-import { LoginComponent } from './modules/auth/pages/login/login.component';
-import { RequestPasswordResetComponent } from './modules/auth/pages/request-password-reset/request-password-reset.component';
-import { PasswordResetComponent } from './modules/auth/pages/password-reset/password-reset.component';
-import { PageNotFoundComponent } from './core/pages/page-not-found/page-not-found.component';
-import { VerifyEmailComponent } from './modules/auth/pages/verify-email/verify-email.component';
-import { DashboardComponent } from './modules/dashboard/pages/dashboard/dashboard.component';
-import { SignUpComponent } from './modules/auth/pages/sign-up/sign-up.component';
+import { MainLayoutComponent } from '@app/core/layout/main-layout/main-layout.component';
+import { AuthLayoutComponent } from '@app/core/layout/auth-layout/auth-layout.component';
+import { canActivateAuthGuard } from '@app/core/guards/can-activate-auth.guard';
+import { LoginComponent } from '@app/modules/auth/pages/login/login.component';
+import { RequestPasswordResetComponent } from '@app/modules/auth/pages/request-password-reset/request-password-reset.component';
+import { PasswordResetComponent } from '@app/modules/auth/pages/password-reset/password-reset.component';
+import { PageNotFoundComponent } from '@app/core/pages/page-not-found/page-not-found.component';
+import { VerifyEmailComponent } from '@app/modules/auth/pages/verify-email/verify-email.component';
+import { DashboardComponent } from '@app/modules/dashboard/pages/dashboard/dashboard.component';
+import { SignUpComponent } from '@app/modules/auth/pages/sign-up/sign-up.component';
+import { canActivateUnauthGuard } from '@app/core/guards/can-activate-unauth.guard';
+import { TutorialGroupsComponent } from '@app/modules/tutorials/pages/tutorial-groups/tutorial-groups.component';
 
 export const routes: Routes = [
     {
@@ -23,13 +25,20 @@ export const routes: Routes = [
             },
             {
                 path: 'dashboard',
+                title: 'Dashboard',
                 component: DashboardComponent,
+            },
+            {
+                path: 'tutorial-groups',
+                title: 'Tutorial Groups',
+                component: TutorialGroupsComponent,
             },
         ],
     },
     {
         path: 'auth',
         component: AuthLayoutComponent,
+        canActivate: [canActivateUnauthGuard],
         children: [
             {
                 path: 'sign-up',
