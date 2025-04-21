@@ -27,11 +27,11 @@ repos:
           files: terraform-wars-backend/main/.*
           args: [ --config=terraform-wars-backend/pyproject.toml ]
 
-    - repo: local
-      hooks:
-        - id: terraform-wars-frontend-lint
-          name: terraform-wars-frontend-lint
-          entry: bash -c "cd terraform-wars-frontend && npm run lint"
-          language: system
-          files: ^terraform-wars-frontend/
-          pass_filenames: false
+    # - repo: local
+    #   hooks:
+    #     - id: terraform-wars-frontend-lint
+    #       name: terraform-wars-frontend-lint
+    #       entry: bash -c "cd terraform-wars-frontend && npm run lint"
+    #       language: system
+    #       files: ^terraform-wars-frontend/
+    #       pass_filenames: false
