@@ -1,7 +1,7 @@
 #!/bin/bash -eu
 
 python manage.py collectstatic --noinput --clear
-python manage.py compilemessages
+# python manage.py compilemessages
 python manage.py migrate
 
 HOST=${HOST:-0.0.0.0}

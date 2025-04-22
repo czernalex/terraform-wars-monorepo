@@ -162,6 +162,9 @@ LANGUAGES = [
     ("en", _("language.en")),
 ]
 
+LOCALE_PATHS = [
+    BASE_DIR / "locale",
+]
 
 # Static files (CSS, JavaScript, Images)
 
