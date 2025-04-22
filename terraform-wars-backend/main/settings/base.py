@@ -208,14 +208,20 @@ else:
     STORAGES = {
         "default": {
             "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+            "OPTIONS": options,
         },
         "staticfiles": {
             "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+            "OPTIONS": options,
         },
         "private": {
             "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+            "OPTIONS": options,
         },
     }
+
+    STATIC_LOCATION = "static"
+    MEDIA_LOCATION = "media"
 
 
 ## ALLAUTH

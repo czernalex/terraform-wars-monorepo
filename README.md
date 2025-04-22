@@ -1,2 +1,2 @@
 # Terraform Wars
-![Django CI](https://github.com/czernalex/terraform-wars-monorepo/actions/workflows/django.yaml/badge.svg)
+![CI](https://github.com/czernalex/terraform-wars-monorepo/actions/workflows/ci.yaml/badge.svg)
