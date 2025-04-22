@@ -3,10 +3,12 @@ name: TW CI
 on:
   push:
     branches:
-      - [master, testing]
+      - master
+      - testing
   pull_request:
     branches:
-      - [master, testing]
+      - master
+      - testing
 
 jobs:
   lint:
@@ -79,8 +81,7 @@ jobs:
     needs: test
     if: github.event_name == 'push'
     env:
-      IMAGE_REF: ${{ github.ref == 'refs/heads/master' && 'production' || 'testing' }}
-      IMAGE_URI: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_REPOSITORY }}/app-${{ env.IMAGE_REF }}:${{ github.sha }}
+      IMAGE_URI: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_REPOSITORY }}/app-${{ github.ref == 'refs/heads/master' && 'production' || 'testing' }}:${{ github.sha }}
     steps:
       - uses: actions/checkout@v4
 
