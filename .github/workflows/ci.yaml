@@ -98,13 +98,13 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker build -t gcr.io/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_SERVICE_NAME }}:latest terraform-wars-backend
-          docker push gcr.io/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_SERVICE_NAME }}:latest
+          docker build -t ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_REPOSITORY }}/app-${{ env.ENVIRONMENT }}:${{ github.sha }} terraform-wars-backend
+          docker push ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_REPOSITORY }}/app-${{ env.ENVIRONMENT }}:${{ github.sha }}
 
       - name: Deploy to Google Cloud Run
         uses: google-github-actions/deploy-cloudrun@v2
         with:
           service: ${{ vars.GCP_SERVICE_NAME }}
-          image: gcr.io/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_SERVICE_NAME }}:latest
+          image: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_REPOSITORY }}/app-${{ env.ENVIRONMENT }}:${{ github.sha }}
           project_id: ${{ vars.GCP_PROJECT_ID }}
           location: ${{ vars.GCP_REGION }}
