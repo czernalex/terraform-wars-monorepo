@@ -328,7 +328,7 @@ CORS_ALLOWED_ORIGINS = config("CORS_ALLOWED_ORIGINS", cast=lambda v: [s.strip() 
 
 # Email
 
-DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default="admin@terraform-wars.cz")
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default="noreply@terraformwars.com")
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 EMAIL_HOST = config("EMAIL_HOST", default="smtp.sendgrid.net")
