@@ -187,7 +187,6 @@ if USE_CLOUD_STORAGE:
     common_storage_backend = "storages.backends.gcloud.GoogleCloudStorage"
     common_options = {
         "bucket_name": GCS_BUCKET_NAME,
-        "file_overwrite": False,
     }
 
     STORAGES = {
@@ -197,6 +196,7 @@ if USE_CLOUD_STORAGE:
                 **common_options,
                 "location": MEDIA_LOCATION,
                 "iam_sign_blob": True,
+                "file_overwrite": False,
             },
         },
         "staticfiles": {
@@ -205,6 +205,7 @@ if USE_CLOUD_STORAGE:
                 **common_options,
                 "location": STATIC_LOCATION,
                 "default_acl": "publicRead",
+                "file_overwrite": True,
             },
         },
     }
