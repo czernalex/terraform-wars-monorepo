@@ -2,8 +2,6 @@ migrate_db.sqlite
 __pycache__
 docs
 main/settings/local.py
-/media/
-/static/
 *.log
 .env
 .env.docker
@@ -76,7 +74,7 @@ Thumbs.db
 .ipynb_checkpoints
 
 report.xml
-collected-static/
+media/
 private-media/
 credentials/*
 secrets

@@ -5,7 +5,6 @@ import sentry_sdk
 from decouple import AutoConfig
 from django.utils.translation import gettext_lazy as _
 from sentry_sdk.integrations.django import DjangoIntegration
-from sentry_sdk.integrations.celery import CeleryIntegration
 
 config = AutoConfig(os.environ.get("DJANGO_CONFIG_ENV_DIR"))
 
@@ -113,9 +112,9 @@ WSGI_APPLICATION = "main.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("DB_NAME", default="prosinka"),
-        "USER": config("DB_USER", default="prosinka"),
-        "PASSWORD": config("DB_PASSWORD", default="prosinka"),
+        "NAME": config("DB_NAME", default="terraform-wars"),
+        "USER": config("DB_USER", default="terraform-wars"),
+        "PASSWORD": config("DB_PASSWORD", default="terraform-wars"),
         "HOST": config("DB_HOST", default="127.0.0.1"),
         "PORT": config("DB_PORT", default="5432"),
     }
@@ -178,9 +177,31 @@ STATICFILES_DIRS = [
     BASE_DIR.parent / "static",
 ]
 
-USE_LOCAL_STATIC_STORAGE = config("USE_LOCAL_STATIC_STORAGE", cast=bool, default=False)
+USE_CLOUD_STORAGE = config("USE_CLOUD_STORAGE", cast=bool, default=True)
 
-if USE_LOCAL_STATIC_STORAGE:
+if USE_CLOUD_STORAGE:
+    options = {
+        "bucket_name": config("GCS_BUCKET_NAME"),
+    }
+
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+            "OPTIONS": options,
+        },
+        "staticfiles": {
+            "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+            "OPTIONS": options,
+        },
+        "private": {
+            "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+            "OPTIONS": options,
+        },
+    }
+
+    STATIC_LOCATION = "static"
+    MEDIA_LOCATION = "media"
+else:
     STORAGES = {
         "default": {
             "BACKEND": "django.core.files.storage.filesystem.FileSystemStorage",
@@ -203,28 +224,6 @@ if USE_LOCAL_STATIC_STORAGE:
     PRIVATE_MEDIA_LOCATION = "private-media"
     PRIVATE_MEDIA_ROOT = BASE_DIR.parent / "private-media"
     PRIVATE_MEDIA_URL = f"{BASE_URL}/{PRIVATE_MEDIA_LOCATION}/"
-else:
-    options = {
-        "bucket_name": config("GCS_BUCKET_NAME"),
-    }
-
-    STORAGES = {
-        "default": {
-            "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
-            "OPTIONS": options,
-        },
-        "staticfiles": {
-            "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
-            "OPTIONS": options,
-        },
-        "private": {
-            "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
-            "OPTIONS": options,
-        },
-    }
-
-    STATIC_LOCATION = "static"
-    MEDIA_LOCATION = "media"
 
 
 ## ALLAUTH
@@ -340,20 +339,7 @@ EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default=True)
 
 sentry_sdk.init(
     dsn=config("SENTRY_DSN", default=""),
-    integrations=[DjangoIntegration(), CeleryIntegration()],
+    integrations=[DjangoIntegration()],
     environment=config("ENVIRONMENT", default="production"),
     send_default_pii=True,
 )
-
-
-# Celery
-
-CELERY_BROKER_URL = config("CELERY_BROKER_URL", default="redis://redis:6379/0")
-CELERY_RESULT_BACKEND = config("CELERY_RESULT_BACKEND", default="redis://redis:6379/0")
-
-CELERY_TIMEZONE = "UTC"
-CELERY_TASK_SERIALIZER = "pickle"
-CELERY_IGNORE_RESULT = True
-CELERYD_CONCURRENCY = 1
-
-CELERYBEAT_SCHEDULE = {}

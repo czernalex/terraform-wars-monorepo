@@ -1,0 +1,13 @@
+{
+  "projects": {
+    "default": "peerless-garage-457315-u0"
+  },
+  "targets": {
+    "peerless-garage-457315-u0": {
+      "hosting": {
+        "production": ["terraform-wars-backend-production"],
+        "testing": ["terraform-wars-backend-testing"]
+      }
+    }
+  }
+}

@@ -3,33 +3,11 @@ services:
     build: .
     command: [sh, -c, entrypoints/entrypoint-server.sh 1 2]
     env_file:
-      - .env
+      - .env.docker
     ports:
       - "8000:8000"
     volumes:
       - .:/app
-    depends_on:
-      - db
-      - redis
-
-  celery:
-    build: .
-    command: [sh, -c, entrypoints/entrypoint-celery.sh]
-    volumes:
-      - .:/app
-    env_file:
-      - .env
-    depends_on:
-      - db
-      - redis
-
-  celery-beat:
-    build: .
-    command: [sh, -c, entrypoints/entrypoint-celery-beat.sh]
-    volumes:
-      - .:/app
-    env_file:
-      - .env
     depends_on:
       - db
       - redis
