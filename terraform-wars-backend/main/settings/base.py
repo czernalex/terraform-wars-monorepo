@@ -210,8 +210,9 @@ if USE_CLOUD_STORAGE:
         },
     }
 
-    STATIC_URL = f"https://storage.googleapis.com/{GCS_BUCKET_NAME}/{STATIC_LOCATION}/"
-    MEDIA_URL = f"https://storage.googleapis.com/{GCS_BUCKET_NAME}/{MEDIA_LOCATION}/"
+    GCS_BASE_URL = f"https://storage.googleapis.com/{GCS_BUCKET_NAME}"
+    STATIC_URL = f"{GCS_BASE_URL}/{STATIC_LOCATION}/"
+    MEDIA_URL = f"{GCS_BASE_URL}/{MEDIA_LOCATION}/"
 else:
     STORAGES = {
         "default": {
