@@ -33,8 +33,7 @@ if settings.DEBUG:
         path("500/", lambda request: render(request, "500.html"), name="500"),
     ]
     urlpatterns += staticfiles_urlpatterns(prefix="/static/")
-    urlpatterns += static(settings.PUBLIC_MEDIA_LOCATION, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.PRIVATE_MEDIA_LOCATION, document_root=settings.PRIVATE_MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_LOCATION, document_root=settings.MEDIA_ROOT)
 
 
 if settings.DEBUG and settings.DEBUG_SILK:

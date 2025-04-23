@@ -177,30 +177,40 @@ STATICFILES_DIRS = [
     BASE_DIR.parent / "static",
 ]
 
+STATIC_LOCATION = "static"
+MEDIA_LOCATION = "media"
+
 USE_CLOUD_STORAGE = config("USE_CLOUD_STORAGE", cast=bool, default=True)
 
 if USE_CLOUD_STORAGE:
-    options = {
-        "bucket_name": config("GCS_BUCKET_NAME"),
+    GCS_BUCKET_NAME = config("GCS_BUCKET_NAME")
+    common_storage_backend = "storages.backends.gcloud.GoogleCloudStorage"
+    common_options = {
+        "bucket_name": GCS_BUCKET_NAME,
+        "file_overwrite": False,
     }
 
     STORAGES = {
         "default": {
-            "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
-            "OPTIONS": options,
+            "BACKEND": common_storage_backend,
+            "OPTIONS": {
+                **common_options,
+                "location": MEDIA_LOCATION,
+                "iam_sign_blob": True,
+            },
         },
         "staticfiles": {
-            "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
-            "OPTIONS": options,
-        },
-        "private": {
-            "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
-            "OPTIONS": options,
+            "BACKEND": common_storage_backend,
+            "OPTIONS": {
+                **common_options,
+                "location": STATIC_LOCATION,
+                "default_acl": "publicRead",
+            },
         },
     }
 
-    STATIC_LOCATION = "static"
-    MEDIA_LOCATION = "media"
+    STATIC_URL = f"https://storage.googleapis.com/{GCS_BUCKET_NAME}/{STATIC_LOCATION}/"
+    MEDIA_URL = f"https://storage.googleapis.com/{GCS_BUCKET_NAME}/{MEDIA_LOCATION}/"
 else:
     STORAGES = {
         "default": {
@@ -209,21 +219,12 @@ else:
         "staticfiles": {
             "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
         },
-        "private": {
-            "BACKEND": "django.core.files.storage.filesystem.FileSystemStorage",
-        },
     }
 
-    STATIC_LOCATION = "static"
+    MEDIA_ROOT = BASE_DIR.parent / MEDIA_LOCATION
+
     STATIC_URL = f"{BASE_URL}/{STATIC_LOCATION}/"
-
-    PUBLIC_MEDIA_LOCATION = "media"
-    MEDIA_ROOT = BASE_DIR.parent / "media"
-    MEDIA_URL = f"{BASE_URL}/{PUBLIC_MEDIA_LOCATION}/"
-
-    PRIVATE_MEDIA_LOCATION = "private-media"
-    PRIVATE_MEDIA_ROOT = BASE_DIR.parent / "private-media"
-    PRIVATE_MEDIA_URL = f"{BASE_URL}/{PRIVATE_MEDIA_LOCATION}/"
+    MEDIA_URL = f"{BASE_URL}/{MEDIA_LOCATION}/"
 
 
 ## ALLAUTH

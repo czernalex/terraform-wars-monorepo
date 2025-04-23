@@ -1,30 +1,11 @@
 {
-  "hosting": [
-    {
-      "target": "terraform-wars-backend-production",
-      "public": "public",
-      "rewrites": [
-        {
-          "source": "/**",
-          "run": {
-            "serviceId": "terraform-wars-backend-production",
-            "region": "europe-west3"
-          }
-        }
-      ]
-    },
-    {
-      "target": "terraform-wars-backend-testing",
-      "public": "public",
-      "rewrites": [
-        {
-          "source": "/**",
-          "run": {
-            "serviceId": "terraform-wars-backend-testing",
-            "region": "europe-west3"
-          }
-        }
-      ]
-    }
-  ]
+  "hosting": {
+    "rewrites": [{
+      "source": "**",
+      "run": {
+        "serviceId": "terraform-wars-backend-production",
+        "region": "europe-west3"
+      }
+    }]
+  }
 }
