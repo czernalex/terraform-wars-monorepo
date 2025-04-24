@@ -31,10 +31,6 @@ DEBUG_SILK = config("DEBUG_SILK", cast=bool, default=False)
 
 SECRET_KEY = secrets.SECRET_KEY
 
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="", cast=lambda v: [s.strip() for s in v.split(",")])
-if "0.0.0.0" not in ALLOWED_HOSTS:
-    ALLOWED_HOSTS.append("0.0.0.0")
-
 
 # Application definition
 
@@ -314,7 +310,7 @@ LOGGING = {
 AUDITLOG_INCLUDE_ALL_MODELS = False
 
 
-# CSRF and CORS
+# ALLOWED_HOSTS, CSRF and CORS
 
 SESSION_COOKIE_DOMAIN = config("SESSION_COOKIE_DOMAIN")
 CSRF_COOKIE_DOMAIN = config("CSRF_COOKIE_DOMAIN")
@@ -335,6 +331,13 @@ CORS_ALLOW_HEADERS = (
 )
 
 CORS_ALLOWED_ORIGINS = config("CORS_ALLOWED_ORIGINS", cast=lambda v: [s.strip() for s in v.split(",")])
+
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="", cast=lambda v: [s.strip() for s in v.split(",")])
+if "0.0.0.0" not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append("0.0.0.0")
+
+SECURE_SSL_REDIRECT = config("SECURE_SSL_REDIRECT", cast=bool, default=True)
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 
 # Email
