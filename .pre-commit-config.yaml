@@ -17,6 +17,19 @@ repos:
           - id: mixed-line-ending # replaces or checks mixed line ending.
           - id: requirements-txt-fixer # sorts entries in requirements.txt.
           - id: trailing-whitespace # trims trailing whitespace.
+    - repo: https://github.com/python-jsonschema/check-jsonschema
+      rev: 0.33.0
+      hooks:
+        - id: check-dependabot
+        - id: check-github-workflows
+        - id: check-github-actions
+    # - repo: https://github.com/pre-commit/mirrors-mypy
+    #   rev: v1.15.0
+    #   hooks:
+    #     - id: mypy
+    #       additional_dependencies:
+    #         - django-stubs
+    #       args: [ --config=terraform-wars-backend/pyproject.toml ]
     - repo: https://github.com/astral-sh/ruff-pre-commit
       rev: v0.9.6
       hooks:

@@ -9,8 +9,9 @@ from django.utils.translation import gettext_lazy as _
 from main.api import root_api_router
 
 
-def trigger_error(_: HttpRequest):
+def trigger_error(_: HttpRequest) -> HttpResponse:
     division_by_zero = 1 / 0  # noqa: F841
+    return HttpResponse(status=200)
 
 
 urlpatterns = [

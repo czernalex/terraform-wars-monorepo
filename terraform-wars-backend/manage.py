@@ -7,7 +7,7 @@ from decouple import AutoConfig
 config = AutoConfig(os.environ.get("DJANGO_CONFIG_ENV_DIR"))
 
 
-def main():
+def main() -> None:
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", config("DJANGO_SETTINGS_MODULE", default="main.settings"))
 
     try:

@@ -37,11 +37,11 @@ class TutorialGroupRepository(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def update(self, user: User, tutorial_group_id: UUID, data: UpdateTutorialGroupSchema) -> TutorialGroup:
+    def update(self, tutorial_group: TutorialGroup, data: UpdateTutorialGroupSchema) -> TutorialGroup:
         pass
 
     @abc.abstractmethod
-    def delete(self, user: User, tutorial_group_id: UUID) -> None:
+    def delete(self, tutorial_group: TutorialGroup) -> None:
         pass
 
 

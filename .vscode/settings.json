@@ -19,5 +19,6 @@
     "typescript.preferences.importModuleSpecifier": "non-relative",
     "files.associations": {
         "*.css": "tailwindcss"
-    }
+    },
+    "mypy-type-checker.cwd": "${workspaceFolder}/terraform-wars-backend"
 }

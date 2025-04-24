@@ -1,9 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
+from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.utils.translation import gettext_lazy as _
 from rangefilter.filters import DateRangeFilter
 
-from main.apps.users.forms import UserChangeForm, UserCreationForm
 from main.apps.users.models import User
 
 

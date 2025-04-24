@@ -1,21 +1,21 @@
-from typing import Self
+from typing import Any, Optional, Self
 
-from django.contrib.auth.models import BaseUserManager
+from django.contrib.auth.models import BaseUserManager, User
 from django.db import models
 from django.db.models import Q
 
 
-class UserManager(BaseUserManager):
-    def create_user(self, email, password=None, **extra_fields):
+class UserManager(BaseUserManager["User"]):
+    def create_user(self, email: str, password: Optional[str] = None, **extra_fields: Any) -> User:
         if not email:
             raise ValueError("The Email field must be set")
         email = self.normalize_email(email)
-        user = self.model(email=email, is_active=True, **extra_fields)
+        user: User = self.model(email=email, is_active=True, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password=None, **extra_fields):
+    def create_superuser(self, email: str, password: Optional[str] = None, **extra_fields: Any) -> User:
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_admin", True)
@@ -23,7 +23,7 @@ class UserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
-class UserQuerySet(models.QuerySet):
+class UserQuerySet(models.QuerySet["User"]):
     def is_active(self, is_active: bool = True) -> Self:
         return self.filter(is_active=is_active)
 

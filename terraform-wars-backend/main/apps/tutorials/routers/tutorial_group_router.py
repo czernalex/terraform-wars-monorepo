@@ -30,7 +30,7 @@ tutorial_groups_router = Router()
 @paginate
 def get_tutorial_groups(
     request: AuthedHttpRequest,
-    filters: GetTutorialGroupFilterSchema = Query(...),
+    filters: Query[GetTutorialGroupFilterSchema],
     tutorial_group_service: TutorialGroupService = auto,
 ) -> Iterable[TutorialGroup]:
     return tutorial_group_service.get_tutorial_groups(filters=filters)
@@ -44,7 +44,7 @@ def get_tutorial_groups(
 )
 def create_tutorial_group(
     request: AuthedHttpRequest,
-    data: CreateTutorialGroupSchema = Body(...),
+    data: Body[CreateTutorialGroupSchema],
     tutorial_group_service: TutorialGroupService = auto,
 ) -> TutorialGroup:
     user = request.user
@@ -79,7 +79,7 @@ def get_tutorial_group(
 def update_tutorial_group(
     request: AuthedHttpRequest,
     tutorial_group_id: UUID,
-    data: UpdateTutorialGroupSchema = Body(...),
+    data: Body[UpdateTutorialGroupSchema],
     tutorial_group_service: TutorialGroupService = auto,
 ) -> TutorialGroup:
     user = request.user

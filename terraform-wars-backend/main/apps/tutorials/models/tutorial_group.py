@@ -3,6 +3,7 @@ from uuid import UUID
 
 from auditlog.registry import auditlog
 from django.db import models
+from django.db.models import Manager
 from django.utils.translation import gettext_lazy as _
 
 from main.apps.core.models import AbstractBaseModel
@@ -21,7 +22,7 @@ class TutorialGroup(AbstractBaseModel):
         _("State"), max_length=255, choices=TutorialGroupState.choices, default=TutorialGroupState.DRAFT
     )
 
-    objects = TutorialGroupQuerySet.as_manager()
+    objects = Manager.from_queryset(TutorialGroupQuerySet)()
 
     class Meta:
         verbose_name = _("Tutorial Group")
@@ -34,7 +35,7 @@ class TutorialGroup(AbstractBaseModel):
     @property
     def tutorial_count(self) -> int:
         if hasattr(self, "_tutorial_count"):
-            return self._tutorial_count
+            return self._tutorial_count  # type: ignore[no-any-return]
 
         return self.tutorials.count()
 
