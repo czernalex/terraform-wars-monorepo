@@ -6,7 +6,17 @@ from decouple import AutoConfig
 from django.utils.translation import gettext_lazy as _
 from sentry_sdk.integrations.django import DjangoIntegration
 
+from main.settings.secrets import Secrets
+
+
 config = AutoConfig(os.environ.get("DJANGO_CONFIG_ENV_DIR"))
+
+secrets = Secrets(
+    SECRET_KEY=config("SECRET_KEY"),
+    DB_PASSWORD=config("DB_PASSWORD"),
+    EMAIL_HOST_PASSWORD=config("EMAIL_HOST_PASSWORD"),
+    SENTRY_DSN=config("SENTRY_DSN"),
+)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -14,12 +24,12 @@ BASE_PROTOCOL = config("BASE_PROTOCOL", default="https")
 BASE_DOMAIN = config("BASE_DOMAIN")
 BASE_URL = f"{BASE_PROTOCOL}://{BASE_DOMAIN}"
 
-FRONTEND_BASE_URL = config("FRONTEND_BASE_URL", default="http://localhost:4200")
+FRONTEND_BASE_URL = config("FRONTEND_BASE_URL", default="https://app.terraformwars.com")
 
 DEBUG = config("DEBUG", cast=bool, default=False)
 DEBUG_SILK = config("DEBUG_SILK", cast=bool, default=False)
 
-SECRET_KEY = config("SECRET_KEY")
+SECRET_KEY = secrets.SECRET_KEY
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="", cast=lambda v: [s.strip() for s in v.split(",")])
 if "0.0.0.0" not in ALLOWED_HOSTS:
@@ -112,16 +122,17 @@ WSGI_APPLICATION = "main.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("DB_NAME", default="terraform-wars"),
-        "USER": config("DB_USER", default="terraform-wars"),
-        "PASSWORD": config("DB_PASSWORD", default="terraform-wars"),
-        "HOST": config("DB_HOST", default="127.0.0.1"),
-        "PORT": config("DB_PORT", default="5432"),
+        "NAME": config("DB_NAME"),
+        "USER": config("DB_USER"),
+        "PASSWORD": secrets.DB_PASSWORD,
+        "HOST": config("DB_HOST"),
+        "PORT": config("DB_PORT"),
     }
 }
 
 ATOMIC_REQUESTS = False
 AUTOCOMMIT = True
+
 
 # Password validation
 
@@ -147,6 +158,7 @@ AUTHENTICATION_BACKENDS = [
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
+
 # Internationalization
 
 LANGUAGE_CODE = "en"
@@ -165,8 +177,8 @@ LOCALE_PATHS = [
     BASE_DIR / "locale",
 ]
 
-# Static files (CSS, JavaScript, Images)
 
+# Static files (CSS, JavaScript, Images)
 
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
@@ -304,10 +316,9 @@ AUDITLOG_INCLUDE_ALL_MODELS = False
 
 # CSRF and CORS
 
-SESSION_COOKIE_DOMAIN = config("SESSION_COOKIE_DOMAIN", default="localhost")
-
-CSRF_COOKIE_DOMAIN = config("CSRF_COOKIE_DOMAIN", default="localhost")
-CSRF_COOKIE_NAME = config("CSRF_COOKIE_NAME", default="terraform-wars-csrftoken")
+SESSION_COOKIE_DOMAIN = config("SESSION_COOKIE_DOMAIN")
+CSRF_COOKIE_DOMAIN = config("CSRF_COOKIE_DOMAIN")
+CSRF_COOKIE_NAME = config("CSRF_COOKIE_NAME")
 
 CSRF_TRUSTED_ORIGINS = config("CSRF_TRUSTED_ORIGINS", cast=lambda v: [s.strip() for s in v.split(",")])
 
@@ -331,18 +342,18 @@ CORS_ALLOWED_ORIGINS = config("CORS_ALLOWED_ORIGINS", cast=lambda v: [s.strip() 
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default="noreply@terraformwars.com")
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-EMAIL_HOST = config("EMAIL_HOST", default="smtp.sendgrid.net")
-EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="apikey")
-EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="apikey")
-EMAIL_PORT = config("EMAIL_PORT", default=587)
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = secrets.EMAIL_HOST_PASSWORD
+EMAIL_PORT = config("EMAIL_PORT")
 EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default=True)
 
 
 # Sentry
 
 sentry_sdk.init(
-    dsn=config("SENTRY_DSN", default=""),
+    dsn=secrets.SENTRY_DSN,
     integrations=[DjangoIntegration()],
-    environment=config("ENVIRONMENT", default="production"),
+    environment=config("SENTRY_ENVIRONMENT"),
     send_default_pii=True,
 )
