@@ -30,7 +30,8 @@ root_api_router = NinjaAPI(
     ),
     docs_decorator=staff_member_required if not settings.DEBUG else None,
     servers=[
-        {"url": "http://127.0.0.1:8000", "description": "Local development server"},
+        {"url": "http://127.0.0.1:8080", "description": "Local development server"},
+        {"url": "https://api.app.terraformwars.com", "description": "Production server"},
     ],
     auth=django_auth,
     throttle=[
