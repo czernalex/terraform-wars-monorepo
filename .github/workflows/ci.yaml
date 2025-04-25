@@ -67,6 +67,7 @@ jobs:
           poetry run pytest --junitxml=junit/test-results.xml --cov=main --cov-report=xml --cov-report=html
         env:
           DJANGO_SETTINGS_MODULE: main.settings.test
+          ENVIRONMENT: local
           SECRET_KEY: django-secret-key
           BASE_PROTOCOL: http
           BASE_DOMAIN: localhost
@@ -89,8 +90,6 @@ jobs:
           EMAIL_HOST_PASSWORD: terraform-wars
           EMAIL_PORT: 1025
           EMAIL_USE_TLS: False
-          SENTRY_DSN: local
-          SENTRY_ENVIRONMENT: local
 
   build:
     runs-on: ubuntu-latest

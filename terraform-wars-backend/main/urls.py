@@ -4,7 +4,6 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import include, path
-from django.utils.translation import gettext_lazy as _
 
 from main.api import root_api_router
 
@@ -39,8 +38,3 @@ if settings.DEBUG:
 
 if settings.DEBUG and settings.DEBUG_SILK:
     urlpatterns += [path("silk/", include("silk.urls", namespace="silk"))]
-
-
-admin.site.site_header = _("Terraform Wars - Admin")
-admin.site.site_title = _("Terraform Wars - Admin")
-admin.site.site_url = settings.FRONTEND_BASE_URL
