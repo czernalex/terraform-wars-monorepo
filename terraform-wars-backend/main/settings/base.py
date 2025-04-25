@@ -3,6 +3,7 @@ from pathlib import Path
 
 import sentry_sdk
 from decouple import AutoConfig
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -15,9 +16,10 @@ secrets = Secrets(
     SECRET_KEY=config("SECRET_KEY"),
     DB_PASSWORD=config("DB_PASSWORD"),
     EMAIL_HOST_PASSWORD=config("EMAIL_HOST_PASSWORD"),
-    SENTRY_DSN=config("SENTRY_DSN"),
+    SENTRY_DSN=config("SENTRY_DSN", default=None),
 )
 
+ENVIRONMENT = config("ENVIRONMENT", default="production")
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 BASE_PROTOCOL = config("BASE_PROTOCOL", default="https")
@@ -42,6 +44,9 @@ INSTALLED_APPS = [
     "main.apps.core",
     "main.apps.tutorials",
     "main.apps.users",
+    "unfold",
+    "unfold.contrib.filters",
+    "unfold.contrib.forms",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -56,7 +61,6 @@ INSTALLED_APPS = [
     "anydi.ext.django",
     "auditlog",
     "corsheaders",
-    "rangefilter",
 ]
 
 
@@ -361,6 +365,161 @@ EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default=True)
 sentry_sdk.init(
     dsn=secrets.SENTRY_DSN,
     integrations=[DjangoIntegration()],
-    environment=config("SENTRY_ENVIRONMENT"),
+    environment=ENVIRONMENT,
     send_default_pii=True,
 )
+
+
+# Unfold Admin
+
+
+def get_admin_environment() -> list[str]:
+    match ENVIRONMENT:
+        case "production":
+            return ["Production", "danger"]
+        case "testing":
+            return ["Testing", "warning"]
+        case "local":
+            return ["Local", "primary"]
+        case _:
+            raise ValueError(f"Invalid environment: {ENVIRONMENT}")
+
+
+UNFOLD = {
+    "SITE_TITLE": "Terraform Wars",
+    "SITE_HEADER": "Terraform Wars",
+    "SITE_SUBHEADER": "Site administration",
+    "SITE_DROPDOWN": [
+        {
+            "icon": "settings",
+            "title": _("Admin"),
+            "link": reverse_lazy("admin:index"),
+        },
+        {
+            "icon": "cloud",
+            "title": _("App"),
+            "link": FRONTEND_BASE_URL,
+        },
+        {
+            "icon": "api",
+            "title": _("API Docs"),
+            "link": reverse_lazy("terraform-wars-api:openapi-view"),
+        },
+        {
+            "icon": "key",
+            "title": _("Allauth API Docs"),
+            "link": reverse_lazy("headless:openapi_html"),
+        },
+    ],
+    "SITE_URL": FRONTEND_BASE_URL,
+    "SITE_SYMBOL": "apps",
+    "SHOW_HISTORY": True,
+    "SHOW_BACK_BUTTON": True,
+    "ENVIRONMENT": get_admin_environment(),
+    "BORDER_RADIUS": "4px",
+    "COLORS": {
+        "base": {
+            "50": "249 250 251",
+            "100": "243 244 246",
+            "200": "229 231 235",
+            "300": "209 213 219",
+            "400": "156 163 175",
+            "500": "107 114 128",
+            "600": "75 85 99",
+            "700": "55 65 81",
+            "800": "31 41 55",
+            "900": "17 24 39",
+            "950": "3 7 18",
+        },
+        "primary": {
+            "50": "240 253 250",
+            "100": "204 251 241",
+            "200": "153 246 228",
+            "300": "94 234 212",
+            "400": "45 212 191",
+            "500": "20 184 166",
+            "600": "13 148 136",
+            "700": "15 118 110",
+            "800": "17 94 89",
+            "900": "19 78 74",
+            "950": "4 47 46",
+        },
+        "font": {
+            "subtle-light": "var(--color-base-500)",  # text-base-500
+            "subtle-dark": "var(--color-base-400)",  # text-base-400
+            "default-light": "var(--color-base-600)",  # text-base-600
+            "default-dark": "var(--color-base-300)",  # text-base-300
+            "important-light": "var(--color-base-900)",  # text-base-900
+            "important-dark": "var(--color-base-100)",  # text-base-100
+        },
+    },
+    "SIDEBAR": {
+        "show_search": True,
+        "show_all_applications": False,
+        "navigation": [
+            {
+                "title": _("Audit log"),
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": _("Log entries"),
+                        "icon": "update",
+                        "link": reverse_lazy("admin:auditlog_logentry_changelist"),
+                        "permission": lambda request: request.user.has_perm("auditlog.view_logentry"),
+                    },
+                ],
+            },
+            {
+                "title": _("Tutorials"),
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": _("Tutorial Groups"),
+                        "icon": "folder",
+                        "link": reverse_lazy("admin:tutorials_tutorialgroup_changelist"),
+                        "permission": lambda request: request.user.has_perm("tutorials.view_tutorialgroup"),
+                    },
+                    {
+                        "title": _("Tutorials"),
+                        "icon": "description",
+                        "link": reverse_lazy("admin:tutorials_tutorial_changelist"),
+                        "permission": lambda request: request.user.has_perm("tutorials.view_tutorial"),
+                    },
+                    {
+                        "title": _("Tutorial Submissions"),
+                        "icon": "contact_page",
+                        "link": reverse_lazy("admin:tutorials_tutorialsubmission_changelist"),
+                        "permission": lambda request: request.user.has_perm("tutorials.view_tutorialsubmission"),
+                    },
+                ],
+            },
+            {
+                "title": _("Users"),
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": _("Users"),
+                        "icon": "manage_accounts",
+                        "link": reverse_lazy("admin:users_user_changelist"),
+                        "permission": lambda request: request.user.has_perm("users.view_user"),
+                    },
+                    {
+                        "title": _("Email Addresses"),
+                        "icon": "email",
+                        "link": reverse_lazy("admin:account_emailaddress_changelist"),
+                        "permission": lambda request: request.user.has_perm("accounts.view_emailaddress"),
+                    },
+                    {
+                        "title": _("Auth Groups"),
+                        "icon": "group",
+                        "link": reverse_lazy("admin:auth_group_changelist"),
+                        "permission": lambda request: request.user.has_perm("auth.view_group"),
+                    },
+                ],
+            },
+        ],
+    },
+}

@@ -15,9 +15,16 @@ class User(AbstractBaseModel, AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(_("First name"), max_length=255, blank=True, null=True)
     last_name = models.CharField(_("Last name"), max_length=255, blank=True, null=True)
 
-    is_active = models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False, help_text=_("Determines administration access"))
+    is_active = models.BooleanField(
+        default=False,
+        help_text=_(
+            "Designates whether this user should be treated as active. Unselect this instead of deleting accounts."
+        ),
+    )
+    is_admin = models.BooleanField(default=False, help_text=_("Designates whether the user can access the admin site."))
+    is_staff = models.BooleanField(
+        default=False, help_text=_("Designates whether the user can log into this admin site.")
+    )
 
     objects = UserManager.from_queryset(UserQuerySet)()
 

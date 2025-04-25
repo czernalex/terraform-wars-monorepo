@@ -12,7 +12,6 @@ django = "^5.2.0"
 django-ninja = "^1.4.0"
 python-decouple = "^3.8"
 psycopg = {extras = ["binary"], version = "^3.2.3"}
-django-admin-rangefilter = "^0.13.2"
 gunicorn = "^23.0.0"
 django-allauth = {extras = ["socialaccount"], version = "^65.7.0"}
 sentry-sdk = "^2.17.0"
@@ -21,6 +20,7 @@ django-auditlog = "^3.0.0"
 django-cors-headers = "^4.6.0"
 anydi = "^0.39.2"
 django-storages = {extras = ["google"], version = "^1.14.6"}
+django-unfold = "^0.55.3"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^4.1.0"

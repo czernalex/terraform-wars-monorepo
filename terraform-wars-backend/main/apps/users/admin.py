@@ -1,26 +1,32 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
-from django.contrib.auth.forms import UserChangeForm, UserCreationForm
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin, GroupAdmin as BaseGroupAdmin
+from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
-from rangefilter.filters import DateRangeFilter
+from unfold.admin import ModelAdmin
+from unfold.contrib.filters.admin import BooleanRadioFilter, RangeDateFilter
+from unfold.forms import AdminPasswordChangeForm, UserChangeForm, UserCreationForm
 
+from main.apps.core.admin import BaseModelAdmin
 from main.apps.users.models import User
 
 
+admin.site.unregister(Group)
+
+
 @admin.register(User)
-class UserAdmin(DjangoUserAdmin):
+class UserAdmin(BaseUserAdmin, BaseModelAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
+    change_password_form = AdminPasswordChangeForm
 
     fieldsets = (
-        (None, {"fields": ("email", "password")}),
+        (_("Login credentials"), {"fields": ("email", "password")}),
         (
-            _("Oprávnění"),
+            _("Permissions"),
             {
-                "classes": (
-                    "collapse",
-                    "wide",
-                ),
+                "classes": [
+                    "tab",
+                ],
                 "fields": (
                     "is_active",
                     "is_staff",
@@ -31,11 +37,24 @@ class UserAdmin(DjangoUserAdmin):
             },
         ),
         (
-            _("Uživatelské údaje"),
+            _("Personal info"),
             {
+                "classes": [
+                    "tab",
+                ],
                 "fields": (
                     "first_name",
                     "last_name",
+                ),
+            },
+        ),
+        (
+            _("Audit info"),
+            {
+                "classes": [
+                    "tab",
+                ],
+                "fields": (
                     "id",
                     "created_at",
                     "updated_at",
@@ -45,33 +64,9 @@ class UserAdmin(DjangoUserAdmin):
     )
     add_fieldsets = (
         (
-            _("Přihlašovací údaje"),
+            None,
             {
-                "classes": ("wide",),
                 "fields": ("email", "password1", "password2"),
-            },
-        ),
-        (
-            _("Oprávnění"),
-            {
-                "classes": ("wide",),
-                "fields": (
-                    "is_active",
-                    "is_staff",
-                    "is_superuser",
-                    "groups",
-                    "user_permissions",
-                ),
-            },
-        ),
-        (
-            _("Uživatelské údaje"),
-            {
-                "classes": ("wide",),
-                "fields": (
-                    "first_name",
-                    "last_name",
-                ),
             },
         ),
     )
@@ -91,15 +86,20 @@ class UserAdmin(DjangoUserAdmin):
         "updated_at",
     )
     list_filter = (
-        "is_active",
-        "is_admin",
-        "is_staff",
-        "is_superuser",
-        ("created_at", DateRangeFilter),
-        ("updated_at", DateRangeFilter),
+        ("is_active", BooleanRadioFilter),
+        ("is_admin", BooleanRadioFilter),
+        ("is_staff", BooleanRadioFilter),
+        ("is_superuser", BooleanRadioFilter),
+        ("created_at", RangeDateFilter),
+        ("updated_at", RangeDateFilter),
     )
     search_fields = (
         "id",
         "email",
     )
     ordering = ("-created_at",)
+
+
+@admin.register(Group)
+class GroupAdmin(BaseGroupAdmin, ModelAdmin):
+    pass
