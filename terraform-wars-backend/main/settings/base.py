@@ -16,7 +16,7 @@ secrets = Secrets(
     SECRET_KEY=config("SECRET_KEY"),
     DB_PASSWORD=config("DB_PASSWORD"),
     EMAIL_HOST_PASSWORD=config("EMAIL_HOST_PASSWORD"),
-    SENTRY_DSN=config("SENTRY_DSN"),
+    SENTRY_DSN=config("SENTRY_DSN", default=None),
 )
 
 ENVIRONMENT = config("ENVIRONMENT", default="production")
