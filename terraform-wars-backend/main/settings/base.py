@@ -502,7 +502,7 @@ UNFOLD = {
                 "items": [
                     {
                         "title": _("Users"),
-                        "icon": "manage_accounts",
+                        "icon": "person",
                         "link": reverse_lazy("admin:users_user_changelist"),
                         "permission": lambda request: request.user.has_perm("users.view_user"),
                     },

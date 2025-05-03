@@ -53,7 +53,6 @@ export class AuthService {
     }
 
     fetchAuthenticatedUser() {
-        console.log('fetching authenticated user');
         return this.usersService.mainAppsUsersRoutersGetMe().subscribe({
             next: (user) => {
                 this.authenticatedUser = user;

@@ -1,95 +1,101 @@
-<div class="flex flex-col items-center justify-center min-h-screen p-4">
-    <nz-card class="w-full max-w-md">
-        <div class="text-center mb-8">
-            <h1 class="text-3xl font-bold mb-2">Terraform Wars</h1>
-            <p class="text-gray-600">Create an account</p>
-        </div>
-        <form nz-form [formGroup]="signUpForm" (ngSubmit)="signUp()" nzLayout="vertical" class="w-full max-w-md">
-            <nz-form-item>
-                <nz-form-label nzRequired class="font-medium">Email</nz-form-label>
-                <nz-form-control nzErrorTip="Please enter a valid email!">
-                    <nz-input-group nzPrefixIcon="mail">
-                        <input
-                            type="email"
-                            nz-input
-                            formControlName="email"
-                            placeholder="Email"
-                            autocomplete="email"
-                            class="w-full"
-                        />
-                    </nz-input-group>
-                </nz-form-control>
-            </nz-form-item>
-
-            <nz-form-item>
-                <nz-form-label nzRequired class="font-medium">New password</nz-form-label>
-                <nz-form-control nzErrorTip="Please enter a valid password!">
-                    <nz-input-group nzPrefixIcon="lock" [nzSuffix]="suffixTemplate">
-                        <input
-                            [type]="isRawPasswordVisible ? 'text' : 'password'"
-                            nz-input
-                            formControlName="password1"
-                            placeholder="New password"
-                            autocomplete="new-password"
-                            class="w-full"
-                        />
-                    </nz-input-group>
-                    <ng-template #suffixTemplate>
-                        <span
-                            nz-icon
-                            [nzType]="isRawPasswordVisible ? 'eye' : 'eye-invisible'"
-                            (click)="isRawPasswordVisible = !isRawPasswordVisible"
-                            (keydown.control.enter)="isRawPasswordVisible = !isRawPasswordVisible"
-                            class="cursor-pointer"
-                        ></span>
-                    </ng-template>
-                </nz-form-control>
-            </nz-form-item>
-
-            <nz-form-item>
-                <nz-form-label nzRequired class="font-medium">Confirm password</nz-form-label>
-                <nz-form-control
-                    [nzErrorTip]="
-            signUpForm.errors?.['passwordsMismatch']
-              ? 'Password does not match new password!'
-              : 'Please enter a valid password!'
-          "
-                >
-                    <nz-input-group nzPrefixIcon="lock" [nzSuffix]="suffixTemplate">
-                        <input
-                            [type]="isRawPasswordVisible ? 'text' : 'password'"
-                            nz-input
-                            formControlName="password2"
-                            placeholder="Confirm password"
-                            autocomplete="new-password"
-                            class="w-full"
-                        />
-                    </nz-input-group>
-                    <ng-template #suffixTemplate>
-                        <span
-                            nz-icon
-                            [nzType]="isRawPasswordVisible ? 'eye' : 'eye-invisible'"
-                            (click)="isRawPasswordVisible = !isRawPasswordVisible"
-                            (keydown.control.enter)="isRawPasswordVisible = !isRawPasswordVisible"
-                            class="cursor-pointer"
-                        ></span>
-                    </ng-template>
-                </nz-form-control>
-            </nz-form-item>
-
-            <div class="flex justify-start items-center mb-6">
-                <span>Already have an account? <a nzType="link" routerLink="/auth/login">Login</a></span>
-            </div>
-
-            <button
-                nz-button
-                nzType="primary"
-                [disabled]="!signUpForm.valid || signUpForm.pristine || loading"
-                [nzLoading]="loading"
-                class="w-full h-10"
-            >
-                Sign up
-            </button>
-        </form>
-    </nz-card>
+<div class="text-center mb-8">
+    <h1 i18n class="text-3xl font-bold mb-2">Terraform Wars</h1>
+    <p i18n class="text-gray-500">Create an account</p>
+</div>
+<form [formGroup]="signUpForm" (ngSubmit)="signUp()" class="w-full flex flex-col gap-4">
+    <div class="flex flex-col gap-2">
+        <label i18n for="email">Email</label>
+        <input
+            pInputText
+            i18n-placeholder
+            id="email"
+            aria-describedby="email-help"
+            formControlName="email"
+            placeholder="Email"
+            autocomplete="email"
+            [class.ng-invalid]="!signUpForm.controls.email.pristine && signUpForm.controls.email.invalid"
+            [class.ng-dirty]="!signUpForm.controls.email.pristine && signUpForm.controls.email.invalid"
+        />
+        @if (signUpForm.controls.email.errors?.['email']) {
+            <p-message severity="error" variant="simple" size="small">Enter a valid email address</p-message>
+        }
+    </div>
+    <div class="flex flex-col gap-2">
+        <label i18n for="password">Password</label>
+        <p-password
+            id="password"
+            i18n-placeholder
+            aria-describedby="password-help"
+            formControlName="password1"
+            placeholder="New password"
+            feedback="false"
+            fluid="true"
+            [toggleMask]="true"
+            [class.ng-invalid]="!signUpForm.controls.password1.pristine && signUpForm.controls.password1.invalid"
+            [class.ng-dirty]="!signUpForm.controls.password1.pristine && signUpForm.controls.password1.invalid"
+        />
+        @if (signUpForm.controls.password1.errors?.['password1']) {
+            <p-message severity="error" variant="simple" size="small">Password is incorrect</p-message>
+        }
+    </div>
+    <div class="flex flex-col gap-2">
+        <label i18n for="password2">Confirm password</label>
+        <p-password
+            id="password2"
+            i18n-placeholder
+            aria-describedby="password2-help"
+            formControlName="password2"
+            feedback="false"
+            placeholder="Confirm password"
+            autocomplete="password"
+            fluid="true"
+            [toggleMask]="true"
+            [class.ng-invalid]="!signUpForm.controls.password2.pristine && (signUpForm.controls.password2.invalid || signUpForm.errors?.['passwordsMismatch'])"
+            [class.ng-dirty]="!signUpForm.controls.password2.pristine && (signUpForm.controls.password2.invalid || signUpForm.errors?.['passwordsMismatch'])"
+        />
+        @if (signUpForm.controls.password2.errors?.['password2']) {
+            <p-message severity="error" variant="simple" size="small">Enter a valid password</p-message>
+        }
+        @if (signUpForm.errors?.['passwordsMismatch']) {
+            <p-message severity="error" variant="simple" size="small">Password does not match the new password</p-message>
+        }
+    </div>
+    <p-button
+        type="submit"
+        fluid="true"
+        i18n-label
+        label="Sign up"
+        [loading]="loading"
+        [disabled]="!signUpForm.valid || signUpForm.pristine"
+    ></p-button>
+    <div class="flex items-center justify-center">
+        <p i18n>Already have an account? <a class="text-primary hover:underline" routerLink="/auth/login">Login</a></p>
+    </div>
+</form>
+<p-divider align="center" type="solid">
+    <ng-container i18n>OR (soon)</ng-container>
+</p-divider>
+<div class="flex flex-col gap-3">
+    <p-button
+        variant="outlined"
+        severity="secondary"
+        icon="pi pi-google"
+        iconPos="left"
+        i18n-label
+        label="Continue with Google"
+        fluid="true"
+        [disabled]="true"
+    >
+    </p-button>
+    <p-button
+        variant="outlined"
+        severity="secondary"
+        icon="pi pi-github"
+        iconPos="left"
+        i18n-label
+        label="Continue with GitHub"
+        fluid="true"
+        [disabled]="true"
+    >
+    </p-button>
 </div>

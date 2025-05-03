@@ -1,34 +1,32 @@
 import { Component, inject } from '@angular/core';
 import { Validators, FormsModule, ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
-import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzCardModule } from 'ng-zorro-antd/card';
 import { AuthenticationAccountService } from '@app/api/allauth/authentication-account/authentication-account.service';
 import { BaseComponent } from '@app/core/components/base/base.component';
 import { finalize, takeUntil } from 'rxjs/operators';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { AuthService } from '@app/core/services/auth.service';
 import { UsersService } from '@app/api/api/users/users.service';
+import { MessageService } from 'primeng/api';
+import { Message } from 'primeng/message';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { PasswordModule } from 'primeng/password';
+import { DividerModule } from 'primeng/divider';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ToastModule } from 'primeng/toast';
 @Component({
     selector: 'app-login',
     imports: [
         FormsModule,
         ReactiveFormsModule,
-        NzFormModule,
-        NzInputModule,
-        NzButtonModule,
-        NzCheckboxModule,
-        NzTypographyModule,
-        NzIconModule,
-        NzCardModule,
         RouterModule,
-        NzDividerModule,
+        Message,
+        InputTextModule,
+        ButtonModule,
+        PasswordModule,
+        DividerModule,
+        ProgressSpinnerModule,
+        ToastModule,
     ],
     templateUrl: './login.component.html',
     styleUrl: './login.component.css',
@@ -39,7 +37,7 @@ export class LoginComponent extends BaseComponent {
     private authService = inject(AuthService);
     private router = inject(Router);
     private route = inject(ActivatedRoute);
-    private messageService = inject(NzMessageService);
+    private messageService = inject(MessageService);
 
     loginForm = new FormGroup({
         email: new FormControl<string>('', {
@@ -50,7 +48,6 @@ export class LoginComponent extends BaseComponent {
             validators: [Validators.required, Validators.minLength(8)],
             nonNullable: true,
         }),
-        remember: new FormControl<boolean>(false, { nonNullable: true }),
     });
 
     isRawPasswordVisible = false;
@@ -69,10 +66,10 @@ export class LoginComponent extends BaseComponent {
         const apiCall$ = this.authenticationAccountService.postAllauthBrowserV1AuthLogin({
             email: this.loginForm.controls.email.value,
             password: this.loginForm.controls.password.value,
-            // @ts-ignore
-            remember: this.loginForm.controls.remember.value,
         });
         this.loading = true;
+
+        const messageLife = 3000;
 
         apiCall$
             .pipe(
@@ -81,31 +78,47 @@ export class LoginComponent extends BaseComponent {
             )
             .subscribe({
                 next: () => {
-                    this.messageService.success('You were successfully logged in', {
-                        nzDuration: 5000,
-                    });
-
                     this.usersService.mainAppsUsersRoutersGetMe().subscribe({
                         next: (user) => {
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: $localize`Success`,
+                                detail: $localize`You were successfully logged in`,
+                                life: messageLife,
+                            });
                             this.authService.authenticatedUser = user;
                             this.router.navigateByUrl(this.getNextUrl());
                         },
                         error: () => {
-                            this.messageService.error('Failed to get user details');
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: $localize`Error`,
+                                detail: $localize`Failed to get user details`,
+                                life: messageLife,
+                            });
                         },
                     });
                 },
                 error: (error) => {
                     if (error.status === 401) {
-                        this.messageService.warning(
-                            'Your email needs to be verified. Check your email for a verification link.',
-                            { nzDuration: 5000 },
-                        );
+                        this.loginForm.controls.password.setErrors({ email: true });
+                        this.messageService.add({
+                            severity: 'warn',
+                            summary: $localize`Warning`,
+                            detail: $localize`Your email needs to be verified. Check your email for a verification link.`,
+                            life: messageLife,
+                        });
                         return;
                     }
 
-                    const errorMessage = error.error?.errors?.[0]?.message || 'Failed to log in';
-                    this.messageService.error(errorMessage);
+                    this.loginForm.controls.password.setErrors({ password: true });
+                    const errorMessage = error.error?.errors?.[0]?.message || $localize`Failed to log in`;
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: $localize`Error`,
+                        detail: errorMessage,
+                        life: messageLife,
+                    });
                 },
             });
     }

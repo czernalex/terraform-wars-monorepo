@@ -10,6 +10,9 @@
                     "style": "css"
                 }
             },
+            "i18n": {
+                "sourceLocale": "en"
+            },
             "root": "",
             "sourceRoot": "src",
             "prefix": "app",
@@ -20,7 +23,10 @@
                         "outputPath": "dist/terraform-wars-frontend",
                         "index": "src/index.html",
                         "browser": "src/main.ts",
-                        "polyfills": ["zone.js"],
+                        "polyfills": [
+                          "zone.js",
+                          "@angular/localize/init"
+                        ],
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "css",
                         "assets": [
@@ -34,7 +40,7 @@
                                 "output": "/assets/"
                             }
                         ],
-                        "styles": ["./node_modules/ng-zorro-antd/ng-zorro-antd.min.css", "src/styles.css"],
+                        "styles": ["src/styles.css"],
                         "scripts": []
                     },
                     "configurations": {
@@ -79,7 +85,11 @@
                 "test": {
                     "builder": "@angular-devkit/build-angular:karma",
                     "options": {
-                        "polyfills": ["zone.js", "zone.js/testing"],
+                        "polyfills": [
+                          "zone.js",
+                          "zone.js/testing",
+                          "@angular/localize/init"
+                        ],
                         "tsConfig": "tsconfig.spec.json",
                         "inlineStyleLanguage": "css",
                         "assets": [
@@ -88,7 +98,7 @@
                                 "input": "public"
                             }
                         ],
-                        "styles": ["./node_modules/ng-zorro-antd/ng-zorro-antd.min.css", "src/styles.css"],
+                        "styles": ["src/styles.css"],
                         "scripts": []
                     }
                 },

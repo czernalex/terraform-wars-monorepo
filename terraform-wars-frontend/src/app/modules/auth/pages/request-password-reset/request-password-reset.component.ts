@@ -1,29 +1,23 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { timer } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzCardModule } from 'ng-zorro-antd/card';
 import { AuthenticationPasswordResetService } from '@app/api/allauth/authentication-password-reset/authentication-password-reset.service';
 import { BaseComponent } from '@app/core/components/base/base.component';
-
+import { MessageService } from 'primeng/api';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { Message } from 'primeng/message';
 @Component({
     selector: 'app-password-reset',
     imports: [
         FormsModule,
         ReactiveFormsModule,
-        NzFormModule,
-        NzInputModule,
-        NzButtonModule,
-        NzTypographyModule,
-        NzIconModule,
-        NzCardModule,
         RouterModule,
+        InputTextModule,
+        ButtonModule,
+        Message,
     ],
     templateUrl: './request-password-reset.component.html',
     styleUrl: './request-password-reset.component.css',
@@ -31,7 +25,7 @@ import { BaseComponent } from '@app/core/components/base/base.component';
 export class RequestPasswordResetComponent extends BaseComponent {
     private router = inject(Router);
     private authenticationPasswordResetService = inject(AuthenticationPasswordResetService);
-    private messageService = inject(NzMessageService);
+    private messageService = inject(MessageService);
 
     requestPasswordResetForm = new FormGroup({
         email: new FormControl<string>('', {
@@ -52,6 +46,8 @@ export class RequestPasswordResetComponent extends BaseComponent {
         });
         this.loading = true;
 
+        const messageLife = 3000;
+
         apiCall$
             .pipe(
                 takeUntil(this.ngUnsubscribe$),
@@ -59,25 +55,37 @@ export class RequestPasswordResetComponent extends BaseComponent {
             )
             .subscribe({
                 next: () => {
-                    this.messageService.success('Password reset email sent');
-                    setTimeout(() => {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: $localize`Success`,
+                        detail: $localize`Password reset email sent`,
+                        life: messageLife,
+                    });
+                    timer(messageLife).subscribe(() => {
                         this.router.navigateByUrl('/auth/login');
-                    }, 3000);
+                    });
                 },
                 error: (error) => {
                     if (error.status === 401) {
-                        this.messageService.warning(
-                            'Your email needs to be verified. Check your email for a verification link.',
-                        );
-
-                        setTimeout(() => {
+                        this.messageService.add({
+                            severity: 'warn',
+                            summary: $localize`Warning`,
+                            detail: $localize`Your email needs to be verified. Check your email for a verification link.`,
+                            life: messageLife,
+                        });
+                        timer(messageLife).subscribe(() => {
                             this.router.navigateByUrl('/auth/login');
-                        }, 3000);
+                        });
                         return;
                     }
 
-                    const errorMessage = error.error?.errors?.[0]?.message || 'Failed to request password reset';
-                    this.messageService.error(errorMessage);
+                    const errorMessage = error.error?.errors?.[0]?.message || $localize`Failed to request password reset`;
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: $localize`Error`,
+                        detail: errorMessage,
+                        life: messageLife,
+                    });
                 },
             });
     }

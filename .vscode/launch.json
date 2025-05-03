@@ -6,10 +6,12 @@
             "type": "debugpy",
             "request": "launch",
             "args": [
-                "runserver"
+                "runserver",
+                "8080",
             ],
             "django": true,
             "autoStartBrowser": false,
+            "justMyCode": false,
             "program": "${workspaceFolder}/terraform-wars-backend/manage.py"
         },
         {
@@ -19,6 +21,7 @@
             "args": ["shell_plus"],
             "django": true,
             "autoStartBrowser": false,
+            "justMyCode": false,
             "program": "${workspaceFolder}/manage.py"
         },
         {
@@ -26,7 +29,7 @@
             "type": "chrome",
             "request": "launch",
             "preLaunchTask": "npm: start",
-            "url": "http://127.0.0.1:4200/",
+            "url": "http://localhost:4200/",
             "cwd": "${workspaceFolder}/terraform-wars-frontend"
         },
         {
@@ -34,7 +37,7 @@
           "type": "chrome",
           "request": "launch",
           "preLaunchTask": "npm: test",
-          "url": "http://127.0.0.1:9876/debug.html",
+          "url": "http://localhost:9876/debug.html",
           "cwd": "${workspaceFolder}/terraform-wars-frontend"
         }
     ]

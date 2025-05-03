@@ -12,7 +12,7 @@ import { provideHttpClient, withFetch, withInterceptors, withXsrfConfiguration }
 import en from '@angular/common/locales/en';
 import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
+import { providePrimeNG} from 'primeng/config';
 import { environment } from '@env/environment';
 import { routes } from './app.routes';
 import { apiUrlInterceptor } from './core/interceptors/api-url.interceptor';
@@ -21,16 +21,20 @@ import { CsrfTokenService } from './core/services/csrf-token.service';
 import * as Sentry from '@sentry/angular';
 import { AuthService } from './core/services/auth.service';
 import { sessionExpiredInterceptor } from './core/interceptors/session-expired.interceptor';
-
+import { appThemePreset } from './app-theme-preset';
 registerLocaleData(en);
 
 export const appConfig: ApplicationConfig = {
     providers: [
         provideZoneChangeDetection({ eventCoalescing: true }),
         provideRouter(routes, withComponentInputBinding()),
-        provideNzI18n(en_US),
         importProvidersFrom(FormsModule),
         provideAnimationsAsync(),
+        providePrimeNG({
+            theme: {
+                preset: appThemePreset,
+            }
+        }),
         provideHttpClient(
             withInterceptors([sessionExpiredInterceptor, apiUrlInterceptor, withCredentialsInterceptor]),
             withXsrfConfiguration({

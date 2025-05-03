@@ -1,32 +1,24 @@
 import { Component, inject, Input } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { AuthenticationPasswordResetService } from '@app/api/allauth/authentication-password-reset/authentication-password-reset.service';
-import { BaseComponent } from '@app/core/components/base/base.component';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzMessageService } from 'ng-zorro-antd/message';
 import { finalize, takeUntil } from 'rxjs/operators';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { MessageService } from 'primeng/api';
+import { BaseComponent } from '@app/core/components/base/base.component';
 import { passwordsMatchValidator } from '@app/core/validators/passwords-match-validator';
+import { AuthenticationPasswordResetService } from '@app/api/allauth/authentication-password-reset/authentication-password-reset.service';
+import { ButtonModule } from 'primeng/button';
+import { PasswordModule } from 'primeng/password';
+import { Message } from 'primeng/message';
 
 @Component({
     selector: 'app-password-reset',
     imports: [
         FormsModule,
         ReactiveFormsModule,
-        NzFormModule,
-        NzInputModule,
-        NzButtonModule,
-        NzTypographyModule,
-        NzIconModule,
-        NzCardModule,
-        NzAlertModule,
         RouterModule,
+        PasswordModule,
+        ButtonModule,
+        Message,
     ],
     templateUrl: './password-reset.component.html',
     styleUrl: './password-reset.component.css',
@@ -36,7 +28,7 @@ export class PasswordResetComponent extends BaseComponent {
 
     private router = inject(Router);
     private authenticationPasswordResetService = inject(AuthenticationPasswordResetService);
-    private messageService = inject(NzMessageService);
+    private messageService = inject(MessageService);
 
     passwordResetForm = new FormGroup(
         {
@@ -52,7 +44,6 @@ export class PasswordResetComponent extends BaseComponent {
         { validators: [passwordsMatchValidator] },
     );
 
-    isRawPasswordVisible = false;
     loading = false;
 
     resetPassword(): void {
@@ -73,18 +64,30 @@ export class PasswordResetComponent extends BaseComponent {
             )
             .subscribe({
                 next: () => {
-                    this.messageService.success('Password reset successfully.');
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: $localize`Success`,
+                        detail: $localize`Password reset successfully.`,
+                    });
                     this.router.navigateByUrl('/auth/login');
                 },
                 error: (error) => {
                     if (error.status === 401) {
-                        this.messageService.success('Password reset successfully. You can login now.');
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: $localize`Success`,
+                            detail: $localize`Password reset successfully. You can login now.`,
+                        });
                         this.router.navigateByUrl('/auth/login');
                         return;
                     }
 
                     const errorMessage = error.error?.errors?.[0]?.message || 'Failed to reset password';
-                    this.messageService.error(errorMessage);
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: $localize`Error`,
+                        detail: errorMessage,
+                    });
                 },
             });
     }

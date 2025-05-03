@@ -1,9 +1,16 @@
-<nz-result
-    nzStatus="warning"
-    nzTitle="Oops! Page not found."
-    nzSubTitle="The page you are looking for cannot be found."
->
-    <div nz-result-extra>
-        <a nz-button nzType="link" routerLink="/">Back to home</a>
+<div class="flex flex-col items-center justify-center min-h-screen p-4">
+    <div class="w-full max-w-md">
+        <div class="text-center">
+            <div class="flex flex-col justify-center items-center gap-4">
+                <span class="text-amber-500"><i class="pi pi-exclamation-triangle" style="font-size: 4rem"></i></span>
+                <div class="flex flex-col gap-2">
+                    <h1 i18n class="text-2xl font-bold">Oops! Page not found.</h1>
+                    <p i18n class="text-gray-500">The page you are looking for cannot be found.</p>
+                </div>
+                <div class="flex gap-2">
+                    <p-button severity="secondary" icon="pi pi-arrow-left" i18n-label label="Back to application" [routerLink]="['/']"></p-button>
+                </div>
+            </div>
+        </div>
     </div>
-</nz-result>
+</div>

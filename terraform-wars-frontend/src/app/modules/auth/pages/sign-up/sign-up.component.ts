@@ -1,32 +1,27 @@
 import { Component, inject } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule, Validators, FormGroup, FormControl } from '@angular/forms';
+import { finalize, takeUntil } from 'rxjs';
+import { MessageService } from 'primeng/api';
+import { Message } from 'primeng/message';
+import { ButtonModule } from 'primeng/button';
+import { PasswordModule } from 'primeng/password';
+import { DividerModule } from 'primeng/divider';
 import { AuthenticationAccountService } from '@app/api/allauth/authentication-account/authentication-account.service';
 import { BaseComponent } from '@app/core/components/base/base.component';
-import { Router, RouterModule } from '@angular/router';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FormGroup } from '@angular/forms';
-import { FormControl } from '@angular/forms';
 import { passwordsMatchValidator } from '@app/core/validators/passwords-match-validator';
-import { finalize, takeUntil } from 'rxjs';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
-
+import { InputTextModule } from 'primeng/inputtext';
 @Component({
     selector: 'app-sign-up',
     imports: [
         FormsModule,
         ReactiveFormsModule,
-        NzFormModule,
-        NzInputModule,
-        NzButtonModule,
-        NzCardModule,
-        NzIconModule,
-        NzDividerModule,
         RouterModule,
+        InputTextModule,
+        Message,
+        ButtonModule,
+        PasswordModule,
+        DividerModule,
     ],
     templateUrl: './sign-up.component.html',
     styleUrl: './sign-up.component.css',
@@ -34,7 +29,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 export class SignUpComponent extends BaseComponent {
     private authenticationAccountService = inject(AuthenticationAccountService);
     private router = inject(Router);
-    private messageService = inject(NzMessageService);
+    private messageService = inject(MessageService);
 
     signUpForm = new FormGroup(
         {
@@ -68,6 +63,8 @@ export class SignUpComponent extends BaseComponent {
         });
         this.loading = true;
 
+        const messageLife = 3000;
+
         apiCall$
             .pipe(
                 takeUntil(this.ngUnsubscribe$),
@@ -75,23 +72,33 @@ export class SignUpComponent extends BaseComponent {
             )
             .subscribe({
                 next: () => {
-                    this.messageService.success('You were successfully signed up', {
-                        nzDuration: 5000,
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: $localize`Success`,
+                        detail: $localize`You were successfully signed up.`,
+                        life: messageLife,
                     });
                     this.router.navigateByUrl('/auth/login');
                 },
                 error: (error) => {
                     if (error.status === 401) {
-                        this.messageService.success(
-                            'You were successfully signed up. Check your email for a verification link.',
-                            { nzDuration: 5000 },
-                        );
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: $localize`Success`,
+                            detail: $localize`You were successfully signed up. Check your email for a verification link.`,
+                            life: messageLife,
+                        });
                         this.router.navigateByUrl('/auth/login');
                         return;
                     }
 
-                    const errorMessage = error.error?.errors?.[0]?.message || 'Failed to log in';
-                    this.messageService.error(errorMessage);
+                    const errorMessage = error.error?.errors?.[0]?.message || $localize`Failed to sign up`;
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: $localize`Error`,
+                        detail: errorMessage,
+                        life: messageLife,
+                    });
                 },
             });
     }

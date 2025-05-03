@@ -1,23 +1,29 @@
-@if (state === "loading") {
-    <nz-result [nzIcon]="loadingTemplate" nzTitle="Verifying your email...">
-        <ng-template #loadingTemplate>
-            <nz-spin nzSize="large"></nz-spin>
-        </ng-template>
-    </nz-result>
-} @else if (state === "success") {
-    <nz-result
-        nzStatus="success"
-        nzTitle="Email verified successfully"
-        nzSubTitle="You will be redirected to the login page shortly."
-    >
-        <div nz-result-extra>
-            <a nz-button nzType="link" routerLink="/auth/login">Go to login</a>
-        </div>
-    </nz-result>
-} @else {
-    <nz-result nzStatus="error" nzTitle="Failed to verify your email">
-        <div nz-result-extra>
-            <a nz-button nzType="link" routerLink="/auth/login">Go to login</a>
-        </div>
-    </nz-result>
-}
+<div class="text-center">
+    <div class="flex flex-col justify-center items-center gap-4">
+        @if (state === "loading") {
+            <p-progressSpinner styleClass="w-4 h-4"></p-progressSpinner>
+            <div class="flex flex-col gap-2">
+                <h1 i18n class="text-2xl font-bold">Verifying your email...</h1>
+                <p i18n class="text-gray-500">Please wait while we verify your email.</p>
+            </div>
+        } @else if (state === "success") {
+            <span class="text-green-500"><i class="pi pi-check-circle" style="font-size: 4rem"></i></span>
+            <div class="flex flex-col gap-2">
+                <h1 i18n class="text-2xl font-bold">Email verified successfully</h1>
+                <p i18n class="text-gray-500">You will be redirected to the login page shortly.</p>
+            </div>
+            <div class="flex gap-2">
+                <p-button severity="secondary" icon="pi pi-arrow-left" i18n-label label="Go to login" [routerLink]="['/auth/login']"></p-button>
+            </div>
+        } @else {
+            <span class="text-red-500"><i class="pi pi-times-circle" style="font-size: 4rem"></i></span>
+            <div class="flex flex-col gap-2">
+                <h1 i18n class="text-2xl font-bold">Failed to verify your email</h1>
+                <p i18n class="text-gray-500">Please try again or contact our support.</p>
+            </div>
+            <div class="flex gap-2">
+                <p-button severity="secondary" icon="pi pi-arrow-left" i18n-label label="Go to login" [routerLink]="['/auth/login']"></p-button>
+            </div>
+        }
+    </div>
+</div>
